@@ -23,6 +23,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import net.zi_jian.splendourablazeepoch.SplendourAblazeEpochMod;
 import net.zi_jian.splendourablazeepoch.block.ForgingFurnacBlock;
+import net.zi_jian.splendourablazeepoch.block.LegacyChestBlock;
 import net.zi_jian.splendourablazeepoch.block.LegacyPillarVariantBlock;
 import net.zi_jian.splendourablazeepoch.block.LegacyVariantBlock;
 import net.zi_jian.splendourablazeepoch.block.LegacyVariantOneBlock;
@@ -160,19 +161,13 @@ public final class ModBlocks {
             registerSlab("castradiantlimestoneslab");
 
     public static final RegistryObject<Block> CAST_RADIANT_LIMESTONE_STAIRS =
-            registerStairs(
-                    "castradiantlimestonestairs",
-                    "castradiantlimestone"
-            );
+            registerStairs("castradiantlimestonestairs", "castradiantlimestone");
 
     public static final RegistryObject<Block> CAST_RADIANT_LIMESTONE_WALL =
             registerWall("castradiantlimestonewall");
 
     public static final RegistryObject<Block> CAST_RADIANT_LIMESTONE_BRICKS =
-            registerLike(
-                    "castradiantlimestonebricks",
-                    Blocks.STONE_BRICKS
-            );
+            registerLike("castradiantlimestonebricks", Blocks.STONE_BRICKS);
 
     public static final RegistryObject<Block> CAST_RADIANT_LIMESTONE_BRICKS_SLAB =
             registerSlab("castradiantlimestonebricksslab");
@@ -290,10 +285,7 @@ public final class ModBlocks {
             registerLike("mottledterracottabricks", Blocks.BRICKS);
 
     public static final RegistryObject<Block> CARVING_TERRACOTTA_BRICKS =
-            registerLike(
-                    "carvingterracottabricks",
-                    Blocks.CHISELED_STONE_BRICKS
-            );
+            registerLike("carvingterracottabricks", Blocks.CHISELED_STONE_BRICKS);
 
     public static final RegistryObject<Block> POTTERY_TILE =
             registerLike("potterytile", Blocks.TERRACOTTA);
@@ -308,10 +300,7 @@ public final class ModBlocks {
             registerSlab("auroraleadenblockslab");
 
     public static final RegistryObject<Block> AURORA_LEADEN_BLOCK_STAIRS =
-            registerStairs(
-                    "auroraleadenblockstairs",
-                    "auroraleadenblock"
-            );
+            registerStairs("auroraleadenblockstairs", "auroraleadenblock");
 
     public static final RegistryObject<Block> AURORA_LEADEN_BLOCK_WALL =
             registerWall("auroraleadenblockwall");
@@ -503,30 +492,19 @@ public final class ModBlocks {
             );
 
     public static final RegistryObject<Block> WHITEWASHED_BRICKS_BLOCK =
-            registerLike(
-                    "whitewashedbricksblock",
-                    Blocks.STONE_BRICKS
-            );
+            registerLike("whitewashedbricksblock", Blocks.STONE_BRICKS);
 
     public static final RegistryObject<Block> MOSSY_WHITEWASHED_BRICKS_BLOCK =
-            registerLike(
-                    "mossywhitewashedbricksblock",
-                    Blocks.MOSSY_STONE_BRICKS
-            );
+            registerLike("mossywhitewashedbricksblock", Blocks.MOSSY_STONE_BRICKS);
 
     public static final RegistryObject<Block> PATCHY_WHITEWASHED_BRICKS_BLOCK =
-            registerLike(
-                    "patchywhitewashedbricksblock",
-                    Blocks.STONE_BRICKS
-            );
+            registerLike("patchywhitewashedbricksblock", Blocks.STONE_BRICKS);
 
     public static final RegistryObject<Block> WET_WHITEWASHED_BRICKS_BLOCK =
             registerTopworldBlock(
                     "wetwhitewashedbricksblock",
                     () -> new LegacyVariantOneBlock(
-                            BlockBehaviour.Properties.copy(
-                                    Blocks.STONE_BRICKS
-                            )
+                            BlockBehaviour.Properties.copy(Blocks.STONE_BRICKS)
                     )
             );
 
@@ -622,16 +600,10 @@ public final class ModBlocks {
             );
 
     public static final RegistryObject<Block> ALIVE_PICTOGRAPHS_PWNER =
-            registerLike(
-                    "alivepictographspwner",
-                    Blocks.STONE_BRICKS
-            );
+            registerLike("alivepictographspwner", Blocks.STONE_BRICKS);
 
     public static final RegistryObject<Block> ANTIGRAVIT_DEVICE =
-            registerLike(
-                    "antigravitdevice",
-                    Blocks.IRON_BLOCK
-            );
+            registerLike("antigravitdevice", Blocks.IRON_BLOCK);
 
     public static final RegistryObject<Block> CANDLESTICK =
             registerTopworldBlock(
@@ -702,8 +674,7 @@ public final class ModBlocks {
             registerTopworldBlock(
                     "mottledbamboobud",
                     () -> new MottledBambooBudBlock(
-                            BlockBehaviour.Properties
-                                    .copy(Blocks.BAMBOO_SAPLING)
+                            BlockBehaviour.Properties.copy(Blocks.BAMBOO_SAPLING)
                                     .randomTicks()
                     )
             );
@@ -776,6 +747,177 @@ public final class ModBlocks {
     public static final RegistryObject<Block> TALL_CYAN_TWIG =
             registerDoublePlant("tallcyantwig");
 
+    public static final RegistryObject<Block> CYX_ADDER =
+            registerTopworldBlock(
+                    "cyxadder",
+                    () -> new Block(
+                            BlockBehaviour.Properties.copy(Blocks.SPAWNER)
+                    )
+            );
+
+    public static final RegistryObject<Block> JMH_ADDER =
+            registerTopworldBlock(
+                    "jmhadder",
+                    () -> new Block(
+                            BlockBehaviour.Properties.copy(Blocks.SPAWNER)
+                    )
+            );
+
+    public static final RegistryObject<Block> TERRACOTTA_GENERAL_ADDER =
+            registerTopworldBlock(
+                    "terracottageneraladder",
+                    () -> new Block(
+                            BlockBehaviour.Properties.copy(Blocks.SPAWNER)
+                    )
+            );
+
+    public static final RegistryObject<Block> XYFZ_ADDER =
+            registerTopworldBlock(
+                    "xyfzadder",
+                    () -> new Block(
+                            BlockBehaviour.Properties.copy(Blocks.SPAWNER)
+                    )
+            );
+
+    public static final RegistryObject<Block> ZXXJ_ADDER =
+            registerTopworldBlock(
+                    "zxxjadder",
+                    () -> new Block(
+                            BlockBehaviour.Properties.copy(Blocks.SPAWNER)
+                    )
+            );
+
+    public static final RegistryObject<Block> ZYTS_ADDER =
+            registerTopworldBlock(
+                    "zytsadder",
+                    () -> new Block(
+                            BlockBehaviour.Properties.copy(Blocks.SPAWNER)
+                    )
+            );
+
+    public static final RegistryObject<Block> MAUSOLEUM_ADDER =
+            registerTopworldBlock(
+                    "mausoleumadder",
+                    () -> new Block(
+                            BlockBehaviour.Properties.copy(Blocks.BRICKS)
+                    )
+            );
+
+    public static final RegistryObject<Block> QIANYANG_STRONGHOLD =
+            registerTopworldBlock(
+                    "qianyang_stronghold",
+                    () -> new Block(
+                            BlockBehaviour.Properties.copy(Blocks.STONE_BRICKS)
+                    )
+            );
+
+    public static final RegistryObject<Block> SAGE_EMPEROR_PLATFORM_ADDER =
+            registerTopworldBlock(
+                    "sagemperorplatformadder",
+                    () -> new Block(
+                            BlockBehaviour.Properties.copy(Blocks.DEEPSLATE_BRICKS)
+                    )
+            );
+
+    public static final RegistryObject<Block> STRANGE_PRINT_CITY_START =
+            registerTopworldBlock(
+                    "strangeprintcitystart",
+                    () -> new Block(
+                            BlockBehaviour.Properties.copy(Blocks.STONE)
+                    )
+            );
+
+    public static final RegistryObject<Block> VIRIDIAN_DESCEND_ACADEMY_ADDER =
+            registerTopworldBlock(
+                    "viridiandescendacademyadder",
+                    () -> new Block(
+                            BlockBehaviour.Properties.copy(Blocks.DEEPSLATE_TILES)
+                    )
+            );
+
+    public static final RegistryObject<Block> ABSTRUSE_CHEST =
+            registerTopworldBlock(
+                    "abstrusechest",
+                    () -> new LegacyChestBlock(
+                            "abstrusechest",
+                            BlockBehaviour.Properties.copy(Blocks.BARREL)
+                    )
+            );
+
+    public static final RegistryObject<Block> BEACON_FIRE_CHEST =
+            registerTopworldBlock(
+                    "beacon_fire_chest",
+                    () -> new LegacyChestBlock(
+                            "beacon_fire_chest",
+                            BlockBehaviour.Properties.copy(Blocks.BARREL)
+                    )
+            );
+
+    public static final RegistryObject<Block> CHILL_IRON_CHEST =
+            registerTopworldBlock(
+                    "chillironchest",
+                    () -> new LegacyChestBlock(
+                            "chillironchest",
+                            BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK)
+                    )
+            );
+
+    public static final RegistryObject<Block> CLAY_POT =
+            registerTopworldBlock(
+                    "claypot",
+                    () -> new MigratedEntityBlock(
+                            "claypot",
+                            BlockBehaviour.Properties.copy(Blocks.TERRACOTTA)
+                                    .noOcclusion()
+                    )
+            );
+
+    public static final RegistryObject<Block> EXQUISITE_WOODEN_BOX =
+            registerTopworldBlock(
+                    "exquisitewoodenbox",
+                    () -> new MigratedEntityBlock(
+                            "exquisitewoodenbox",
+                            BlockBehaviour.Properties.copy(Blocks.BARREL)
+                    )
+            );
+
+    public static final RegistryObject<Block> GNOME =
+            registerTopworldBlock(
+                    "gnome",
+                    () -> new MigratedFacingEntityBlock(
+                            "gnome",
+                            BlockBehaviour.Properties.copy(Blocks.STONE)
+                                    .noOcclusion()
+                    )
+            );
+
+    public static final RegistryObject<Block> IMMORTAL_MOTH_CHEST =
+            registerTopworldBlock(
+                    "immortalmothchest",
+                    () -> new LegacyChestBlock(
+                            "immortalmothchest",
+                            BlockBehaviour.Properties.copy(Blocks.BARREL)
+                    )
+            );
+
+    public static final RegistryObject<Block> PRINT_TABLE =
+            registerTopworldBlock(
+                    "printtable",
+                    () -> new MigratedEntityBlock(
+                            "printtable",
+                            BlockBehaviour.Properties.copy(Blocks.CRAFTING_TABLE)
+                    )
+            );
+
+    public static final RegistryObject<Block> WOODEN_CRATE =
+            registerTopworldBlock(
+                    "woodencrate",
+                    () -> new MigratedEntityBlock(
+                            "woodencrate",
+                            BlockBehaviour.Properties.copy(Blocks.BARREL)
+                    )
+            );
+
     public static final RegistryObject<Block> FORGING_FURNAC =
             BLOCKS.register(
                     "forgingfurnac",
@@ -786,11 +928,24 @@ public final class ModBlocks {
         TopworldWoodRegistry.registerAll();
 
         for (String id : TopworldClosure.BLOCK_IDS) {
-            registerLegacyFallback(id);
+            requireExplicitRegistration(id);
         }
 
         for (String id : LegacyRegistryData.RESTORED_BLOCK_IDS) {
-            registerLegacyFallback(id);
+            requireExplicitRegistration(id);
+        }
+    }
+
+    private static void requireExplicitRegistration(
+            String id
+    ) {
+        if (!TOPWORLD_BLOCKS.containsKey(id)) {
+            throw new IllegalStateException(
+                    "Missing explicit block registration: "
+                            + SplendourAblazeEpochMod.MOD_ID
+                            + ":"
+                            + id
+            );
         }
     }
 
@@ -933,70 +1088,6 @@ public final class ModBlocks {
         );
 
         return registered;
-    }
-
-    private static void registerLegacyFallback(
-            String id
-    ) {
-        if (!TOPWORLD_BLOCKS.containsKey(id)) {
-            registerTopworldBlock(
-                    id,
-                    () -> createLegacyFallback(id)
-            );
-        }
-    }
-
-    private static Block createLegacyFallback(
-            String id
-    ) {
-        BlockBehaviour.Properties stone =
-                BlockBehaviour.Properties
-                        .of()
-                        .strength(1.5F, 6.0F)
-                        .sound(SoundType.STONE);
-
-        BlockBehaviour.Properties wood =
-                BlockBehaviour.Properties
-                        .of()
-                        .strength(2.0F, 3.0F)
-                        .sound(SoundType.WOOD);
-
-        if ("gnome".equals(id)) {
-            return new MigratedFacingEntityBlock(
-                    id,
-                    wood
-            );
-        }
-
-        if (TopworldClosure.BLOCK_ENTITY_IDS.contains(id)) {
-            return new MigratedEntityBlock(
-                    id,
-                    wood
-            );
-        }
-
-        if (id.endsWith("stairs")) {
-            return new StairBlock(
-                    () -> Blocks.STONE.defaultBlockState(),
-                    stone
-            );
-        }
-
-        if (id.endsWith("slab")) {
-            return new SlabBlock(
-                    stone
-            );
-        }
-
-        if (id.endsWith("wall")) {
-            return new WallBlock(
-                    stone
-            );
-        }
-
-        return new Block(
-                stone
-        );
     }
 
     public static Block get(

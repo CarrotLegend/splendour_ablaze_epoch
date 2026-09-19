@@ -207,6 +207,7 @@ public final class ForgingFurnaceRecipe implements Recipe<SimpleContainer> {
                 }
 
                 JsonObject ingredientJson = object.deepCopy();
+
                 ingredientJson.remove("consume_count");
                 ingredientJson.remove("count");
                 ingredientJson.remove("consume_chance");

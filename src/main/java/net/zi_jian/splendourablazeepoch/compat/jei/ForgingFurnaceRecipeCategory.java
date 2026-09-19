@@ -9,13 +9,12 @@ import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.recipe.category.IRecipeCategory;
 
-import net.zi_jian.splendourablazeepoch.SplendourAblazeEpochMod;
-import net.zi_jian.splendourablazeepoch.recipe.ForgingFurnaceRecipe;
-import net.zi_jian.splendourablazeepoch.registry.ModItems;
-
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
+import net.zi_jian.splendourablazeepoch.SplendourAblazeEpochMod;
+import net.zi_jian.splendourablazeepoch.recipe.ForgingFurnaceRecipe;
+import net.zi_jian.splendourablazeepoch.registry.ModItems;
 
 public final class ForgingFurnaceRecipeCategory
         implements IRecipeCategory<ForgingFurnaceRecipe> {
@@ -35,7 +34,7 @@ public final class ForgingFurnaceRecipeCategory
     private static final ResourceLocation BACKGROUND =
             new ResourceLocation(
                     SplendourAblazeEpochMod.MOD_ID,
-                    "textures/screens/forgeing1.png"
+                    "textures/screens/forgeing.png"
             );
 
     private final IDrawable background;
@@ -63,15 +62,14 @@ public final class ForgingFurnaceRecipeCategory
     }
 
     @Override
-    public RecipeType<ForgingFurnaceRecipe>
-    getRecipeType() {
+    public RecipeType<ForgingFurnaceRecipe> getRecipeType() {
         return TYPE;
     }
 
     @Override
     public Component getTitle() {
         return Component.literal(
-                "熔铸炉铸造"
+                "镕铸炉铸造"
         );
     }
 

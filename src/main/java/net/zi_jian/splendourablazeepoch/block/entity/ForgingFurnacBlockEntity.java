@@ -174,7 +174,9 @@ public final class ForgingFurnacBlockEntity
         ItemStack inserted = stack.copy();
 
         if (inserted.getCount() > getMaxStackSize()) {
-            inserted.setCount(getMaxStackSize());
+            inserted.setCount(
+                    getMaxStackSize()
+            );
         }
 
         items.set(
@@ -249,14 +251,7 @@ public final class ForgingFurnacBlockEntity
         }
 
         SimpleContainer container =
-                new SimpleContainer(INPUT_SLOTS);
-
-        for (int i = 0; i < INPUT_SLOTS; i++) {
-            container.setItem(
-                    i,
-                    items.get(i).copy()
-            );
-        }
+                createInputContainer();
 
         return level.getRecipeManager()
                 .getRecipeFor(
@@ -273,13 +268,15 @@ public final class ForgingFurnacBlockEntity
             return false;
         }
 
-        ItemStack result = recipe.getResultItem(
-                level.registryAccess()
-        );
+        ItemStack result =
+                recipe.getResultItem(
+                        level.registryAccess()
+                );
 
-        ItemStack output = items.get(
-                OUTPUT_SLOT
-        );
+        ItemStack output =
+                items.get(
+                        OUTPUT_SLOT
+                );
 
         if (output.isEmpty()) {
             return result.getCount()
@@ -296,7 +293,11 @@ public final class ForgingFurnacBlockEntity
     private void craft(
             ForgingFurnaceRecipe recipe
     ) {
-        if (level == null || !recipe.matches(createInputContainer(), level)) {
+        if (level == null
+                || !recipe.matches(
+                        createInputContainer(),
+                        level
+                )) {
             return;
         }
 
@@ -304,22 +305,34 @@ public final class ForgingFurnacBlockEntity
             ForgingFurnaceRecipe.Input input =
                     recipe.input(i);
 
-            if (!input.isEmpty()) {
-                ContainerHelper.removeItem(
-                        items,
+            if (input.isEmpty()) {
+                continue;
+            }
+
+            ItemStack stack =
+                    items.get(i);
+
+            stack.shrink(
+                    input.consumeCount()
+            );
+
+            if (stack.isEmpty()) {
+                items.set(
                         i,
-                        input.consumeCount()
+                        ItemStack.EMPTY
                 );
             }
         }
 
-        ItemStack result = recipe.getResultItem(
-                level.registryAccess()
-        );
+        ItemStack result =
+                recipe.getResultItem(
+                        level.registryAccess()
+                );
 
-        ItemStack output = items.get(
-                OUTPUT_SLOT
-        );
+        ItemStack output =
+                items.get(
+                        OUTPUT_SLOT
+                );
 
         if (output.isEmpty()) {
             items.set(
@@ -337,7 +350,9 @@ public final class ForgingFurnacBlockEntity
 
     private SimpleContainer createInputContainer() {
         SimpleContainer container =
-                new SimpleContainer(INPUT_SLOTS);
+                new SimpleContainer(
+                        INPUT_SLOTS
+                );
 
         for (int i = 0; i < INPUT_SLOTS; i++) {
             container.setItem(
@@ -400,10 +415,13 @@ public final class ForgingFurnacBlockEntity
     ) {
         if (!remove
                 && capability == ForgeCapabilities.ITEM_HANDLER) {
+
             return (
                     side == null
                             ? unsidedHandler
-                            : sidedHandlers[side.ordinal()]
+                            : sidedHandlers[
+                                    side.ordinal()
+                            ]
             ).cast();
         }
 
@@ -431,19 +449,21 @@ public final class ForgingFurnacBlockEntity
     ) {
         super.load(tag);
 
-        items = NonNullList.withSize(
-                SLOT_COUNT,
-                ItemStack.EMPTY
-        );
+        items =
+                NonNullList.withSize(
+                        SLOT_COUNT,
+                        ItemStack.EMPTY
+                );
 
         ContainerHelper.loadAllItems(
                 tag,
                 items
         );
 
-        cookProgress = tag.getInt(
-                "CookProgress"
-        );
+        cookProgress =
+                tag.getInt(
+                        "CookProgress"
+                );
     }
 
     @Override
