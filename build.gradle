@@ -133,14 +133,13 @@ tasks.register('verifyTopworldClosure') {
     description = 'Checks that production topworld data only references registered closure ids.'
 
     doLast {
-        def resourceRoot = file('src/main/resources')
         def dataRoot = file(
                 'src/main/resources/data/splendour_ablaze_epoch'
         )
 
         def closureSource = file(
                 'src/main/java/net/zi_jian/splendourablazeepoch/world/TopworldClosure.java'
-        ).text
+        ).getText('UTF-8')
 
         def extractIds = { String start, String end ->
             def section = closureSource.substring(
@@ -152,23 +151,20 @@ tasks.register('verifyTopworldClosure') {
                     .collect { it[1] } as Set
         }
 
-        def declaredBlocks =
-                extractIds(
-                        'BLOCK_IDS',
-                        'BLOCK_ENTITY_IDS'
-                )
+        def declaredBlocks = extractIds(
+                'BLOCK_IDS',
+                'BLOCK_ENTITY_IDS'
+        )
 
-        def declaredBlockEntities =
-                extractIds(
-                        'BLOCK_ENTITY_IDS',
-                        'SPAWN_ENTITY_IDS'
-                )
+        def declaredBlockEntities = extractIds(
+                'BLOCK_ENTITY_IDS',
+                'SPAWN_ENTITY_IDS'
+        )
 
-        def declaredEntities =
-                extractIds(
-                        'SPAWN_ENTITY_IDS',
-                        'private TopworldClosure'
-                )
+        def declaredEntities = extractIds(
+                'SPAWN_ENTITY_IDS',
+                'private TopworldClosure'
+        )
 
         assert declaredBlocks.size() == 216 :
                 "Expected 216 topworld blocks, got ${declaredBlocks.size()}"
@@ -264,14 +260,14 @@ tasks.register('verifyTopworldClosure') {
 
         assert file(
                 'src/main/java/net/zi_jian/splendourablazeepoch/registry/ModFeatures.java'
-        ).text.contains('STRUCTURE_FEATURE') :
+        ).getText('UTF-8').contains('STRUCTURE_FEATURE') :
                 'Custom structure feature is not registered in the closure implementation'
     }
 }
 
 tasks.register('verifyForgingFurnaceData') {
     group = 'verification'
-    description = 'Checks the forging furnace recipe schema and registry closure.'
+    description = 'Checks the fixed-slot forging furnace recipe schema.'
 
     doLast {
         def parser =
@@ -285,17 +281,15 @@ tasks.register('verifyForgingFurnaceData') {
                 }.files
 
         def forgingRecipes =
-                recipeFiles
-                        .collect {
-                            [
-                                    file: it,
-                                    json: parser.parse(it)
-                            ]
-                        }
-                        .findAll {
-                            it.json.type ==
-                                    'splendour_ablaze_epoch:forgingfurnacejei'
-                        }
+                recipeFiles.collect {
+                    [
+                            file: it,
+                            json: parser.parse(it)
+                    ]
+                }.findAll {
+                    it.json.type ==
+                            'splendour_ablaze_epoch:forgingfurnacejei'
+                }
 
         assert forgingRecipes.size() == 6 :
                 "Expected six forging furnace recipes, got ${forgingRecipes.size()}"
@@ -313,9 +307,8 @@ tasks.register('verifyForgingFurnaceData') {
         forgingRecipes.each { entry ->
             def json = entry.json
 
-            assert json.ingredients instanceof List
-                    && json.ingredients.size() == 4 :
-                    "${entry.file.name} must have four ingredients"
+            assert json.ingredients instanceof List && json.ingredients.size() == 4 :
+                    "${entry.file.name} must have exactly four fixed ingredient slots"
 
             json.ingredients.eachWithIndex { ingredient, index ->
                 if (ingredient.isEmpty()) {
@@ -325,29 +318,20 @@ tasks.register('verifyForgingFurnaceData') {
                 assert ingredient.item || ingredient.tag :
                         "${entry.file.name} ingredient ${index} needs item or tag"
 
-                int required =
-                        ingredient.count == null
-                                ? 1
-                                : ingredient.count as int
+                assert ingredient.containsKey('consume_count') :
+                        "${entry.file.name} ingredient ${index} needs consume_count"
 
-                int consumed =
-                        ingredient.consume_count == null
-                                ? required
-                                : ingredient.consume_count as int
+                int consumeCount =
+                        ingredient.consume_count as int
 
-                BigDecimal chance =
-                        ingredient.consume_chance == null
-                                ? 1.0
-                                : ingredient.consume_chance as BigDecimal
+                assert consumeCount >= 1 :
+                        "${entry.file.name} ingredient ${index} has invalid consume_count ${consumeCount}"
 
-                assert required >= 1
-                        && consumed >= 0
-                        && consumed <= required :
-                        "Invalid counts in ${entry.file.name} ingredient ${index}"
+                assert !ingredient.containsKey('count') :
+                        "${entry.file.name} ingredient ${index} still contains removed field count"
 
-                assert chance >= 0.0
-                        && chance <= 1.0 :
-                        "Invalid consume chance in ${entry.file.name} ingredient ${index}"
+                assert !ingredient.containsKey('consume_chance') :
+                        "${entry.file.name} ingredient ${index} still contains removed field consume_chance"
 
                 if (ingredient.item?.startsWith(
                         'splendour_ablaze_epoch:'
@@ -388,10 +372,7 @@ tasks.register('verifyForgingFurnaceData') {
             def type =
                     parser.parse(file).type
 
-            assert type !=
-                    'splendour_ablaze_epoch:forgeing_2'
-                    && type !=
-                    'splendour_ablaze_epoch:forgeing_3' :
+            assert type != 'splendour_ablaze_epoch:forgeing_2' && type != 'splendour_ablaze_epoch:forgeing_3' :
                     "Legacy JEI-only recipe type remains in ${file.name}"
         }
     }
@@ -464,10 +445,7 @@ tasks.register('verifyRegistryMigration') {
                         legacy.indexOf('TOOL_FAMILIES')
                 )
 
-        def currentBlocks =
-                idsIn(blockSection)
-                        + idsIn(restoredSection)
-                        + ['forgingfurnac']
+        def currentBlocks = idsIn(blockSection) + idsIn(restoredSection) + ['forgingfurnac']
 
         assert currentBlocks.size() == 361 :
                 "Expected 361 real block registrations, got ${currentBlocks.size()}"
@@ -480,11 +458,7 @@ tasks.register('verifyRegistryMigration') {
                 'lime'
         )
 
-        assert items.contains(
-                'LEGACY_TOOLS'
-        ) && items.contains(
-                'LEGACY_ARMOR'
-        )
+        assert items.contains('LEGACY_TOOLS') && items.contains('LEGACY_ARMOR')
 
         def deliberatelyDeferredBlocks =
                 [
@@ -494,10 +468,7 @@ tasks.register('verifyRegistryMigration') {
                         'sericulturehiveleaves'
                 ] as Set
 
-        assert (
-                manifest.blocks as Set
-        ) - currentBlocks ==
-                deliberatelyDeferredBlocks
+        assert (manifest.blocks as Set) - currentBlocks == deliberatelyDeferredBlocks
 
         def blockstates =
                 fileTree(

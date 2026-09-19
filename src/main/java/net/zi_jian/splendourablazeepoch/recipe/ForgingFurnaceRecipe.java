@@ -1,11 +1,14 @@
 package net.zi_jian.splendourablazeepoch.recipe;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.jetbrains.annotations.Nullable;
+
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
-
-import net.zi_jian.splendourablazeepoch.registry.ModRecipes;
 
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.RegistryAccess;
@@ -20,13 +23,7 @@ import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.item.crafting.ShapedRecipe;
 import net.minecraft.world.level.Level;
-
-import org.jetbrains.annotations.Nullable;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import net.zi_jian.splendourablazeepoch.registry.ModRecipes;
 
 public final class ForgingFurnaceRecipe implements Recipe<SimpleContainer> {
 
@@ -42,29 +39,14 @@ public final class ForgingFurnaceRecipe implements Recipe<SimpleContainer> {
             List<Input> inputs,
             ItemStack result
     ) {
-        if (inputs.size() != INPUT_COUNT) {
-            throw new IllegalArgumentException(
-                    "Forging furnace recipes require exactly four input definitions"
-            );
-        }
-
         this.id = id;
         this.inputs = List.copyOf(inputs);
-
-        this.ingredients =
-                NonNullList.withSize(
-                        INPUT_COUNT,
-                        Ingredient.EMPTY
-                );
+        this.result = result.copy();
+        this.ingredients = NonNullList.withSize(INPUT_COUNT, Ingredient.EMPTY);
 
         for (int i = 0; i < INPUT_COUNT; i++) {
-            this.ingredients.set(
-                    i,
-                    inputs.get(i).ingredient()
-            );
+            ingredients.set(i, inputs.get(i).ingredient());
         }
-
-        this.result = result.copy();
     }
 
     @Override
@@ -72,118 +54,17 @@ public final class ForgingFurnaceRecipe implements Recipe<SimpleContainer> {
             SimpleContainer container,
             Level level
     ) {
-        return findMatchingSlots(container).isPresent();
-    }
-
-    public Optional<int[]> findMatchingSlots(
-            SimpleContainer container
-    ) {
         if (container.getContainerSize() < INPUT_COUNT) {
-            return Optional.empty();
+            return false;
         }
-
-        List<Integer> requiredInputs =
-                new ArrayList<>();
 
         for (int i = 0; i < INPUT_COUNT; i++) {
-            if (!inputs.get(i).isEmpty()) {
-                requiredInputs.add(i);
+            if (!inputs.get(i).matches(container.getItem(i))) {
+                return false;
             }
         }
 
-        List<Integer> occupiedSlots =
-                new ArrayList<>();
-
-        for (int slot = 0; slot < INPUT_COUNT; slot++) {
-            if (!container.getItem(slot).isEmpty()) {
-                occupiedSlots.add(slot);
-            }
-        }
-
-        if (requiredInputs.size() != occupiedSlots.size()) {
-            return Optional.empty();
-        }
-
-        int[] mapping =
-                new int[INPUT_COUNT];
-
-        Arrays.fill(
-                mapping,
-                -1
-        );
-
-        boolean[] usedSlots =
-                new boolean[INPUT_COUNT];
-
-        boolean matched =
-                matchRecursive(
-                        container,
-                        requiredInputs,
-                        occupiedSlots,
-                        0,
-                        mapping,
-                        usedSlots
-                );
-
-        if (!matched) {
-            return Optional.empty();
-        }
-
-        return Optional.of(mapping);
-    }
-
-    private boolean matchRecursive(
-            SimpleContainer container,
-            List<Integer> requiredInputs,
-            List<Integer> occupiedSlots,
-            int index,
-            int[] mapping,
-            boolean[] usedSlots
-    ) {
-        if (index >= requiredInputs.size()) {
-            return true;
-        }
-
-        int recipeInputIndex =
-                requiredInputs.get(index);
-
-        Input expected =
-                inputs.get(recipeInputIndex);
-
-        for (int actualSlot : occupiedSlots) {
-
-            if (usedSlots[actualSlot]) {
-                continue;
-            }
-
-            ItemStack actual =
-                    container.getItem(actualSlot);
-
-            if (!expected.matches(actual)) {
-                continue;
-            }
-
-            usedSlots[actualSlot] = true;
-
-            mapping[recipeInputIndex] =
-                    actualSlot;
-
-            if (matchRecursive(
-                    container,
-                    requiredInputs,
-                    occupiedSlots,
-                    index + 1,
-                    mapping,
-                    usedSlots
-            )) {
-                return true;
-            }
-
-            mapping[recipeInputIndex] = -1;
-            usedSlots[actualSlot] = false;
-        }
-
-        return false;
+        return true;
     }
 
     public Input input(
@@ -195,30 +76,21 @@ public final class ForgingFurnaceRecipe implements Recipe<SimpleContainer> {
     public List<ItemStack> getDisplayStacks(
             int index
     ) {
-        Input input =
-                inputs.get(index);
+        Input input = inputs.get(index);
 
         if (input.isEmpty()) {
             return List.of();
         }
 
-        List<ItemStack> result =
-                new ArrayList<>();
+        List<ItemStack> stacks = new ArrayList<>();
 
-        for (ItemStack original
-                : input.ingredient().getItems()) {
-
-            ItemStack display =
-                    original.copy();
-
-            display.setCount(
-                    input.requiredCount()
-            );
-
-            result.add(display);
+        for (ItemStack stack : input.ingredient().getItems()) {
+            ItemStack display = stack.copy();
+            display.setCount(input.consumeCount());
+            stacks.add(display);
         }
 
-        return result;
+        return stacks;
     }
 
     @Override
@@ -266,46 +138,8 @@ public final class ForgingFurnaceRecipe implements Recipe<SimpleContainer> {
 
     public record Input(
             Ingredient ingredient,
-            int requiredCount,
-            int consumeCount,
-            float consumeChance
+            int consumeCount
     ) {
-
-        public Input {
-            if (requiredCount < 0) {
-                throw new IllegalArgumentException(
-                        "requiredCount cannot be negative"
-                );
-            }
-
-            if (consumeCount < 0) {
-                throw new IllegalArgumentException(
-                        "consumeCount cannot be negative"
-                );
-            }
-
-            if (consumeCount > requiredCount) {
-                throw new IllegalArgumentException(
-                        "consumeCount cannot exceed requiredCount"
-                );
-            }
-
-            if (consumeChance < 0.0F
-                    || consumeChance > 1.0F) {
-                throw new IllegalArgumentException(
-                        "consumeChance must be between 0 and 1"
-                );
-            }
-
-            if (ingredient == Ingredient.EMPTY
-                    && (requiredCount != 0
-                    || consumeCount != 0)) {
-
-                throw new IllegalArgumentException(
-                        "Empty input cannot require or consume items"
-                );
-            }
-        }
 
         public boolean isEmpty() {
             return ingredient == Ingredient.EMPTY;
@@ -318,15 +152,8 @@ public final class ForgingFurnaceRecipe implements Recipe<SimpleContainer> {
                 return stack.isEmpty();
             }
 
-            if (stack.isEmpty()) {
-                return false;
-            }
-
-            if (stack.getCount() < requiredCount) {
-                return false;
-            }
-
-            return ingredient.test(stack);
+            return ingredient.test(stack)
+                    && stack.getCount() >= consumeCount;
         }
     }
 
@@ -338,128 +165,66 @@ public final class ForgingFurnaceRecipe implements Recipe<SimpleContainer> {
                 ResourceLocation id,
                 JsonObject json
         ) {
-            JsonArray ingredientArray =
-                    GsonHelper.getAsJsonArray(
-                            json,
-                            "ingredients"
-                    );
+            JsonArray array = GsonHelper.getAsJsonArray(
+                    json,
+                    "ingredients"
+            );
 
-            if (ingredientArray.size() != INPUT_COUNT) {
+            if (array.size() != INPUT_COUNT) {
                 throw new JsonParseException(
-                        "Forging furnace recipe "
-                                + id
-                                + " must contain exactly four ingredient entries"
+                        "Forging furnace recipe must contain exactly four ingredients: " + id
                 );
             }
 
-            NonNullList<Input> inputs =
-                    NonNullList.create();
+            List<Input> inputs = new ArrayList<>(INPUT_COUNT);
 
-            for (JsonElement element
-                    : ingredientArray) {
-
-                JsonObject object =
-                        GsonHelper.convertToJsonObject(
-                                element,
-                                "ingredient"
-                        );
+            for (JsonElement element : array) {
+                JsonObject object = GsonHelper.convertToJsonObject(
+                        element,
+                        "ingredient"
+                );
 
                 if (object.size() == 0) {
                     inputs.add(
                             new Input(
                                     Ingredient.EMPTY,
-                                    0,
-                                    0,
-                                    0.0F
+                                    0
                             )
                     );
-
                     continue;
                 }
 
-                int requiredCount =
-                        GsonHelper.getAsInt(
-                                object,
-                                "count",
-                                1
-                        );
+                int consumeCount = GsonHelper.getAsInt(
+                        object,
+                        "consume_count",
+                        1
+                );
 
-                int consumeCount =
-                        GsonHelper.getAsInt(
-                                object,
-                                "consume_count",
-                                requiredCount
-                        );
-
-                float consumeChance =
-                        GsonHelper.getAsFloat(
-                                object,
-                                "consume_chance",
-                                1.0F
-                        );
-
-                if (requiredCount < 1) {
+                if (consumeCount < 1) {
                     throw new JsonParseException(
-                            "Invalid count in forging furnace recipe "
-                                    + id
+                            "consume_count must be at least 1 in " + id
                     );
                 }
 
-                if (consumeCount < 0
-                        || consumeCount > requiredCount) {
-
-                    throw new JsonParseException(
-                            "Invalid consume_count in forging furnace recipe "
-                                    + id
-                    );
-                }
-
-                if (consumeChance < 0.0F
-                        || consumeChance > 1.0F) {
-
-                    throw new JsonParseException(
-                            "Invalid consume_chance in forging furnace recipe "
-                                    + id
-                    );
-                }
-
-                JsonObject ingredientJson =
-                        object.deepCopy();
-
-                ingredientJson.remove("count");
+                JsonObject ingredientJson = object.deepCopy();
                 ingredientJson.remove("consume_count");
+                ingredientJson.remove("count");
                 ingredientJson.remove("consume_chance");
-
-                Ingredient ingredient =
-                        Ingredient.fromJson(
-                                ingredientJson
-                        );
 
                 inputs.add(
                         new Input(
-                                ingredient,
-                                requiredCount,
-                                consumeCount,
-                                consumeChance
+                                Ingredient.fromJson(ingredientJson),
+                                consumeCount
                         )
                 );
             }
 
-            ItemStack output =
-                    ShapedRecipe.itemStackFromJson(
-                            GsonHelper.getAsJsonObject(
-                                    json,
-                                    "output"
-                            )
-                    );
-
-            if (output.isEmpty()) {
-                throw new JsonParseException(
-                        "Forging furnace recipe "
-                                + id
-                                + " has an empty output"
-                );
-            }
+            ItemStack output = ShapedRecipe.itemStackFromJson(
+                    GsonHelper.getAsJsonObject(
+                            json,
+                            "output"
+                    )
+            );
 
             return new ForgingFurnaceRecipe(
                     id,
@@ -473,39 +238,21 @@ public final class ForgingFurnaceRecipe implements Recipe<SimpleContainer> {
                 ResourceLocation id,
                 FriendlyByteBuf buffer
         ) {
-            NonNullList<Input> inputs =
-                    NonNullList.create();
+            List<Input> inputs = new ArrayList<>(INPUT_COUNT);
 
             for (int i = 0; i < INPUT_COUNT; i++) {
-                Ingredient ingredient =
-                        Ingredient.fromNetwork(buffer);
-
-                int requiredCount =
-                        buffer.readVarInt();
-
-                int consumeCount =
-                        buffer.readVarInt();
-
-                float consumeChance =
-                        buffer.readFloat();
-
                 inputs.add(
                         new Input(
-                                ingredient,
-                                requiredCount,
-                                consumeCount,
-                                consumeChance
+                                Ingredient.fromNetwork(buffer),
+                                buffer.readVarInt()
                         )
                 );
             }
 
-            ItemStack result =
-                    buffer.readItem();
-
             return new ForgingFurnaceRecipe(
                     id,
                     inputs,
-                    result
+                    buffer.readItem()
             );
         }
 
@@ -514,27 +261,12 @@ public final class ForgingFurnaceRecipe implements Recipe<SimpleContainer> {
                 FriendlyByteBuf buffer,
                 ForgingFurnaceRecipe recipe
         ) {
-            for (Input input
-                    : recipe.inputs) {
-
+            for (Input input : recipe.inputs) {
                 input.ingredient().toNetwork(buffer);
-
-                buffer.writeVarInt(
-                        input.requiredCount()
-                );
-
-                buffer.writeVarInt(
-                        input.consumeCount()
-                );
-
-                buffer.writeFloat(
-                        input.consumeChance()
-                );
+                buffer.writeVarInt(input.consumeCount());
             }
 
-            buffer.writeItem(
-                    recipe.result
-            );
+            buffer.writeItem(recipe.result);
         }
     }
 }

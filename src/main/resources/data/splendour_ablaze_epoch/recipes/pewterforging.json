@@ -1,10 +1,19 @@
 {
   "type": "splendour_ablaze_epoch:forgingfurnacejei",
   "ingredients": [
-    { "item": "splendour_ablaze_epoch:tin_ingot" },
-    { "item": "splendour_ablaze_epoch:leadnugget", "count": 5, "consume_count": 4 },
+    {
+      "item": "splendour_ablaze_epoch:tin_ingot",
+      "consume_count": 1
+    },
+    {
+      "item": "splendour_ablaze_epoch:leadnugget",
+      "consume_count": 4
+    },
     {},
-    { "item": "splendour_ablaze_epoch:pyrotemperdust", "consume_chance": 0.33333334 }
+    {
+      "item": "splendour_ablaze_epoch:pyrotemperdust",
+      "consume_count": 1
+    }
   ],
   "output": {
     "item": "splendour_ablaze_epoch:pewter_ingot",

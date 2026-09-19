@@ -1,10 +1,22 @@
 {
   "type": "splendour_ablaze_epoch:forgingfurnacejei",
   "ingredients": [
-    { "item": "minecraft:iron_ingot" },
-    { "item": "splendour_ablaze_epoch:dragonsophora_log" },
-    { "item": "splendour_ablaze_epoch:darksaltpeter" },
-    { "item": "splendour_ablaze_epoch:pyrotemperdust", "consume_chance": 0.33333334 }
+    {
+      "item": "minecraft:iron_ingot",
+      "consume_count": 1
+    },
+    {
+      "item": "splendour_ablaze_epoch:dragonsophora_log",
+      "consume_count": 1
+    },
+    {
+      "item": "splendour_ablaze_epoch:darksaltpeter",
+      "consume_count": 1
+    },
+    {
+      "item": "splendour_ablaze_epoch:pyrotemperdust",
+      "consume_count": 1
+    }
   ],
   "output": {
     "item": "splendour_ablaze_epoch:damascene_steel_ingot",

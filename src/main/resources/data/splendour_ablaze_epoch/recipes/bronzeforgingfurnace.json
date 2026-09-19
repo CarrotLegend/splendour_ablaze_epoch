@@ -1,10 +1,22 @@
 {
   "type": "splendour_ablaze_epoch:forgingfurnacejei",
   "ingredients": [
-    { "item": "minecraft:copper_ingot" },
-    { "item": "splendour_ablaze_epoch:tinnugget", "count": 4, "consume_count": 3 },
-    { "item": "splendour_ablaze_epoch:leadnugget", "count": 2, "consume_count": 1 },
-    { "item": "splendour_ablaze_epoch:pyrotemperdust", "consume_chance": 0.33333334 }
+    {
+      "item": "minecraft:copper_ingot",
+      "consume_count": 1
+    },
+    {
+      "item": "splendour_ablaze_epoch:tinnugget",
+      "consume_count": 3
+    },
+    {
+      "item": "splendour_ablaze_epoch:leadnugget",
+      "consume_count": 1
+    },
+    {
+      "item": "splendour_ablaze_epoch:pyrotemperdust",
+      "consume_count": 1
+    }
   ],
   "output": {
     "item": "splendour_ablaze_epoch:bronze_ingot",

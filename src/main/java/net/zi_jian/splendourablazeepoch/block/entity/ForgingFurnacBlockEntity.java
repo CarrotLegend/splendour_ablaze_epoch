@@ -1,9 +1,9 @@
 package net.zi_jian.splendourablazeepoch.block.entity;
 
-import net.zi_jian.splendourablazeepoch.menu.ForgingFurnaceMenu;
-import net.zi_jian.splendourablazeepoch.recipe.ForgingFurnaceRecipe;
-import net.zi_jian.splendourablazeepoch.registry.ModBlockEntities;
-import net.zi_jian.splendourablazeepoch.registry.ModRecipes;
+import java.util.Optional;
+import java.util.stream.IntStream;
+
+import org.jetbrains.annotations.Nullable;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -16,22 +16,21 @@ import net.minecraft.world.WorldlyContainer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BaseContainerBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.wrapper.InvWrapper;
 import net.minecraftforge.items.wrapper.SidedInvWrapper;
-
-import org.jetbrains.annotations.Nullable;
-
-import java.util.Optional;
-import java.util.stream.IntStream;
+import net.zi_jian.splendourablazeepoch.menu.ForgingFurnaceMenu;
+import net.zi_jian.splendourablazeepoch.recipe.ForgingFurnaceRecipe;
+import net.zi_jian.splendourablazeepoch.registry.ModBlockEntities;
+import net.zi_jian.splendourablazeepoch.registry.ModRecipes;
 
 public final class ForgingFurnacBlockEntity
         extends BaseContainerBlockEntity
@@ -40,6 +39,7 @@ public final class ForgingFurnacBlockEntity
     public static final int INPUT_SLOTS = 4;
     public static final int OUTPUT_SLOT = 4;
     public static final int SLOT_COUNT = 5;
+    public static final int COOK_TIME = 220;
 
     private NonNullList<ItemStack> items =
             NonNullList.withSize(
@@ -47,22 +47,41 @@ public final class ForgingFurnacBlockEntity
                     ItemStack.EMPTY
             );
 
-    private final LazyOptional<? extends IItemHandler>[]
-            sidedHandlers =
+    private int cookProgress;
+
+    private final ContainerData data = new ContainerData() {
+        @Override
+        public int get(int index) {
+            return switch (index) {
+                case 0 -> cookProgress;
+                case 1 -> COOK_TIME;
+                default -> 0;
+            };
+        }
+
+        @Override
+        public void set(int index, int value) {
+            if (index == 0) {
+                cookProgress = value;
+            }
+        }
+
+        @Override
+        public int getCount() {
+            return 2;
+        }
+    };
+
+    private final LazyOptional<? extends IItemHandler>[] sidedHandlers =
             SidedInvWrapper.create(
                     this,
                     Direction.values()
             );
 
-    private final LazyOptional<IItemHandler>
-            unsidedHandler =
+    private final LazyOptional<IItemHandler> unsidedHandler =
             LazyOptional.of(
                     () -> new InvWrapper(this)
             );
-
-    private boolean recipeDirty = true;
-
-    private boolean changingResult = false;
 
     public ForgingFurnacBlockEntity(
             BlockPos pos,
@@ -81,8 +100,23 @@ public final class ForgingFurnacBlockEntity
             BlockState state,
             ForgingFurnacBlockEntity furnace
     ) {
-        if (furnace.recipeDirty) {
-            furnace.refreshResult();
+        Optional<ForgingFurnaceRecipe> recipe =
+                furnace.findRecipe();
+
+        if (recipe.isPresent()
+                && furnace.canOutput(recipe.get())) {
+
+            furnace.cookProgress++;
+
+            if (furnace.cookProgress >= COOK_TIME) {
+                furnace.cookProgress = 0;
+                furnace.craft(recipe.get());
+            }
+
+            furnace.setChanged();
+        } else if (furnace.cookProgress != 0) {
+            furnace.cookProgress = 0;
+            furnace.setChanged();
         }
     }
 
@@ -98,13 +132,15 @@ public final class ForgingFurnacBlockEntity
             int containerId,
             Inventory inventory
     ) {
-        refreshResult();
-
         return new ForgingFurnaceMenu(
                 containerId,
                 inventory,
                 this
         );
+    }
+
+    public ContainerData getDataAccess() {
+        return data;
     }
 
     @Override
@@ -127,11 +163,30 @@ public final class ForgingFurnacBlockEntity
     public ItemStack getItem(
             int slot
     ) {
-        if (slot < 0 || slot >= SLOT_COUNT) {
-            return ItemStack.EMPTY;
+        return items.get(slot);
+    }
+
+    @Override
+    public void setItem(
+            int slot,
+            ItemStack stack
+    ) {
+        ItemStack inserted = stack.copy();
+
+        if (inserted.getCount() > getMaxStackSize()) {
+            inserted.setCount(getMaxStackSize());
         }
 
-        return items.get(slot);
+        items.set(
+                slot,
+                inserted
+        );
+
+        if (slot < INPUT_SLOTS) {
+            cookProgress = 0;
+        }
+
+        setChanged();
     }
 
     @Override
@@ -144,74 +199,22 @@ public final class ForgingFurnacBlockEntity
     }
 
     @Override
-    public void setItem(
-            int slot,
-            ItemStack stack
-    ) {
-        if (slot < 0 || slot >= SLOT_COUNT) {
-            return;
-        }
-
-        if (slot == OUTPUT_SLOT
-                && !changingResult) {
-
-            if (level != null
-                    && level.isClientSide) {
-
-                items.set(
-                        OUTPUT_SLOT,
-                        stack.copy()
-                );
-            }
-
-            return;
-        }
-
-        ItemStack inserted =
-                stack.copy();
-
-        if (inserted.getCount()
-                > getMaxStackSize()) {
-
-            inserted.setCount(
-                    getMaxStackSize()
-            );
-        }
-
-        items.set(
-                slot,
-                inserted
-        );
-
-        setChanged();
-
-        if (slot < INPUT_SLOTS) {
-            inputsChanged();
-        }
-    }
-
-    @Override
     public ItemStack removeItem(
             int slot,
             int amount
     ) {
-        if (slot < 0 || slot >= SLOT_COUNT) {
-            return ItemStack.EMPTY;
-        }
-
-        if (slot == OUTPUT_SLOT) {
-            return takeResult(amount);
-        }
-
-        ItemStack removed =
-                ContainerHelper.removeItem(
-                        items,
-                        slot,
-                        amount
-                );
+        ItemStack removed = ContainerHelper.removeItem(
+                items,
+                slot,
+                amount
+        );
 
         if (!removed.isEmpty()) {
-            inputsChanged();
+            if (slot < INPUT_SLOTS) {
+                cookProgress = 0;
+            }
+
+            setChanged();
         }
 
         return removed;
@@ -221,22 +224,13 @@ public final class ForgingFurnacBlockEntity
     public ItemStack removeItemNoUpdate(
             int slot
     ) {
-        if (slot < 0 || slot >= SLOT_COUNT) {
-            return ItemStack.EMPTY;
-        }
+        ItemStack removed = ContainerHelper.takeItem(
+                items,
+                slot
+        );
 
-        if (slot == OUTPUT_SLOT) {
-            return ItemStack.EMPTY;
-        }
-
-        ItemStack removed =
-                ContainerHelper.takeItem(
-                        items,
-                        slot
-                );
-
-        if (!removed.isEmpty()) {
-            inputsChanged();
+        if (slot < INPUT_SLOTS) {
+            cookProgress = 0;
         }
 
         return removed;
@@ -244,30 +238,115 @@ public final class ForgingFurnacBlockEntity
 
     @Override
     public void clearContent() {
-        for (int slot = 0;
-             slot < INPUT_SLOTS;
-             slot++) {
+        items.clear();
+        cookProgress = 0;
+        setChanged();
+    }
 
-            items.set(
-                    slot,
-                    ItemStack.EMPTY
+    private Optional<ForgingFurnaceRecipe> findRecipe() {
+        if (level == null) {
+            return Optional.empty();
+        }
+
+        SimpleContainer container =
+                new SimpleContainer(INPUT_SLOTS);
+
+        for (int i = 0; i < INPUT_SLOTS; i++) {
+            container.setItem(
+                    i,
+                    items.get(i).copy()
             );
         }
 
-        setPreview(
-                ItemStack.EMPTY
-        );
-
-        inputsChanged();
+        return level.getRecipeManager()
+                .getRecipeFor(
+                        ModRecipes.FORGING_FURNACE_TYPE,
+                        container,
+                        level
+                );
     }
 
-    @Override
-    public void setChanged() {
-        super.setChanged();
-
-        if (!changingResult) {
-            recipeDirty = true;
+    private boolean canOutput(
+            ForgingFurnaceRecipe recipe
+    ) {
+        if (level == null) {
+            return false;
         }
+
+        ItemStack result = recipe.getResultItem(
+                level.registryAccess()
+        );
+
+        ItemStack output = items.get(
+                OUTPUT_SLOT
+        );
+
+        if (output.isEmpty()) {
+            return result.getCount()
+                    <= result.getMaxStackSize();
+        }
+
+        return ItemStack.isSameItemSameTags(
+                output,
+                result
+        ) && output.getCount() + result.getCount()
+                <= output.getMaxStackSize();
+    }
+
+    private void craft(
+            ForgingFurnaceRecipe recipe
+    ) {
+        if (level == null || !recipe.matches(createInputContainer(), level)) {
+            return;
+        }
+
+        for (int i = 0; i < INPUT_SLOTS; i++) {
+            ForgingFurnaceRecipe.Input input =
+                    recipe.input(i);
+
+            if (!input.isEmpty()) {
+                ContainerHelper.removeItem(
+                        items,
+                        i,
+                        input.consumeCount()
+                );
+            }
+        }
+
+        ItemStack result = recipe.getResultItem(
+                level.registryAccess()
+        );
+
+        ItemStack output = items.get(
+                OUTPUT_SLOT
+        );
+
+        if (output.isEmpty()) {
+            items.set(
+                    OUTPUT_SLOT,
+                    result.copy()
+            );
+        } else {
+            output.grow(
+                    result.getCount()
+            );
+        }
+
+        setChanged();
+    }
+
+    private SimpleContainer createInputContainer() {
+        SimpleContainer container =
+                new SimpleContainer(INPUT_SLOTS);
+
+        for (int i = 0; i < INPUT_SLOTS; i++) {
+            container.setItem(
+                    i,
+                    items.get(i).copy()
+            );
+        }
+
+        return container;
     }
 
     @Override
@@ -287,12 +366,10 @@ public final class ForgingFurnacBlockEntity
     public int[] getSlotsForFace(
             Direction direction
     ) {
-        return IntStream
-                .range(
-                        0,
-                        SLOT_COUNT
-                )
-                .toArray();
+        return IntStream.range(
+                0,
+                SLOT_COUNT
+        ).toArray();
     }
 
     @Override
@@ -313,7 +390,7 @@ public final class ForgingFurnacBlockEntity
             ItemStack stack,
             Direction direction
     ) {
-        return true;
+        return slot == OUTPUT_SLOT;
     }
 
     @Override
@@ -322,15 +399,11 @@ public final class ForgingFurnacBlockEntity
             @Nullable Direction side
     ) {
         if (!remove
-                && capability
-                == ForgeCapabilities.ITEM_HANDLER) {
-
+                && capability == ForgeCapabilities.ITEM_HANDLER) {
             return (
                     side == null
                             ? unsidedHandler
-                            : sidedHandlers[
-                                    side.ordinal()
-                            ]
+                            : sidedHandlers[side.ordinal()]
             ).cast();
         }
 
@@ -346,9 +419,8 @@ public final class ForgingFurnacBlockEntity
 
         unsidedHandler.invalidate();
 
-        for (LazyOptional<? extends IItemHandler>
-                handler : sidedHandlers) {
-
+        for (LazyOptional<? extends IItemHandler> handler
+                : sidedHandlers) {
             handler.invalidate();
         }
     }
@@ -359,346 +431,35 @@ public final class ForgingFurnacBlockEntity
     ) {
         super.load(tag);
 
-        items =
-                NonNullList.withSize(
-                        SLOT_COUNT,
-                        ItemStack.EMPTY
-                );
+        items = NonNullList.withSize(
+                SLOT_COUNT,
+                ItemStack.EMPTY
+        );
 
         ContainerHelper.loadAllItems(
                 tag,
                 items
         );
 
-        items.set(
-                OUTPUT_SLOT,
-                ItemStack.EMPTY
+        cookProgress = tag.getInt(
+                "CookProgress"
         );
-
-        recipeDirty = true;
     }
 
     @Override
     protected void saveAdditional(
             CompoundTag tag
     ) {
-        NonNullList<ItemStack> savedItems =
-                NonNullList.withSize(
-                        SLOT_COUNT,
-                        ItemStack.EMPTY
-                );
-
-        for (int slot = 0;
-             slot < INPUT_SLOTS;
-             slot++) {
-
-            savedItems.set(
-                    slot,
-                    items.get(slot)
-            );
-        }
-
         ContainerHelper.saveAllItems(
                 tag,
-                savedItems
+                items
+        );
+
+        tag.putInt(
+                "CookProgress",
+                cookProgress
         );
 
         super.saveAdditional(tag);
-    }
-
-    public void refreshResult() {
-        if (level == null
-                || level.isClientSide
-                || changingResult) {
-
-            return;
-        }
-
-        Optional<RecipeMatch> match =
-                findRecipeMatch();
-
-        ItemStack result =
-                match.map(
-                        value ->
-                                value.recipe()
-                                        .getResultItem(
-                                                level.registryAccess()
-                                        )
-                ).orElse(
-                        ItemStack.EMPTY
-                );
-
-        setPreview(result);
-
-        recipeDirty = false;
-    }
-
-    public ItemStack takeResult(
-            int requestedAmount
-    ) {
-        if (level == null
-                || level.isClientSide
-                || requestedAmount <= 0) {
-
-            return ItemStack.EMPTY;
-        }
-
-        Optional<RecipeMatch> matchOptional =
-                findRecipeMatch();
-
-        if (matchOptional.isEmpty()) {
-            setPreview(
-                    ItemStack.EMPTY
-            );
-
-            return ItemStack.EMPTY;
-        }
-
-        RecipeMatch match =
-                matchOptional.get();
-
-        ForgingFurnaceRecipe recipe =
-                match.recipe();
-
-        int[] slotMapping =
-                match.slotMapping();
-
-        ItemStack result =
-                recipe.getResultItem(
-                        level.registryAccess()
-                );
-
-        if (result.isEmpty()) {
-            return ItemStack.EMPTY;
-        }
-
-        if (requestedAmount
-                < result.getCount()) {
-
-            return ItemStack.EMPTY;
-        }
-
-        if (!ItemStack.isSameItemSameTags(
-                items.get(OUTPUT_SLOT),
-                result
-        )) {
-            refreshResult();
-            return ItemStack.EMPTY;
-        }
-
-        if (items.get(OUTPUT_SLOT).getCount()
-                != result.getCount()) {
-
-            refreshResult();
-            return ItemStack.EMPTY;
-        }
-
-        changingResult = true;
-
-        try {
-            for (int recipeSlot = 0;
-                 recipeSlot
-                         < ForgingFurnaceRecipe.INPUT_COUNT;
-                 recipeSlot++) {
-
-                ForgingFurnaceRecipe.Input input =
-                        recipe.input(
-                                recipeSlot
-                        );
-
-                if (input.isEmpty()) {
-                    continue;
-                }
-
-                int actualMachineSlot =
-                        slotMapping[
-                                recipeSlot
-                        ];
-
-                if (actualMachineSlot < 0
-                        || actualMachineSlot
-                        >= INPUT_SLOTS) {
-
-                    continue;
-                }
-
-                if (input.consumeCount() <= 0) {
-                    continue;
-                }
-
-                if (level.random.nextFloat()
-                        >= input.consumeChance()) {
-
-                    continue;
-                }
-
-                ItemStack actualStack =
-                        items.get(
-                                actualMachineSlot
-                        );
-
-                if (!input.matches(
-                        actualStack
-                )) {
-                    recipeDirty = true;
-                    return ItemStack.EMPTY;
-                }
-
-                actualStack.shrink(
-                        input.consumeCount()
-                );
-
-                if (actualStack.isEmpty()) {
-                    items.set(
-                            actualMachineSlot,
-                            ItemStack.EMPTY
-                    );
-                }
-            }
-
-            items.set(
-                    OUTPUT_SLOT,
-                    ItemStack.EMPTY
-            );
-
-        } finally {
-            changingResult = false;
-        }
-
-        recipeDirty = true;
-
-        setChanged();
-
-        refreshResult();
-
-        return result.copy();
-    }
-
-    public ItemStack getPreview() {
-        refreshResult();
-
-        return items
-                .get(OUTPUT_SLOT)
-                .copy();
-    }
-
-    private Optional<RecipeMatch> findRecipeMatch() {
-        if (level == null) {
-            return Optional.empty();
-        }
-
-        SimpleContainer input =
-                createInputContainer();
-
-        Optional<ForgingFurnaceRecipe> recipeOptional =
-                level.getRecipeManager()
-                        .getRecipeFor(
-                                ModRecipes.FORGING_FURNACE_TYPE,
-                                input,
-                                level
-                        );
-
-        if (recipeOptional.isEmpty()) {
-            return Optional.empty();
-        }
-
-        ForgingFurnaceRecipe recipe =
-                recipeOptional.get();
-
-        Optional<int[]> mappingOptional =
-                recipe.findMatchingSlots(
-                        input
-                );
-
-        if (mappingOptional.isEmpty()) {
-            return Optional.empty();
-        }
-
-        return Optional.of(
-                new RecipeMatch(
-                        recipe,
-                        mappingOptional.get()
-                )
-        );
-    }
-
-    private SimpleContainer createInputContainer() {
-        SimpleContainer input =
-                new SimpleContainer(
-                        INPUT_SLOTS
-                );
-
-        for (int slot = 0;
-             slot < INPUT_SLOTS;
-             slot++) {
-
-            input.setItem(
-                    slot,
-                    items.get(slot).copy()
-            );
-        }
-
-        return input;
-    }
-
-    private void inputsChanged() {
-        recipeDirty = true;
-
-        setChanged();
-
-        if (level != null
-                && !level.isClientSide) {
-
-            refreshResult();
-        }
-    }
-
-    private void setPreview(
-            ItemStack stack
-    ) {
-        ItemStack old =
-                items.get(
-                        OUTPUT_SLOT
-                );
-
-        if (ItemStack.matches(
-                old,
-                stack
-        )) {
-            return;
-        }
-
-        changingResult = true;
-
-        try {
-            items.set(
-                    OUTPUT_SLOT,
-                    stack.copy()
-            );
-        } finally {
-            changingResult = false;
-        }
-
-        setChanged();
-
-        if (level != null) {
-            level.sendBlockUpdated(
-                    worldPosition,
-                    getBlockState(),
-                    getBlockState(),
-                    3
-            );
-
-            level.updateNeighbourForOutputSignal(
-                    worldPosition,
-                    getBlockState().getBlock()
-            );
-        }
-    }
-
-    private record RecipeMatch(
-            ForgingFurnaceRecipe recipe,
-            int[] slotMapping
-    ) {
     }
 }
