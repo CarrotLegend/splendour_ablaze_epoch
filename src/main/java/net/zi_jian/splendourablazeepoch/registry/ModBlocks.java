@@ -1,5 +1,26 @@
 package net.zi_jian.splendourablazeepoch.registry;
 
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.function.Supplier;
+
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.DoublePlantBlock;
+import net.minecraft.world.level.block.FallingBlock;
+import net.minecraft.world.level.block.LeavesBlock;
+import net.minecraft.world.level.block.RotatedPillarBlock;
+import net.minecraft.world.level.block.SlabBlock;
+import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.StairBlock;
+import net.minecraft.world.level.block.WallBlock;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraftforge.registries.DeferredRegister;
+import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.RegistryObject;
 import net.zi_jian.splendourablazeepoch.SplendourAblazeEpochMod;
 import net.zi_jian.splendourablazeepoch.block.ForgingFurnacBlock;
 import net.zi_jian.splendourablazeepoch.block.LegacyPillarVariantBlock;
@@ -13,26 +34,6 @@ import net.zi_jian.splendourablazeepoch.block.MottledBambooBudBlock;
 import net.zi_jian.splendourablazeepoch.block.MottledBambooStalkBlock;
 import net.zi_jian.splendourablazeepoch.block.TopworldPlantBlock;
 import net.zi_jian.splendourablazeepoch.world.TopworldClosure;
-import net.minecraft.core.BlockPos;
-import net.minecraft.world.level.BlockGetter;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.DoublePlantBlock;
-import net.minecraft.world.level.block.FallingBlock;
-import net.minecraft.world.level.block.RotatedPillarBlock;
-import net.minecraft.world.level.block.SlabBlock;
-import net.minecraft.world.level.block.SoundType;
-import net.minecraft.world.level.block.StairBlock;
-import net.minecraft.world.level.block.WallBlock;
-import net.minecraft.world.level.block.state.BlockBehaviour;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.RegistryObject;
-
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.function.Supplier;
 
 public final class ModBlocks {
 
@@ -114,6 +115,14 @@ public final class ModBlocks {
     public static final RegistryObject<Block> CHISELED_BLUISHSTONE_BRICKS =
             registerLike("chiseledbluishstonebricks", Blocks.CHISELED_STONE_BRICKS);
 
+    public static final RegistryObject<Block> BLUISHSTONE_PILLAR =
+            registerTopworldBlock(
+                    "bluishstonepillar",
+                    () -> new LegacyPillarVariantBlock(
+                            BlockBehaviour.Properties.copy(Blocks.QUARTZ_PILLAR)
+                    )
+            );
+
     public static final RegistryObject<Block> RIBBONROCK =
             registerLike("ribbonrock", Blocks.STONE);
 
@@ -160,7 +169,10 @@ public final class ModBlocks {
             registerWall("castradiantlimestonewall");
 
     public static final RegistryObject<Block> CAST_RADIANT_LIMESTONE_BRICKS =
-            registerLike("castradiantlimestonebricks", Blocks.STONE_BRICKS);
+            registerLike(
+                    "castradiantlimestonebricks",
+                    Blocks.STONE_BRICKS
+            );
 
     public static final RegistryObject<Block> CAST_RADIANT_LIMESTONE_BRICKS_SLAB =
             registerSlab("castradiantlimestonebricksslab");
@@ -231,6 +243,40 @@ public final class ModBlocks {
                     Blocks.DEEPSLATE_BRICKS
             );
 
+    public static final RegistryObject<Block> DARK_TILE =
+            registerLike("darktile", Blocks.DEEPSLATE_TILES);
+
+    public static final RegistryObject<Block> DARK_TILE_SLAB =
+            registerTopworldBlock(
+                    "darktileslab",
+                    () -> new SlabBlock(
+                            BlockBehaviour.Properties.copy(
+                                    Blocks.DEEPSLATE_TILE_SLAB
+                            )
+                    )
+            );
+
+    public static final RegistryObject<Block> DARK_TILE_STAIRS =
+            registerTopworldBlock(
+                    "darktilestairs",
+                    () -> new StairBlock(
+                            () -> DARK_TILE.get().defaultBlockState(),
+                            BlockBehaviour.Properties.copy(
+                                    Blocks.DEEPSLATE_TILE_STAIRS
+                            )
+                    )
+            );
+
+    public static final RegistryObject<Block> DARK_TILE_WALL =
+            registerTopworldBlock(
+                    "darktilewall",
+                    () -> new WallBlock(
+                            BlockBehaviour.Properties.copy(
+                                    Blocks.DEEPSLATE_TILE_WALL
+                            )
+                    )
+            );
+
     public static final RegistryObject<Block> TERRACOTTA_BRICKS =
             registerLike("terracottabricks", Blocks.BRICKS);
 
@@ -272,6 +318,14 @@ public final class ModBlocks {
 
     public static final RegistryObject<Block> AURORA_LEADEN_TILE =
             registerLike("auroraleadentile", Blocks.STONE);
+
+    public static final RegistryObject<Block> AURORA_LEADEN_PILLAR =
+            registerTopworldBlock(
+                    "auroraleadenpillar",
+                    () -> new LegacyVariantTwoBlock(
+                            BlockBehaviour.Properties.copy(Blocks.STONE)
+                    )
+            );
 
     public static final RegistryObject<Block> BRONZE_BLOCK =
             registerLike("bronze_block", Blocks.COPPER_BLOCK);
@@ -346,7 +400,7 @@ public final class ModBlocks {
             registerLike("firmrocksulfurore", Blocks.COAL_ORE);
 
     public static final RegistryObject<Block> RADIANT_LIMESTONE_CINNABAR_ORE =
-            registerLike("radiantlimestonecinnabarore", Blocks.REDSTONE_ORE);
+            registerLike("radiantlimestonecinnabarore", Blocks.IRON_ORE);
 
     public static final RegistryObject<Block> RADIANT_LIMESTONE_COPPER_ORE =
             registerLike("radiantlimestonecopperore", Blocks.COPPER_ORE);
@@ -365,6 +419,18 @@ public final class ModBlocks {
 
     public static final RegistryObject<Block> RADIANT_LIMESTONE_TIN_ORE =
             registerLike("radiantlimestonetinore", Blocks.IRON_ORE);
+
+    public static final RegistryObject<Block> SUSPICIOUS_RADIANT_LIMESTONE_COPPER_ORE =
+            registerLike(
+                    "suspiciousradiantlimestonecopperore",
+                    Blocks.COPPER_ORE
+            );
+
+    public static final RegistryObject<Block> SUSPICIOUS_RADIANT_LIMESTONE_TIN_ORE =
+            registerLike(
+                    "suspiciousradiantlimestonetinore",
+                    Blocks.IRON_ORE
+            );
 
     public static final RegistryObject<Block> RIBBONROCK_COAL_ORE =
             registerLike("ribbonrockcoalore", Blocks.COAL_ORE);
@@ -402,40 +468,6 @@ public final class ModBlocks {
 
     public static final RegistryObject<Block> RUSTED_MOSS =
             registerLike("rustedmoss", Blocks.MOSS_BLOCK);
-
-    public static final RegistryObject<Block> DARK_TILE =
-            registerLike("darktile", Blocks.DEEPSLATE_TILES);
-
-    public static final RegistryObject<Block> DARK_TILE_SLAB =
-            registerTopworldBlock(
-                    "darktileslab",
-                    () -> new SlabBlock(
-                            BlockBehaviour.Properties.copy(
-                                    Blocks.DEEPSLATE_TILE_SLAB
-                            )
-                    )
-            );
-
-    public static final RegistryObject<Block> DARK_TILE_STAIRS =
-            registerTopworldBlock(
-                    "darktilestairs",
-                    () -> new StairBlock(
-                            () -> DARK_TILE.get().defaultBlockState(),
-                            BlockBehaviour.Properties.copy(
-                                    Blocks.DEEPSLATE_TILE_STAIRS
-                            )
-                    )
-            );
-
-    public static final RegistryObject<Block> DARK_TILE_WALL =
-            registerTopworldBlock(
-                    "darktilewall",
-                    () -> new WallBlock(
-                            BlockBehaviour.Properties.copy(
-                                    Blocks.DEEPSLATE_TILE_WALL
-                            )
-                    )
-            );
 
     public static final RegistryObject<Block> THATCH_BLOCK =
             registerTopworldBlock(
@@ -545,6 +577,126 @@ public final class ModBlocks {
 
     public static final RegistryObject<Block> YELLOW_SILK_BLOCK =
             registerSilk("yellowsilkblock");
+
+    public static final RegistryObject<Block> LEAK_PLANT =
+            registerTopworldBlock(
+                    "leekplant",
+                    () -> new LegacyVariantTwoBlock(
+                            BlockBehaviour.Properties.copy(Blocks.WHEAT)
+                    )
+            );
+
+    public static final RegistryObject<Block> MILLET_PLANT =
+            registerTopworldBlock(
+                    "milletplant",
+                    () -> new LegacyVariantBlock(
+                            BlockBehaviour.Properties.copy(Blocks.WHEAT)
+                    )
+            );
+
+    public static final RegistryObject<Block> FLOATING_HEART =
+            registerTopworldBlock(
+                    "floatingheart",
+                    () -> new TopworldPlantBlock(
+                            BlockBehaviour.Properties.copy(Blocks.GRASS)
+                    )
+            );
+
+    public static final RegistryObject<Block> FEATHERY_FOAM =
+            registerTopworldBlock(
+                    "featheryfoam",
+                    () -> new Block(
+                            BlockBehaviour.Properties.copy(Blocks.WHITE_WOOL)
+                                    .strength(0.2F)
+                                    .noOcclusion()
+                    )
+            );
+
+    public static final RegistryObject<Block> ARCANE_PRINT_SOVEREIGN =
+            registerTopworldBlock(
+                    "arcaneprintsovereign",
+                    () -> new Block(
+                            BlockBehaviour.Properties.copy(Blocks.STONE)
+                                    .noOcclusion()
+                    )
+            );
+
+    public static final RegistryObject<Block> ALIVE_PICTOGRAPHS_PWNER =
+            registerLike(
+                    "alivepictographspwner",
+                    Blocks.STONE_BRICKS
+            );
+
+    public static final RegistryObject<Block> ANTIGRAVIT_DEVICE =
+            registerLike(
+                    "antigravitdevice",
+                    Blocks.IRON_BLOCK
+            );
+
+    public static final RegistryObject<Block> CANDLESTICK =
+            registerTopworldBlock(
+                    "candlestick",
+                    () -> new Block(
+                            BlockBehaviour.Properties.copy(Blocks.STONE)
+                                    .noOcclusion()
+                    )
+            );
+
+    public static final RegistryObject<Block> FAT_POTTERY_JAR =
+            registerTopworldBlock(
+                    "fatpotteryjar",
+                    () -> new Block(
+                            BlockBehaviour.Properties.copy(Blocks.TERRACOTTA)
+                                    .noOcclusion()
+                    )
+            );
+
+    public static final RegistryObject<Block> POTTERY_JAR =
+            registerTopworldBlock(
+                    "potteryjar",
+                    () -> new Block(
+                            BlockBehaviour.Properties.copy(Blocks.TERRACOTTA)
+                                    .noOcclusion()
+                    )
+            );
+
+    public static final RegistryObject<Block> THIN_POTTERY_JAR =
+            registerTopworldBlock(
+                    "thinpotteryjar",
+                    () -> new Block(
+                            BlockBehaviour.Properties.copy(Blocks.TERRACOTTA)
+                                    .noOcclusion()
+                    )
+            );
+
+    public static final RegistryObject<Block> PAPER_COCOON =
+            registerTopworldBlock(
+                    "papercocoon",
+                    () -> new Block(
+                            BlockBehaviour.Properties.copy(Blocks.WHITE_WOOL)
+                                    .noOcclusion()
+                    )
+            );
+
+    public static final RegistryObject<Block> PAPER_LEAVES =
+            registerTopworldBlock(
+                    "paperleaves",
+                    () -> new LeavesBlock(
+                            BlockBehaviour.Properties.copy(Blocks.OAK_LEAVES)
+                    )
+            );
+
+    public static final RegistryObject<Block> AMBIGUOUS_IMMORTALE =
+            registerFacing("ambiguousimmortale");
+
+    public static final RegistryObject<Block> CHRON_SOVEREIGNTY_STAR =
+            registerFacing("chronsovereigntystar");
+
+    public static final RegistryObject<Block> SHOCK_FLAME_WARLORD =
+            registerFacing("shockflamewarlord");
+
+    public static final RegistryObject<Block> SIMPLE_GRAVE =
+            registerFacing("simplegrave");
 
     public static final RegistryObject<Block> MOTTLED_BAMBOO_BUD =
             registerTopworldBlock(
@@ -695,6 +847,18 @@ public final class ModBlocks {
         );
     }
 
+    private static RegistryObject<Block> registerFacing(
+            String id
+    ) {
+        return registerTopworldBlock(
+                id,
+                () -> new MigratedFacingBlock(
+                        BlockBehaviour.Properties.copy(Blocks.STONE)
+                                .noOcclusion()
+                )
+        );
+    }
+
     private static RegistryObject<Block> registerSilk(
             String id
     ) {
@@ -808,39 +972,6 @@ public final class ModBlocks {
             return new MigratedEntityBlock(
                     id,
                     wood
-            );
-        }
-
-        if ("bluishstonepillar".equals(id)) {
-            return new LegacyPillarVariantBlock(
-                    stone
-            );
-        }
-
-        if ("leekplant".equals(id)) {
-            return new LegacyVariantTwoBlock(
-                    stone
-            );
-        }
-
-        if ("milletplant".equals(id)) {
-            return new LegacyVariantBlock(
-                    stone
-            );
-        }
-
-        if ("auroraleadenpillar".equals(id)) {
-            return new LegacyVariantTwoBlock(
-                    stone
-            );
-        }
-
-        if ("ambiguousimmortale".equals(id)
-                || "chronsovereigntystar".equals(id)
-                || "shockflamewarlord".equals(id)
-                || "simplegrave".equals(id)) {
-            return new MigratedFacingBlock(
-                    stone
             );
         }
 
