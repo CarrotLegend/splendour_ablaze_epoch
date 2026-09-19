@@ -1,0 +1,26 @@
+{
+  "display": {
+    "icon": {
+      "item": "splendour_ablaze_epoch:mausoleumadder"
+    },
+    "title": {
+      "translate": "advancements.informalarchaeology.title"
+    },
+    "description": {
+      "translate": "advancements.informalarchaeology.descr"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "informalarchaeology_0": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "rewards": {
+    "experience": 5
+  },
+  "parent": "splendour_ablaze_epoch:immortalswayfindinggesture"
+}

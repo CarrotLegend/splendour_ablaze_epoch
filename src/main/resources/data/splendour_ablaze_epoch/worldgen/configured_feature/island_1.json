@@ -1,0 +1,14 @@
+{
+  "type": "splendour_ablaze_epoch:structure_feature",
+  "config": {
+    "structure": "splendour_ablaze_epoch:island2",
+    "random_rotation": true,
+    "random_mirror": true,
+    "ignored_blocks": "minecraft:air",
+    "offset": [
+      0,
+      -33,
+      0
+    ]
+  }
+}

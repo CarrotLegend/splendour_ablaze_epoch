@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "wooden_slab",
+  "category": "building",
+  "pattern": [
+    "aaa"
+  ],
+  "key": {
+    "a": {
+      "item": "splendour_ablaze_epoch:mulberry_planks"
+    }
+  },
+  "result": {
+    "item": "splendour_ablaze_epoch:mulberry_slab",
+    "count": 6
+  }
+}

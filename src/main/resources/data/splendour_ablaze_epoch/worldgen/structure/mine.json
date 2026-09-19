@@ -1,0 +1,29 @@
+{
+  "type": "minecraft:jigsaw",
+  "start_pool": "splendour_ablaze_epoch:mine",
+  "size": 1,
+  "max_distance_from_center": 64,
+  "spawn_overrides": {},
+  "step": "surface_structures",
+  "terrain_adaptation": "none",
+  "start_height": {
+    "type": "minecraft:uniform",
+    "min_inclusive": {
+      "absolute": -50
+    },
+    "max_inclusive": {
+      "absolute": 5
+    }
+  },
+  "biomes": [
+    "splendour_ablaze_epoch:archaicfadetimberland",
+    "splendour_ablaze_epoch:bambusmulberrywetland",
+    "splendour_ablaze_epoch:battlefieldwasteland",
+    "splendour_ablaze_epoch:craneplumeocean",
+    "splendour_ablaze_epoch:descenjadeshoal",
+    "splendour_ablaze_epoch:grazingmoonfield",
+    "splendour_ablaze_epoch:speclumeforest",
+    "splendour_ablaze_epoch:splendourablazehills"
+  ],
+  "use_expansion_hack": false
+}

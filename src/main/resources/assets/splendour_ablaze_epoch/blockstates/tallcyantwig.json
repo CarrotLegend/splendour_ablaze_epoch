@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "half=upper": {
+      "model": "splendour_ablaze_epoch:block/tallcyantwig"
+    },
+    "half=lower": {
+      "model": "splendour_ablaze_epoch:block/tallcyantwig_bottom"
+    }
+  }
+}

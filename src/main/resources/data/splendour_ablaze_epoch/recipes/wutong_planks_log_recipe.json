@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "planks",
+  "category": "building",
+  "ingredients": [
+    {
+      "tag": "minecraft:wutong_log"
+    }
+  ],
+  "result": {
+    "item": "splendour_ablaze_epoch:wutong_planks",
+    "count": 4
+  }
+}

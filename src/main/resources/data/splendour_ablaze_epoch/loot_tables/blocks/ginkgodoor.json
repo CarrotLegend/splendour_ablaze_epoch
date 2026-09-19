@@ -1,0 +1,29 @@
+{
+  "type": "minecraft:block",
+  "random_sequence": "splendour_ablaze_epoch:blocks/ginkgodoor",
+  "pools": [
+    {
+      "rolls": 1.0,
+      "conditions": [
+        {
+          "condition": "minecraft:survives_explosion"
+        }
+      ],
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "splendour_ablaze_epoch:ginkgodoor",
+          "conditions": [
+            {
+              "block": "splendour_ablaze_epoch:ginkgodoor",
+              "condition": "minecraft:block_state_property",
+              "properties": {
+                "half": "lower"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

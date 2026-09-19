@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    " a ",
+    "aba",
+    " a "
+  ],
+  "key": {
+    "a": {
+      "item": "minecraft:iron_ingot"
+    },
+    "b": {
+      "item": "splendour_ablaze_epoch:magnetite"
+    }
+  },
+  "result": {
+    "item": "minecraft:compass",
+    "count": 1
+  }
+}

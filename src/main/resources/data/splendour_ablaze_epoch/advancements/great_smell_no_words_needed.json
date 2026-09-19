@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "item": "splendour_ablaze_epoch:friedleekdumplings"
+    },
+    "title": {
+      "translate": "advancements.great_smell_no_words_needed.title"
+    },
+    "description": {
+      "translate": "advancements.great_smell_no_words_needed.descr"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "great_smell_no_words_needed_0": {
+      "trigger": "minecraft:consume_item",
+      "conditions": {
+        "item": {
+          "items": [
+            "splendour_ablaze_epoch:friedleekdumplings"
+          ]
+        }
+      }
+    }
+  },
+  "rewards": {
+    "experience": 5
+  },
+  "parent": "splendour_ablaze_epoch:splendourablazeepoch_11"
+}

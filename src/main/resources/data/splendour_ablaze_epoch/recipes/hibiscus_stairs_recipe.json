@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "wooden_stairs",
+  "category": "building",
+  "pattern": [
+    "a  ",
+    "aa ",
+    "aaa"
+  ],
+  "key": {
+    "a": {
+      "item": "splendour_ablaze_epoch:hibiscus_planks"
+    }
+  },
+  "result": {
+    "item": "splendour_ablaze_epoch:hibiscus_stairs",
+    "count": 4
+  }
+}

@@ -1,0 +1,308 @@
+{
+  "musk_deer1": {
+    "subtitle": "subtitles.musk_deer1",
+    "sounds": [
+      {
+        "name": "splendour_ablaze_epoch:hurt1",
+        "stream": false
+      }
+    ]
+  },
+  "musk_deer2": {
+    "subtitle": "subtitles.musk_deer2",
+    "sounds": [
+      {
+        "name": "splendour_ablaze_epoch:idle1",
+        "stream": false
+      }
+    ]
+  },
+  "xyfz_zhaohuan": {
+    "subtitle": "subtitles.xyfz_zhaohuan",
+    "sounds": [
+      {
+        "name": "splendour_ablaze_epoch:xyfz_zhaohuan",
+        "stream": false
+      }
+    ]
+  },
+  "xyfz_aida": {
+    "subtitle": "subtitles.xyfz_aida",
+    "sounds": [
+      {
+        "name": "splendour_ablaze_epoch:xyfz_aida",
+        "stream": false
+      }
+    ]
+  },
+  "xyfz_zhiyuan": {
+    "subtitle": "subtitles.xyfz_zhiyuan",
+    "sounds": [
+      {
+        "name": "splendour_ablaze_epoch:xyfz_zhiyuan",
+        "stream": false
+      }
+    ]
+  },
+  "xyfz_huxi": {
+    "subtitle": "subtitles.xyfz_huxi",
+    "sounds": [
+      {
+        "name": "splendour_ablaze_epoch:xyfz_huxi",
+        "stream": false
+      }
+    ]
+  },
+  "xyfz_fangyu": {
+    "subtitle": "subtitles.xyfz_fangyu",
+    "sounds": [
+      {
+        "name": "splendour_ablaze_epoch:xyfz_fangyu",
+        "stream": false
+      }
+    ]
+  },
+  "xyfz_siwang": {
+    "subtitle": "subtitles.xyfz_siwang",
+    "sounds": [
+      {
+        "name": "splendour_ablaze_epoch:xyfz_siwang",
+        "stream": false
+      }
+    ]
+  },
+  "xyfz_zhendang": {
+    "subtitle": "subtitles.xyfz_zhendang",
+    "sounds": [
+      {
+        "name": "splendour_ablaze_epoch:xyfz_zhendang",
+        "stream": false
+      }
+    ]
+  },
+  "cyx_shifa": {
+    "subtitle": "subtitles.cyx_shifa",
+    "sounds": [
+      {
+        "name": "splendour_ablaze_epoch:cyx_shifa",
+        "stream": false
+      }
+    ]
+  },
+  "cyx_huifu": {
+    "subtitle": "subtitles.cyx_huifu",
+    "sounds": [
+      {
+        "name": "splendour_ablaze_epoch:cyx_huifu",
+        "stream": false
+      }
+    ]
+  },
+  "cyx_huxi": {
+    "subtitle": "subtitles.cyx_huxi",
+    "sounds": [
+      {
+        "name": "splendour_ablaze_epoch:cyx_huxi",
+        "stream": false
+      }
+    ]
+  },
+  "cyx_wajie": {
+    "subtitle": "subtitles.cyx_wajie",
+    "sounds": [
+      {
+        "name": "splendour_ablaze_epoch:cyx_wajie",
+        "stream": false
+      }
+    ]
+  },
+  "cyx_shoushang": {
+    "subtitle": "subtitles.cyx_shoushang",
+    "sounds": [
+      {
+        "name": "splendour_ablaze_epoch:cyx_shoushang",
+        "stream": false
+      }
+    ]
+  },
+  "cyx_manyou": {
+    "subtitle": "subtitles.cyx_manyou",
+    "sounds": [
+      {
+        "name": "splendour_ablaze_epoch:cyx_manyou",
+        "stream": false
+      }
+    ]
+  },
+  "cyx_zhaohuan": {
+    "subtitle": "subtitles.cyx_zhaohuan",
+    "sounds": [
+      {
+        "name": "splendour_ablaze_epoch:cyx_zhaohuan",
+        "stream": false
+      }
+    ]
+  },
+  "magpie1": {
+    "subtitle": "subtitles.magpie1",
+    "sounds": [
+      {
+        "name": "splendour_ablaze_epoch:magpie1",
+        "stream": false
+      }
+    ]
+  },
+  "magpie2": {
+    "subtitle": "subtitles.magpie2",
+    "sounds": [
+      {
+        "name": "splendour_ablaze_epoch:magpie2",
+        "stream": false
+      }
+    ]
+  },
+  "magpie3": {
+    "subtitle": "subtitles.magpie3",
+    "sounds": [
+      {
+        "name": "splendour_ablaze_epoch:magpie3",
+        "stream": false
+      }
+    ]
+  },
+  "peacock1": {
+    "subtitle": "subtitles.peacock1",
+    "sounds": [
+      {
+        "name": "splendour_ablaze_epoch:peacock1",
+        "stream": false
+      }
+    ]
+  },
+  "peacock2": {
+    "subtitle": "subtitles.peacock2",
+    "sounds": [
+      {
+        "name": "splendour_ablaze_epoch:peacock2",
+        "stream": false
+      }
+    ]
+  },
+  "peacock3": {
+    "subtitle": "subtitles.peacock3",
+    "sounds": [
+      {
+        "name": "splendour_ablaze_epoch:peacock3",
+        "stream": false
+      }
+    ]
+  },
+  "zxxj1": {
+    "subtitle": "subtitles.zxxj1",
+    "sounds": [
+      {
+        "name": "splendour_ablaze_epoch:zxxj1",
+        "stream": false
+      }
+    ]
+  },
+  "zxxj2": {
+    "subtitle": "subtitles.zxxj2",
+    "sounds": [
+      {
+        "name": "splendour_ablaze_epoch:zxxj2",
+        "stream": false
+      }
+    ]
+  },
+  "zxxj3": {
+    "subtitle": "subtitles.zxxj3",
+    "sounds": [
+      {
+        "name": "splendour_ablaze_epoch:zxxj3",
+        "stream": false
+      }
+    ]
+  },
+  "zxxj4": {
+    "subtitle": "subtitles.zxxj4",
+    "sounds": [
+      {
+        "name": "splendour_ablaze_epoch:zxxj4",
+        "stream": false
+      }
+    ]
+  },
+  "zxxj5": {
+    "subtitle": "subtitles.zxxj5",
+    "sounds": [
+      {
+        "name": "splendour_ablaze_epoch:zxxj5",
+        "stream": false
+      }
+    ]
+  },
+  "zxxj6": {
+    "subtitle": "subtitles.zxxj6",
+    "sounds": [
+      {
+        "name": "splendour_ablaze_epoch:zxxj6",
+        "stream": false
+      }
+    ]
+  },
+  "worm1": {
+    "subtitle": "subtitles.worm1",
+    "sounds": [
+      {
+        "name": "splendour_ablaze_epoch:worm",
+        "stream": false
+      }
+    ]
+  },
+  "worm2": {
+    "subtitle": "subtitles.worm2",
+    "sounds": [
+      {
+        "name": "splendour_ablaze_epoch:worm2",
+        "stream": false
+      }
+    ]
+  },
+  "page1": {
+    "subtitle": "subtitles.page1",
+    "sounds": [
+      {
+        "name": "splendour_ablaze_epoch:page1",
+        "stream": false
+      }
+    ]
+  },
+  "page2": {
+    "subtitle": "subtitles.page2",
+    "sounds": [
+      {
+        "name": "splendour_ablaze_epoch:page2",
+        "stream": false
+      }
+    ]
+  },
+  "page3": {
+    "subtitle": "subtitles.page3",
+    "sounds": [
+      {
+        "name": "splendour_ablaze_epoch:page3",
+        "stream": false
+      }
+    ]
+  },
+  "small_bell": {
+    "subtitle": "subtitles.small_bell",
+    "sounds": [
+      {
+        "name": "splendour_ablaze_epoch:small_bell",
+        "stream": false
+      }
+    ]
+  }
+}

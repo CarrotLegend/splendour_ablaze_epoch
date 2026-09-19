@@ -1,0 +1,37 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "tag": "forge:lead"
+    },
+    {
+      "tag": "forge:lead"
+    },
+    {
+      "tag": "forge:lead"
+    },
+    {
+      "tag": "forge:tin"
+    },
+    {
+      "item": "splendour_ablaze_epoch:pyrotemperdust"
+    },
+    {
+      "tag": "forge:tin"
+    },
+    {
+      "tag": "forge:tin"
+    },
+    {
+      "tag": "forge:tin"
+    },
+    {
+      "tag": "forge:tin"
+    }
+  ],
+  "result": {
+    "item": "splendour_ablaze_epoch:pewter_ingot",
+    "count": 4
+  }
+}

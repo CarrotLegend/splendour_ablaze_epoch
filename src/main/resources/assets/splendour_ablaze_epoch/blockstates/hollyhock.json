@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "half=upper": {
+      "model": "splendour_ablaze_epoch:block/hollyhock"
+    },
+    "half=lower": {
+      "model": "splendour_ablaze_epoch:block/hollyhock_bottom"
+    }
+  }
+}

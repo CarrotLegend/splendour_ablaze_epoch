@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "powered=false": {
+      "model": "splendour_ablaze_epoch:block/specular_pine_pressure_plate"
+    },
+    "powered=true": {
+      "model": "splendour_ablaze_epoch:block/specular_pine_pressure_plate_down"
+    }
+  }
+}

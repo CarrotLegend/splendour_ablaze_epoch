@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:smithing_transform",
+  "template": {
+    "item": "splendour_ablaze_epoch:celesterralupgradesmithingtemplate"
+  },
+  "base": {
+    "item": "splendour_ablaze_epoch:bronze_pickaxe"
+  },
+  "addition": {
+    "item": "splendour_ablaze_epoch:celes_terral_ingot"
+  },
+  "result": {
+    "item": "splendour_ablaze_epoch:celes_terral_pickaxe"
+  }
+}

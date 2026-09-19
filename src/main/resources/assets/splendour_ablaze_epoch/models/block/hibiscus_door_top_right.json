@@ -1,0 +1,9 @@
+{
+  "parent": "block/door_top_right",
+  "textures": {
+    "particle": "splendour_ablaze_epoch:block/hibiscus_door_bottom",
+    "bottom": "splendour_ablaze_epoch:block/hibiscus_door_bottom",
+    "top": "splendour_ablaze_epoch:block/hibiscus_door_top"
+  },
+  "render_type": "solid"
+}

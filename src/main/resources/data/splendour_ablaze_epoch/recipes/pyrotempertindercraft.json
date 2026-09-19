@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "aaa",
+    "aba",
+    "aaa"
+  ],
+  "key": {
+    "a": {
+      "item": "splendour_ablaze_epoch:pyrotemperdust"
+    },
+    "b": {
+      "item": "splendour_ablaze_epoch:sagesfragments"
+    }
+  },
+  "result": {
+    "item": "splendour_ablaze_epoch:pyrotempertinder",
+    "count": 1
+  }
+}

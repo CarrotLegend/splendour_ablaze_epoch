@@ -1,0 +1,13 @@
+{
+  "parent": "block/cube",
+  "textures": {
+    "down": "splendour_ablaze_epoch:block/decayed_planks",
+    "up": "splendour_ablaze_epoch:block/decayed_planks",
+    "north": "splendour_ablaze_epoch:block/decayed_bookshelf",
+    "east": "splendour_ablaze_epoch:block/decayed_bookshelf",
+    "south": "splendour_ablaze_epoch:block/decayed_bookshelf",
+    "west": "splendour_ablaze_epoch:block/decayed_bookshelf",
+    "particle": "splendour_ablaze_epoch:block/decayed_planks"
+  },
+  "render_type": "solid"
+}

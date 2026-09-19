@@ -1,0 +1,11 @@
+{
+  "type": "forge:add_features",
+  "biomes": [
+    "splendour_ablaze_epoch:archaicfadetimberland",
+    "splendour_ablaze_epoch:bambusmulberrywetland",
+    "splendour_ablaze_epoch:descenjadeshoal",
+    "splendour_ablaze_epoch:grazingmoonfield"
+  ],
+  "features": "splendour_ablaze_epoch:farm",
+  "step": "surface_structures"
+}

@@ -1,0 +1,14 @@
+{
+  "type": "splendour_ablaze_epoch:structure_feature",
+  "config": {
+    "structure": "splendour_ablaze_epoch:crystal1",
+    "random_rotation": true,
+    "random_mirror": true,
+    "ignored_blocks": "minecraft:air",
+    "offset": [
+      0,
+      -2,
+      0
+    ]
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "replace": false,
+  "values": [
+    "splendour_ablaze_epoch:firmrockbrickwall",
+    "splendour_ablaze_epoch:darktilewall",
+    "splendour_ablaze_epoch:castradiantlimestonewall",
+    "splendour_ablaze_epoch:ribbonrockbrickswall",
+    "splendour_ablaze_epoch:auroraleadenblockwall",
+    "splendour_ablaze_epoch:bluishstonebrickswall",
+    "splendour_ablaze_epoch:castradiantlimestonebrickswall",
+    "splendour_ablaze_epoch:darksteelbrickswall"
+  ]
+}

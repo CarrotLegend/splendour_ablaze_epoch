@@ -1,0 +1,13 @@
+{
+  "parent": "block/cube",
+  "textures": {
+    "down": "splendour_ablaze_epoch:block/sericulture_hive_top",
+    "up": "splendour_ablaze_epoch:block/sericulture_hive_top",
+    "north": "splendour_ablaze_epoch:block/sericulture_hive1",
+    "east": "splendour_ablaze_epoch:block/sericulture_hive1",
+    "south": "splendour_ablaze_epoch:block/sericulture_hive1",
+    "west": "splendour_ablaze_epoch:block/sericulture_hive1",
+    "particle": "splendour_ablaze_epoch:block/sericulture_hive_top"
+  },
+  "render_type": "solid"
+}

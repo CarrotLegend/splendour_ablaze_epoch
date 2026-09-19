@@ -1,0 +1,12 @@
+{
+  "type": "forge:add_features",
+  "biomes": [
+    "splendour_ablaze_epoch:archaicfadetimberland",
+    "splendour_ablaze_epoch:descenjadeshoal",
+    "splendour_ablaze_epoch:grazingmoonfield",
+    "splendour_ablaze_epoch:speclumeforest",
+    "splendour_ablaze_epoch:splendourablazehills"
+  ],
+  "features": "splendour_ablaze_epoch:portulaca",
+  "step": "vegetal_decoration"
+}

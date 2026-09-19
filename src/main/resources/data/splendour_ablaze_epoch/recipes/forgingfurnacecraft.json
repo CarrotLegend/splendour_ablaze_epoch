@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "aaa",
+    "aba",
+    "ccc"
+  ],
+  "key": {
+    "a": {
+      "item": "minecraft:terracotta"
+    },
+    "b": {
+      "item": "minecraft:furnace"
+    },
+    "c": {
+      "item": "splendour_ablaze_epoch:auroraleadenblock"
+    }
+  },
+  "result": {
+    "item": "splendour_ablaze_epoch:forgingfurnac",
+    "count": 1
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "aa",
+    "aa",
+    "aa"
+  ],
+  "key": {
+    "a": {
+      "item": "splendour_ablaze_epoch:mottled_bamboo_planks"
+    }
+  },
+  "result": {
+    "item": "splendour_ablaze_epoch:mottledbamboodoor",
+    "count": 2
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "type": "splendour_ablaze_epoch:structure_feature",
+  "config": {
+    "structure": "splendour_ablaze_epoch:floatingheart",
+    "ignored_blocks": "minecraft:air"
+  }
+}

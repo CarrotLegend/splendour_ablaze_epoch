@@ -1,0 +1,13 @@
+{
+  "type": "splendour_ablaze_epoch:forgingfurnacejei",
+  "ingredients": [
+    { "item": "minecraft:copper_ingot" },
+    { "item": "splendour_ablaze_epoch:demoncopper" },
+    {},
+    { "item": "splendour_ablaze_epoch:pyrotemperdust", "consume_chance": 0.33333334 }
+  ],
+  "output": {
+    "item": "splendour_ablaze_epoch:cupronickel_ingot",
+    "count": 1
+  }
+}

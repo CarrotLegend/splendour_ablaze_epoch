@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "aa",
+    "aa"
+  ],
+  "key": {
+    "a": {
+      "item": "splendour_ablaze_epoch:strippedwutonglog"
+    }
+  },
+  "result": {
+    "item": "splendour_ablaze_epoch:strippedwutongwood",
+    "count": 3
+  }
+}

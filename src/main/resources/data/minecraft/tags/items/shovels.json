@@ -1,0 +1,12 @@
+{
+  "replace": false,
+  "values": [
+    "splendour_ablaze_epoch:mold_tin_shovel",
+    "splendour_ablaze_epoch:cupronickel_shovel",
+    "splendour_ablaze_epoch:damascene_steel_shovel",
+    "splendour_ablaze_epoch:magnetic_steel_shovel",
+    "splendour_ablaze_epoch:bronze_shovel",
+    "splendour_ablaze_epoch:pewter_shovel",
+    "splendour_ablaze_epoch:celes_terral_shovel"
+  ]
+}

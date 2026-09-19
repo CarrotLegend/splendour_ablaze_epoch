@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "splendour_ablaze_epoch:block/terracottabricksslab"
+    },
+    "type=top": {
+      "model": "splendour_ablaze_epoch:block/terracottabricksslab_top"
+    },
+    "type=double": {
+      "model": "splendour_ablaze_epoch:block/terracottabricksslab_full"
+    }
+  }
+}

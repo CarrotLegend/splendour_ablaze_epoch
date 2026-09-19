@@ -1,0 +1,14 @@
+{
+  "structures": [
+    {
+      "structure": "splendour_ablaze_epoch:mausoleum",
+      "weight": 1
+    }
+  ],
+  "placement": {
+    "type": "minecraft:random_spread",
+    "spacing": 60,
+    "separation": 45,
+    "salt": 66280879
+  }
+}

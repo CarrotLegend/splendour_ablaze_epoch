@@ -1,0 +1,6 @@
+{
+  "type": "forge:add_features",
+  "biomes": "splendour_ablaze_epoch:grazingmoonfield",
+  "features": "splendour_ablaze_epoch:scabish",
+  "step": "vegetal_decoration"
+}

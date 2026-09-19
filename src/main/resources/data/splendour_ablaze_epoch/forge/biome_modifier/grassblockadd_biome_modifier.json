@@ -1,0 +1,6 @@
+{
+  "type": "forge:add_features",
+  "biomes": "splendour_ablaze_epoch:splendourablazehills",
+  "features": "splendour_ablaze_epoch:grassblockadd",
+  "step": "surface_structures"
+}

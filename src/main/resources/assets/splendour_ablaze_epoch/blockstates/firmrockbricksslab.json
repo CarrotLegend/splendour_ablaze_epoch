@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "splendour_ablaze_epoch:block/firmrockbricksslab"
+    },
+    "type=top": {
+      "model": "splendour_ablaze_epoch:block/firmrockbricksslab_top"
+    },
+    "type=double": {
+      "model": "splendour_ablaze_epoch:block/firmrockbricksslab_full"
+    }
+  }
+}

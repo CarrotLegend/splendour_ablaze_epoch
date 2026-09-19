@@ -1,0 +1,82 @@
+{
+  "type": "minecraft:simple_random_selector",
+  "config": {
+    "features": [
+      {
+        "feature": {
+          "type": "splendour_ablaze_epoch:structure_feature",
+          "config": {
+            "structure": "splendour_ablaze_epoch:hut",
+            "ignored_blocks": "minecraft:air",
+            "offset": [
+              -6,
+              -1,
+              -6
+            ]
+          }
+        },
+        "placement": []
+      },
+      {
+        "feature": {
+          "type": "splendour_ablaze_epoch:structure_feature",
+          "config": {
+            "structure": "splendour_ablaze_epoch:hut1",
+            "ignored_blocks": "minecraft:air",
+            "offset": [
+              -6,
+              -1,
+              -6
+            ]
+          }
+        },
+        "placement": []
+      },
+      {
+        "feature": {
+          "type": "splendour_ablaze_epoch:structure_feature",
+          "config": {
+            "structure": "splendour_ablaze_epoch:hut2",
+            "ignored_blocks": "minecraft:air",
+            "offset": [
+              -6,
+              -1,
+              -6
+            ]
+          }
+        },
+        "placement": []
+      },
+      {
+        "feature": {
+          "type": "splendour_ablaze_epoch:structure_feature",
+          "config": {
+            "structure": "splendour_ablaze_epoch:hut3",
+            "ignored_blocks": "minecraft:air",
+            "offset": [
+              -6,
+              -1,
+              -6
+            ]
+          }
+        },
+        "placement": []
+      },
+      {
+        "feature": {
+          "type": "splendour_ablaze_epoch:structure_feature",
+          "config": {
+            "structure": "splendour_ablaze_epoch:hut4",
+            "ignored_blocks": "minecraft:air",
+            "offset": [
+              -5,
+              -1,
+              -5
+            ]
+          }
+        },
+        "placement": []
+      }
+    ]
+  }
+}

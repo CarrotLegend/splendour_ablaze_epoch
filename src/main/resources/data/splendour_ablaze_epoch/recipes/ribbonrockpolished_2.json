@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "count": 1,
+  "ingredient": {
+    "item": "splendour_ablaze_epoch:polished_ribbonrock"
+  },
+  "result": "splendour_ablaze_epoch:ribbonrockbricksstairs"
+}

@@ -1,0 +1,13 @@
+{
+  "type": "splendour_ablaze_epoch:forgingfurnacejei",
+  "ingredients": [
+    { "item": "splendour_ablaze_epoch:tin_ingot" },
+    { "item": "splendour_ablaze_epoch:similartin" },
+    { "item": "splendour_ablaze_epoch:leadnugget" },
+    { "item": "splendour_ablaze_epoch:pyrotemperdust", "consume_chance": 0.33333334 }
+  ],
+  "output": {
+    "item": "splendour_ablaze_epoch:mold_tin_ingot",
+    "count": 1
+  }
+}

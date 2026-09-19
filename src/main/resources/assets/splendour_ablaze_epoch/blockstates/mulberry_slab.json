@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "splendour_ablaze_epoch:block/mulberry_slab"
+    },
+    "type=top": {
+      "model": "splendour_ablaze_epoch:block/mulberry_slab_top"
+    },
+    "type=double": {
+      "model": "splendour_ablaze_epoch:block/mulberry_slab_full"
+    }
+  }
+}

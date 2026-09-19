@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "planks",
+  "category": "building",
+  "ingredients": [
+    {
+      "tag": "minecraft:cerasus_japonica_log"
+    }
+  ],
+  "result": {
+    "item": "splendour_ablaze_epoch:cerasus_japonica_planks",
+    "count": 4
+  }
+}

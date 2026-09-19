@@ -1,0 +1,26 @@
+{
+  "display": {
+    "icon": {
+      "item": "splendour_ablaze_epoch:previousletter"
+    },
+    "title": {
+      "translate": "advancements.millenniumlonging.title"
+    },
+    "description": {
+      "translate": "advancements.millenniumlonging.descr"
+    },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "millenniumlonging_0": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "rewards": {
+    "experience": 10
+  },
+  "parent": "splendour_ablaze_epoch:splendourablazeepoch_11"
+}

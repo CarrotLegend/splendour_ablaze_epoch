@@ -1,0 +1,253 @@
+plugins {
+    id 'eclipse'
+    id 'idea'
+    id 'net.minecraftforge.gradle' version '[6.0,6.2)'
+}
+
+version = mod_version
+group = mod_group_id
+
+base {
+    archivesName = mod_id
+}
+
+java.toolchain.languageVersion = JavaLanguageVersion.of(17)
+
+minecraft {
+    mappings channel: mapping_channel, version: mapping_version
+    copyIdeResources = true
+
+    runs {
+        configureEach {
+            workingDirectory project.file('run')
+            property 'forge.logging.console.level', 'info'
+            property 'mixin.env.remapRefMap', 'true'
+            property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
+            mods {
+                "${mod_id}" {
+                    source sourceSets.main
+                }
+            }
+        }
+
+        client {}
+
+        server {
+            args '--nogui'
+        }
+
+        gameTestServer {
+            property 'forge.enabledGameTestNamespaces', mod_id
+        }
+
+        data {
+            workingDirectory project.file('run-data')
+            args '--mod', mod_id, '--all', '--output', file('src/generated/resources/'),
+                    '--existing', file('src/main/resources/')
+        }
+    }
+}
+
+sourceSets.main.resources {
+    srcDir 'src/generated/resources'
+}
+
+repositories {
+    mavenCentral()
+    maven { url = 'https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/' }
+    maven { url = 'https://maven.blamejared.com' }
+    if (project.hasProperty('gecko_local_dir')) {
+        flatDir { dirs project.property('gecko_local_dir') }
+    }
+}
+
+dependencies {
+    minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
+    implementation fg.deobf("software.bernie.geckolib:geckolib-forge-${minecraft_version}:${geckolib_version}")
+    compileOnly fg.deobf("mezz.jei:jei-${minecraft_version}-common-api:${jei_version}")
+    compileOnly fg.deobf("mezz.jei:jei-${minecraft_version}-forge-api:${jei_version}")
+    runtimeOnly fg.deobf("mezz.jei:jei-${minecraft_version}-forge:${jei_version}")
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+}
+
+processResources {
+    def resourceProperties = [
+            minecraft_version_range: minecraft_version_range,
+            forge_version_range: forge_version_range,
+            loader_version_range: loader_version_range,
+            mod_id: mod_id,
+            mod_name: mod_name,
+            mod_license: mod_license,
+            mod_version: mod_version,
+            mod_authors: mod_authors,
+            mod_description: mod_description,
+            geckolib_version_range: geckolib_version_range
+    ]
+    inputs.properties resourceProperties
+    filesMatching('META-INF/mods.toml') {
+        expand resourceProperties
+    }
+}
+
+jar {
+    manifest {
+        attributes([
+                'Specification-Title': mod_id,
+                'Specification-Version': '1',
+                'Implementation-Title': project.name,
+                'Implementation-Version': project.jar.archiveVersion,
+                'Implementation-Timestamp': new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
+        ])
+    }
+    finalizedBy 'reobfJar'
+}
+
+tasks.register('verifyTopworldClosure') {
+    group = 'verification'
+    description = 'Checks that production topworld data only references registered closure ids.'
+    doLast {
+        def resourceRoot = file('src/main/resources')
+        def dataRoot = file('src/main/resources/data/splendour_ablaze_epoch')
+        def closureSource = file('src/main/java/net/mcreator/splendourablazeepoch/world/TopworldClosure.java').text
+        def extractIds = { String start, String end ->
+            def section = closureSource.substring(closureSource.indexOf(start), closureSource.indexOf(end))
+            (section =~ /"([a-z0-9_]+)"/).collect { it[1] } as Set
+        }
+        def declaredBlocks = extractIds('BLOCK_IDS', 'BLOCK_ENTITY_IDS')
+        def declaredBlockEntities = extractIds('BLOCK_ENTITY_IDS', 'SPAWN_ENTITY_IDS')
+        def declaredEntities = extractIds('SPAWN_ENTITY_IDS', 'private TopworldClosure')
+        assert declaredBlocks.size() == 216 : "Expected 216 topworld blocks, got ${declaredBlocks.size()}"
+        assert declaredBlockEntities.size() == 9 : "Expected 9 topworld block entities"
+        assert declaredEntities.size() == 13 : "Expected 13 topworld spawn entities"
+        declaredBlocks.each { id ->
+            assert file("src/main/resources/assets/splendour_ablaze_epoch/blockstates/${id}.json").isFile() : "Missing blockstate for ${id}"
+        }
+
+        def referencedBlocks = [] as Set
+        def collectBlockReferences = { String text ->
+            def matcher = text =~ /splendour_ablaze_epoch:([a-z0-9_]+)/
+            matcher.each { match ->
+                def id = match[1]
+                if (file("src/main/resources/assets/splendour_ablaze_epoch/blockstates/${id}.json").isFile()) referencedBlocks.add(id)
+            }
+        }
+        ['dimension', 'dimension_type', 'worldgen', 'forge/biome_modifier'].each { directory ->
+            fileTree(new File(dataRoot, directory)).matching { include '**/*.json' }.files.each { collectBlockReferences(it.getText('UTF-8')) }
+        }
+        fileTree(new File(dataRoot, 'structures')).matching { include '**/*.nbt' }.files.each { structure ->
+            structure.withInputStream { stream ->
+                new java.util.zip.GZIPInputStream(stream).withCloseable { gzip -> collectBlockReferences(new String(gzip.bytes, 'UTF-8')) }
+            }
+        }
+        assert referencedBlocks == declaredBlocks : "Topworld block closure differs. Missing=${referencedBlocks - declaredBlocks}, stale=${declaredBlocks - referencedBlocks}"
+
+        def spawnTypes = [] as Set
+        fileTree(new File(dataRoot, 'forge/biome_modifier')).matching { include '**/*.json' }.files.each { file ->
+            (file.getText('UTF-8') =~ /"type"\s*:\s*"splendour_ablaze_epoch:([a-z0-9_]+)"/).each { spawnTypes.add(it[1]) }
+        }
+        assert spawnTypes == declaredEntities : "Biome spawn closure differs. Missing=${spawnTypes - declaredEntities}, stale=${declaredEntities - spawnTypes}"
+        assert file('src/main/java/net/mcreator/splendourablazeepoch/registry/ModFeatures.java').text.contains('STRUCTURE_FEATURE') :
+                'Custom structure feature is not registered in the closure implementation'
+    }
+}
+
+tasks.register('verifyForgingFurnaceData') {
+    group = 'verification'
+    description = 'Checks the forging furnace recipe schema and registry closure.'
+    doLast {
+        def parser = new groovy.json.JsonSlurper()
+        def recipeFiles = fileTree('src/main/resources/data/splendour_ablaze_epoch/recipes').matching { include '*.json' }.files
+        def forgingRecipes = recipeFiles.collect { [file: it, json: parser.parse(it)] }
+                .findAll { it.json.type == 'splendour_ablaze_epoch:forgingfurnacejei' }
+        assert forgingRecipes.size() == 6 : "Expected six forging furnace recipes, got ${forgingRecipes.size()}"
+
+        def itemSource = file('src/main/java/net/mcreator/splendourablazeepoch/registry/ModItems.java').getText('UTF-8')
+        def closureSource = file('src/main/java/net/mcreator/splendourablazeepoch/world/TopworldClosure.java').getText('UTF-8')
+        forgingRecipes.each { entry ->
+            def json = entry.json
+            assert json.ingredients instanceof List && json.ingredients.size() == 4 : "${entry.file.name} must have four ingredients"
+            json.ingredients.eachWithIndex { ingredient, index ->
+                if (ingredient.isEmpty()) return
+                assert ingredient.item || ingredient.tag : "${entry.file.name} ingredient ${index} needs item or tag"
+                int required = ingredient.count == null ? 1 : ingredient.count as int
+                int consumed = ingredient.consume_count == null ? required : ingredient.consume_count as int
+                BigDecimal chance = ingredient.consume_chance == null ? 1.0 : ingredient.consume_chance as BigDecimal
+                assert required >= 1 && consumed >= 0 && consumed <= required : "Invalid counts in ${entry.file.name} ingredient ${index}"
+                assert chance >= 0.0 && chance <= 1.0 : "Invalid consume chance in ${entry.file.name} ingredient ${index}"
+                if (ingredient.item?.startsWith('splendour_ablaze_epoch:')) {
+                    def id = ingredient.item.substring('splendour_ablaze_epoch:'.length())
+                    assert itemSource.contains('"' + id + '"') || closureSource.contains('"' + id + '"') :
+                            "Unregistered forging input ${ingredient.item} in ${entry.file.name}"
+                }
+            }
+            assert json.output?.item : "${entry.file.name} needs an output item"
+            if (json.output.item.startsWith('splendour_ablaze_epoch:')) {
+                def id = json.output.item.substring('splendour_ablaze_epoch:'.length())
+                assert itemSource.contains('"' + id + '"') : "Unregistered forging output ${json.output.item} in ${entry.file.name}"
+            }
+        }
+
+        recipeFiles.each { file ->
+            def type = parser.parse(file).type
+            assert type != 'splendour_ablaze_epoch:forgeing_2' && type != 'splendour_ablaze_epoch:forgeing_3' :
+                    "Legacy JEI-only recipe type remains in ${file.name}"
+        }
+    }
+}
+
+tasks.register('verifyRegistryMigration') {
+    group = 'verification'
+    description = 'Checks the recovered legacy registry manifest and the restored simple registry closure.'
+    doLast {
+        def parser = new groovy.json.JsonSlurper()
+        def manifest = parser.parse(file('migration/legacy-registries-1.20.1.json'))
+        assert manifest.source_commit == '448e813fc32a8f33d21caf7837b6b093b8b39031'
+        assert manifest.standalone_items.size() == 212
+        assert manifest.blocks.size() == 365
+        assert manifest.block_items.size() == 364
+        assert manifest.block_entities.size() == 10
+        assert manifest.menus.size() == 4
+        assert manifest.recipe_serializers.size() == 4
+        assert manifest.entities.size() == 52
+
+        def closure = file('src/main/java/net/mcreator/splendourablazeepoch/world/TopworldClosure.java').getText('UTF-8')
+        def legacy = file('src/main/java/net/mcreator/splendourablazeepoch/registry/LegacyRegistryData.java').getText('UTF-8')
+        def items = file('src/main/java/net/mcreator/splendourablazeepoch/registry/ModItems.java').getText('UTF-8')
+        def idsIn = { String text -> (text =~ /"([a-z0-9_]+)"/).collect { it[1] } as Set }
+        def blockSection = closure.substring(closure.indexOf('BLOCK_IDS'), closure.indexOf('BLOCK_ENTITY_IDS'))
+        def restoredSection = legacy.substring(legacy.indexOf('RESTORED_BLOCK_IDS'), legacy.indexOf('SIMPLE_ITEM_IDS'))
+        def simpleSection = legacy.substring(legacy.indexOf('SIMPLE_ITEM_IDS'), legacy.indexOf('TOOL_FAMILIES'))
+        def currentBlocks = idsIn(blockSection) + idsIn(restoredSection) + ['forgingfurnac']
+        assert currentBlocks.size() == 361 : "Expected 361 real block registrations, got ${currentBlocks.size()}"
+        assert currentBlocks.contains('limesilkblock')
+        assert idsIn(simpleSection).contains('lime')
+        assert items.contains('LEGACY_TOOLS') && items.contains('LEGACY_ARMOR')
+
+        def deliberatelyDeferredBlocks = ['topworld_portal', 'sericulturehive', 'sericulturehivefull', 'sericulturehiveleaves'] as Set
+        assert (manifest.blocks as Set) - currentBlocks == deliberatelyDeferredBlocks
+        def blockstates = fileTree('src/main/resources/assets/splendour_ablaze_epoch/blockstates').matching { include '*.json' }.files
+                .collect { it.name - '.json' } as Set
+        assert blockstates.containsAll(currentBlocks) : "Registered blocks missing blockstates: ${currentBlocks - blockstates}"
+
+        def recipeFiles = fileTree('src/main/resources/data/splendour_ablaze_epoch/recipes').matching { include '*.json' }.files
+        assert recipeFiles.size() == 477 : "Expected 477 preserved recipe files, got ${recipeFiles.size()}"
+        def serializers = recipeFiles.collect { parser.parse(it).type }.findAll { it?.startsWith('splendour_ablaze_epoch:') } as Set
+        assert serializers == ['splendour_ablaze_epoch:forgingfurnacejei', 'splendour_ablaze_epoch:printinguui'] as Set
+        assert file('src/main/resources/data/splendour_ablaze_epoch/recipes/limecraft.json').isFile()
+        assert file('src/main/resources/data/splendour_ablaze_epoch/recipes/limesilkblockcraft.json').isFile()
+    }
+}
+
+tasks.named('check') {
+    dependsOn(tasks.named('verifyTopworldClosure'))
+    dependsOn(tasks.named('verifyForgingFurnaceData'))
+    dependsOn(tasks.named('verifyRegistryMigration'))
+}
+
+tasks.named('test') {
+    dependsOn(tasks.named('verifyForgingFurnaceData'))
+    dependsOn(tasks.named('verifyRegistryMigration'))
+}

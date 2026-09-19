@@ -1,0 +1,6 @@
+{
+  "type": "forge:add_features",
+  "biomes": "splendour_ablaze_epoch:battlefieldwasteland",
+  "features": "splendour_ablaze_epoch:llavahoul",
+  "step": "surface_structures"
+}

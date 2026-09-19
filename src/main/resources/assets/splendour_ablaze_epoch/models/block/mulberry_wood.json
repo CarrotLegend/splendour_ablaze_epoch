@@ -1,0 +1,8 @@
+{
+  "parent": "block/cube_all",
+  "textures": {
+    "all": "splendour_ablaze_epoch:block/mulberry_log_side",
+    "particle": "splendour_ablaze_epoch:block/mulberry_log_side"
+  },
+  "render_type": "solid"
+}

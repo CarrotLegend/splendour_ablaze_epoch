@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "aaa"
+  ],
+  "key": {
+    "a": {
+      "item": "splendour_ablaze_epoch:darksteelbricks"
+    }
+  },
+  "result": {
+    "item": "splendour_ablaze_epoch:darksteelbricksslab",
+    "count": 6
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "display": {
+    "icon": {
+      "item": "splendour_ablaze_epoch:tigertally"
+    },
+    "title": {
+      "translate": "advancements.earth_woodfor_warfare.title"
+    },
+    "description": {
+      "translate": "advancements.earth_woodfor_warfare.descr"
+    },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "earth_woodfor_warfare_0": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "rewards": {
+    "experience": 5
+  },
+  "parent": "splendour_ablaze_epoch:hands_off_my_lord"
+}

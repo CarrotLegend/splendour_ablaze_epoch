@@ -1,0 +1,37 @@
+{
+  "type": "minecraft:simple_random_selector",
+  "config": {
+    "features": [
+      {
+        "feature": {
+          "type": "splendour_ablaze_epoch:structure_feature",
+          "config": {
+            "structure": "splendour_ablaze_epoch:ruins1",
+            "ignored_blocks": "minecraft:air",
+            "offset": [
+              -6,
+              -1,
+              -6
+            ]
+          }
+        },
+        "placement": []
+      },
+      {
+        "feature": {
+          "type": "splendour_ablaze_epoch:structure_feature",
+          "config": {
+            "structure": "splendour_ablaze_epoch:hut7",
+            "ignored_blocks": "minecraft:air",
+            "offset": [
+              -4,
+              -1,
+              -4
+            ]
+          }
+        },
+        "placement": []
+      }
+    ]
+  }
+}

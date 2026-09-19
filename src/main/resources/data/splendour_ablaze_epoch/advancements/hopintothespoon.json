@@ -1,0 +1,26 @@
+{
+  "display": {
+    "icon": {
+      "item": "splendour_ablaze_epoch:initialmagnet"
+    },
+    "title": {
+      "translate": "advancements.hopintothespoon.title"
+    },
+    "description": {
+      "translate": "advancements.hopintothespoon.descr"
+    },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "hopintothespoon_0": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "rewards": {
+    "experience": 10
+  },
+  "parent": "splendour_ablaze_epoch:grapplewithdirections"
+}

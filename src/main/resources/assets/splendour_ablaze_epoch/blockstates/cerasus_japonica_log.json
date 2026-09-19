@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "axis=x": {
+      "model": "splendour_ablaze_epoch:block/cerasus_japonica_log",
+      "x": 90,
+      "y": 90
+    },
+    "axis=y": {
+      "model": "splendour_ablaze_epoch:block/cerasus_japonica_log"
+    },
+    "axis=z": {
+      "model": "splendour_ablaze_epoch:block/cerasus_japonica_log",
+      "x": 90
+    }
+  }
+}

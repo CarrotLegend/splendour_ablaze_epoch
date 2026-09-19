@@ -1,0 +1,26 @@
+{
+  "display": {
+    "icon": {
+      "item": "splendour_ablaze_epoch:positioningscroll_1"
+    },
+    "title": {
+      "translate": "advancements.immortalswayfindinggesture.title"
+    },
+    "description": {
+      "translate": "advancements.immortalswayfindinggesture.descr"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "immortalswayfindinggesture_0": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "rewards": {
+    "experience": 4
+  },
+  "parent": "splendour_ablaze_epoch:splendourablazeepoch_11"
+}

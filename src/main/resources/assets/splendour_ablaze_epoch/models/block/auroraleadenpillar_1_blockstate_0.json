@@ -1,0 +1,13 @@
+{
+  "parent": "block/cube",
+  "textures": {
+    "down": "splendour_ablaze_epoch:block/chiseled_aurora_leaden_tile",
+    "up": "splendour_ablaze_epoch:block/aurora_leaden_block",
+    "north": "splendour_ablaze_epoch:block/aurora_leaden_pillar_t",
+    "east": "splendour_ablaze_epoch:block/aurora_leaden_pillar_t",
+    "south": "splendour_ablaze_epoch:block/aurora_leaden_pillar_t",
+    "west": "splendour_ablaze_epoch:block/aurora_leaden_pillar_t",
+    "particle": "splendour_ablaze_epoch:block/chiseled_aurora_leaden_tile"
+  },
+  "render_type": "solid"
+}

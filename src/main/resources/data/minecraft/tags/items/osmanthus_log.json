@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "splendour_ablaze_epoch:osmanthus_wood",
+    "splendour_ablaze_epoch:osmanthus_log",
+    "splendour_ablaze_epoch:strippedosmanthuslog",
+    "splendour_ablaze_epoch:strippedosmanthuswood"
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "type": "forge:add_spawns",
+  "biomes": [
+    "splendour_ablaze_epoch:archaicfadetimberland",
+    "splendour_ablaze_epoch:grazingmoonfield",
+    "splendour_ablaze_epoch:bambusmulberrywetland"
+  ],
+  "spawners": {
+    "type": "splendour_ablaze_epoch:pheasant",
+    "weight": 30,
+    "minCount": 1,
+    "maxCount": 4
+  }
+}

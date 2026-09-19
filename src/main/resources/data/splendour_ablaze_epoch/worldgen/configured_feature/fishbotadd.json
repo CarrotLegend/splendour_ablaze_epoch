@@ -1,0 +1,9 @@
+{
+  "type": "splendour_ablaze_epoch:structure_feature",
+  "config": {
+    "structure": "splendour_ablaze_epoch:fishbot",
+    "random_rotation": true,
+    "random_mirror": true,
+    "ignored_blocks": "minecraft:air"
+  }
+}

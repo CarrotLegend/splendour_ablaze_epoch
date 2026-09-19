@@ -1,0 +1,12 @@
+{
+  "type": "splendour_ablaze_epoch:structure_feature",
+  "config": {
+    "structure": "splendour_ablaze_epoch:mottled_bamboo2",
+    "ignored_blocks": "minecraft:air",
+    "offset": [
+      -1,
+      -1,
+      -1
+    ]
+  }
+}

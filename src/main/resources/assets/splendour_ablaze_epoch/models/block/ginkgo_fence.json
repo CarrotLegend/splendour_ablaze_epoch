@@ -1,0 +1,8 @@
+{
+  "parent": "block/fence_side",
+  "textures": {
+    "texture": "splendour_ablaze_epoch:block/ginkgo_planks",
+    "particle": "splendour_ablaze_epoch:block/ginkgo_planks"
+  },
+  "render_type": "solid"
+}

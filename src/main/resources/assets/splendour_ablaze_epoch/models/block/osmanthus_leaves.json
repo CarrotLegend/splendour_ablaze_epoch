@@ -1,0 +1,7 @@
+{
+  "parent": "block/cube_all",
+  "textures": {
+    "all": "splendour_ablaze_epoch:block/osmanthus_leaves",
+    "particle": "splendour_ablaze_epoch:block/osmanthus_leaves"
+  }
+}

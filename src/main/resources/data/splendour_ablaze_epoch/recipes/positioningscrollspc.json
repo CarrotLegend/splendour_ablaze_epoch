@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    " a ",
+    "aba",
+    " a "
+  ],
+  "key": {
+    "a": {
+      "item": "splendour_ablaze_epoch:auroraleadenblock"
+    },
+    "b": {
+      "item": "splendour_ablaze_epoch:classics"
+    }
+  },
+  "result": {
+    "item": "splendour_ablaze_epoch:positioningscroll_1",
+    "count": 1
+  }
+}

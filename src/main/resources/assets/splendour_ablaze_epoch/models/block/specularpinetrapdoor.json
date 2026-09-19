@@ -1,0 +1,8 @@
+{
+  "parent": "block/template_orientable_trapdoor_bottom",
+  "textures": {
+    "texture": "splendour_ablaze_epoch:block/specularpine_trapdoor",
+    "particle": "splendour_ablaze_epoch:block/specularpine_trapdoor"
+  },
+  "render_type": "cutout_mipped"
+}

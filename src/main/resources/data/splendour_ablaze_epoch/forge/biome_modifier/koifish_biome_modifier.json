@@ -1,0 +1,13 @@
+{
+  "type": "forge:add_spawns",
+  "biomes": [
+    "splendour_ablaze_epoch:archaicfadetimberland",
+    "splendour_ablaze_epoch:speclumeforest"
+  ],
+  "spawners": {
+    "type": "splendour_ablaze_epoch:koifish",
+    "weight": 20,
+    "minCount": 2,
+    "maxCount": 4
+  }
+}

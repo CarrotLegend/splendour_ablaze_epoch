@@ -1,0 +1,29 @@
+{
+  "display": {
+    "icon": {
+      "item": "splendour_ablaze_epoch:splendourablazecompass"
+    },
+    "title": {
+      "translate": "advancements.splendourablazeepoch_11.title"
+    },
+    "description": {
+      "translate": "advancements.splendourablazeepoch_11.descr"
+    },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "splendourablazeepoch_11_0": {
+      "trigger": "minecraft:changed_dimension",
+      "conditions": {
+        "to": "splendour_ablaze_epoch:topworld"
+      }
+    }
+  },
+  "rewards": {
+    "experience": 5
+  },
+  "parent": "splendour_ablaze_epoch:disposablefurnace"
+}

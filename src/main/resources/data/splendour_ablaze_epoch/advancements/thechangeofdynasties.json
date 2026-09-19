@@ -1,0 +1,39 @@
+{
+  "display": {
+    "icon": {
+      "item": "splendour_ablaze_epoch:arcaneprintsovereign"
+    },
+    "title": {
+      "translate": "advancements.thechangeofdynasties.title"
+    },
+    "description": {
+      "translate": "advancements.thechangeofdynasties.descr"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "thechangeofdynasties_0": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "splendour_ablaze_epoch:arcaneprintsovereign"
+            ],
+            "count": {
+              "min": 1,
+              "max": 1
+            }
+          }
+        ]
+      }
+    }
+  },
+  "rewards": {
+    "experience": 10
+  },
+  "parent": "splendour_ablaze_epoch:illusionofdesolate"
+}

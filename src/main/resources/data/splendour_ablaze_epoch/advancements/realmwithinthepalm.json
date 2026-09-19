@@ -1,0 +1,39 @@
+{
+  "display": {
+    "icon": {
+      "item": "splendour_ablaze_epoch:celes_terral_ingot"
+    },
+    "title": {
+      "translate": "advancements.realmwithinthepalm.title"
+    },
+    "description": {
+      "translate": "advancements.realmwithinthepalm.descr"
+    },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "realmwithinthepalm_0": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "splendour_ablaze_epoch:celes_terral_ingot"
+            ],
+            "count": {
+              "min": 1,
+              "max": 1
+            }
+          }
+        ]
+      }
+    }
+  },
+  "rewards": {
+    "experience": 10
+  },
+  "parent": "splendour_ablaze_epoch:forgedinfire"
+}

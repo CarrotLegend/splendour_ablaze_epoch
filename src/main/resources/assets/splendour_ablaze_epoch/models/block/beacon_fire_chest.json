@@ -1,0 +1,13 @@
+{
+  "parent": "block/cube",
+  "textures": {
+    "down": "splendour_ablaze_epoch:block/chiseled_firmrock",
+    "up": "splendour_ablaze_epoch:block/beacon_fire_chest_top",
+    "north": "splendour_ablaze_epoch:block/beacon_fire_chest",
+    "east": "splendour_ablaze_epoch:block/beacon_fire_chest",
+    "south": "splendour_ablaze_epoch:block/beacon_fire_chest",
+    "west": "splendour_ablaze_epoch:block/beacon_fire_chest",
+    "particle": "splendour_ablaze_epoch:block/chiseled_firmrock"
+  },
+  "render_type": "solid"
+}

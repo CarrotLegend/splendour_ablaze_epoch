@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "aaa",
+    " ba",
+    "aaa"
+  ],
+  "key": {
+    "a": {
+      "item": "minecraft:copper_ingot"
+    },
+    "b": {
+      "item": "splendour_ablaze_epoch:pyrotemperdust"
+    }
+  },
+  "result": {
+    "item": "splendour_ablaze_epoch:splendourablazecompass",
+    "count": 1
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "planks",
+  "category": "building",
+  "ingredients": [
+    {
+      "tag": "minecraft:ginkgo_log"
+    }
+  ],
+  "result": {
+    "item": "splendour_ablaze_epoch:ginkgo_planks",
+    "count": 4
+  }
+}

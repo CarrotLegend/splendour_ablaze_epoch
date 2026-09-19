@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "a"
+  ],
+  "key": {
+    "a": {
+      "item": "splendour_ablaze_epoch:polishedbluishstone"
+    }
+  },
+  "result": {
+    "item": "splendour_ablaze_epoch:bluishstonebricksstairs",
+    "count": 1
+  }
+}

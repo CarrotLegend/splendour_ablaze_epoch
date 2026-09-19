@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "aaa"
+  ],
+  "key": {
+    "a": {
+      "item": "splendour_ablaze_epoch:cutpolishedcastradiantlimestone"
+    }
+  },
+  "result": {
+    "item": "splendour_ablaze_epoch:cutpolishedcastradiantlimestoneslab",
+    "count": 6
+  }
+}

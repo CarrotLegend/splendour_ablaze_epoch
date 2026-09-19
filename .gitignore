@@ -1,0 +1,16 @@
+.gradle/
+.vscode/
+bin/
+gradle/
+migration/
+build/
+out/
+run/
+run-data/
+src/generated/resources/
+*.launch
+*.classpath
+*.project
+.settings/
+.idea/
+*.iml

@@ -1,0 +1,14 @@
+{
+  "structures": [
+    {
+      "structure": "splendour_ablaze_epoch:fudetemple",
+      "weight": 1
+    }
+  ],
+  "placement": {
+    "type": "minecraft:random_spread",
+    "spacing": 50,
+    "separation": 10,
+    "salt": 743199345
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "type": "forge:add_spawns",
+  "biomes": "splendour_ablaze_epoch:speclumeforest",
+  "spawners": {
+    "type": "splendour_ablaze_epoch:raccoondog",
+    "weight": 20,
+    "minCount": 1,
+    "maxCount": 3
+  }
+}

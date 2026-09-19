@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "splendour_ablaze_epoch:block/cutpolishedcastradiantlimestoneslab"
+    },
+    "type=top": {
+      "model": "splendour_ablaze_epoch:block/cutpolishedcastradiantlimestoneslab_top"
+    },
+    "type=double": {
+      "model": "splendour_ablaze_epoch:block/cutpolishedcastradiantlimestoneslab_full"
+    }
+  }
+}

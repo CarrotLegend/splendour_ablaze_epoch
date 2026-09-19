@@ -1,0 +1,12 @@
+{
+  "type": "splendour_ablaze_epoch:structure_feature",
+  "config": {
+    "structure": "splendour_ablaze_epoch:beacontower",
+    "ignored_blocks": "minecraft:air",
+    "offset": [
+      -7,
+      -1,
+      -7
+    ]
+  }
+}

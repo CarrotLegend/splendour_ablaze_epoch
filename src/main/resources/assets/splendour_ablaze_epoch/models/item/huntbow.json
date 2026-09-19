@@ -1,0 +1,32 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "splendour_ablaze_epoch:item/hunt_bow"
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "splendour_ablaze_epoch:huntbow_use": 0
+      },
+      "model": "splendour_ablaze_epoch:item/huntbow_0"
+    },
+    {
+      "predicate": {
+        "splendour_ablaze_epoch:huntbow_use": 1
+      },
+      "model": "splendour_ablaze_epoch:item/huntbow_1"
+    },
+    {
+      "predicate": {
+        "splendour_ablaze_epoch:huntbow_use": 2
+      },
+      "model": "splendour_ablaze_epoch:item/huntbow_2"
+    },
+    {
+      "predicate": {
+        "splendour_ablaze_epoch:huntbow_use": 3
+      },
+      "model": "splendour_ablaze_epoch:item/huntbow_3"
+    }
+  ]
+}

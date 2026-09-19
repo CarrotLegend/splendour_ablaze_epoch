@@ -1,0 +1,9 @@
+{
+  "parent": "block/door_top_left",
+  "textures": {
+    "particle": "splendour_ablaze_epoch:block/specularpine_door_bottom",
+    "bottom": "splendour_ablaze_epoch:block/specularpine_door_bottom",
+    "top": "splendour_ablaze_epoch:block/specularpine_door_top"
+  },
+  "render_type": "cutout_mipped"
+}

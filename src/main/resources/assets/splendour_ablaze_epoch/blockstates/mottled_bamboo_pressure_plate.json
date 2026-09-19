@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "powered=false": {
+      "model": "splendour_ablaze_epoch:block/mottled_bamboo_pressure_plate"
+    },
+    "powered=true": {
+      "model": "splendour_ablaze_epoch:block/mottled_bamboo_pressure_plate_down"
+    }
+  }
+}

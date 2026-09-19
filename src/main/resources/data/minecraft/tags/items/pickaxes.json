@@ -1,0 +1,12 @@
+{
+  "replace": false,
+  "values": [
+    "splendour_ablaze_epoch:mold_tin_pickaxe",
+    "splendour_ablaze_epoch:cupronickel_pickaxe",
+    "splendour_ablaze_epoch:damascene_steel_pickaxe",
+    "splendour_ablaze_epoch:magnetic_steel_pickaxe",
+    "splendour_ablaze_epoch:bronze_pickaxe",
+    "splendour_ablaze_epoch:pewter_pickaxe",
+    "splendour_ablaze_epoch:celes_terral_pickaxe"
+  ]
+}

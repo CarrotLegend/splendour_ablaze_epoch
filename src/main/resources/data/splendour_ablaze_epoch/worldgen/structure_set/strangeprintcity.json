@@ -1,0 +1,14 @@
+{
+  "structures": [
+    {
+      "structure": "splendour_ablaze_epoch:strangeprintcity",
+      "weight": 1
+    }
+  ],
+  "placement": {
+    "type": "minecraft:random_spread",
+    "spacing": 70,
+    "separation": 60,
+    "salt": 1101152709
+  }
+}

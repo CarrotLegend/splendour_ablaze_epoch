@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "splendour_ablaze_epoch:block/castradiantlimestoneslab"
+    },
+    "type=top": {
+      "model": "splendour_ablaze_epoch:block/castradiantlimestoneslab_top"
+    },
+    "type=double": {
+      "model": "splendour_ablaze_epoch:block/castradiantlimestoneslab_full"
+    }
+  }
+}

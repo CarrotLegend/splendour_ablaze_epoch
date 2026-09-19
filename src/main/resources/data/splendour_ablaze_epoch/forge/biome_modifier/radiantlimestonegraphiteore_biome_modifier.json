@@ -1,0 +1,11 @@
+{
+  "type": "forge:add_features",
+  "biomes": [
+    "splendour_ablaze_epoch:craneplumeocean",
+    "splendour_ablaze_epoch:descenjadeshoal",
+    "splendour_ablaze_epoch:splendourablazehills",
+    "splendour_ablaze_epoch:bambusmulberrywetland"
+  ],
+  "features": "splendour_ablaze_epoch:radiantlimestonegraphiteore",
+  "step": "underground_ores"
+}

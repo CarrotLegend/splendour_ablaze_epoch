@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "aaa",
+    "aaa",
+    "aaa"
+  ],
+  "key": {
+    "a": {
+      "item": "splendour_ablaze_epoch:rawtin"
+    }
+  },
+  "result": {
+    "item": "splendour_ablaze_epoch:rawtinblock",
+    "count": 1
+  }
+}

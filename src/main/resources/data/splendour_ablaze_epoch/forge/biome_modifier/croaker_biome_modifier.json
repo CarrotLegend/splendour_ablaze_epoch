@@ -1,0 +1,10 @@
+{
+  "type": "forge:add_spawns",
+  "biomes": "splendour_ablaze_epoch:craneplumeocean",
+  "spawners": {
+    "type": "splendour_ablaze_epoch:croaker",
+    "weight": 20,
+    "minCount": 4,
+    "maxCount": 4
+  }
+}

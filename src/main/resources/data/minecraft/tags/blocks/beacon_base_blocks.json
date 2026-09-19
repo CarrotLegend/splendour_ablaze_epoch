@@ -1,0 +1,12 @@
+{
+  "replace": false,
+  "values": [
+    "splendour_ablaze_epoch:celes_terral_block",
+    "splendour_ablaze_epoch:pewter_block",
+    "splendour_ablaze_epoch:bronze_block",
+    "splendour_ablaze_epoch:magnetic_steel_block",
+    "splendour_ablaze_epoch:jadeblock",
+    "splendour_ablaze_epoch:damascene_steel_block",
+    "splendour_ablaze_epoch:cupronickel_block"
+  ]
+}

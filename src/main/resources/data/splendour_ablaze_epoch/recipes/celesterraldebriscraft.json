@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "abb",
+    "acd",
+    "eed"
+  ],
+  "key": {
+    "a": {
+      "item": "splendour_ablaze_epoch:pewter_ingot"
+    },
+    "b": {
+      "item": "splendour_ablaze_epoch:magnetic_steel_ingot"
+    },
+    "c": {
+      "item": "splendour_ablaze_epoch:sagesfragments"
+    },
+    "d": {
+      "item": "splendour_ablaze_epoch:sliveringot"
+    },
+    "e": {
+      "item": "splendour_ablaze_epoch:bronze_ingot"
+    }
+  },
+  "result": {
+    "item": "splendour_ablaze_epoch:celesterraldebris",
+    "count": 3
+  }
+}

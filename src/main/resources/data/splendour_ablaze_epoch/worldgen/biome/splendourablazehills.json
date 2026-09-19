@@ -1,0 +1,73 @@
+{
+  "has_precipitation": true,
+  "temperature": 0.3,
+  "downfall": 0.2,
+  "effects": {
+    "foliage_color": -10924000,
+    "grass_color": -9013442,
+    "sky_color": -4266313,
+    "fog_color": -5063525,
+    "water_color": -15574415,
+    "water_fog_color": -15522996
+  },
+  "spawners": {
+    "monster": [],
+    "creature": [
+      {
+        "type": "wolf",
+        "weight": 25,
+        "minCount": 1,
+        "maxCount": 2
+      },
+      {
+        "type": "goat",
+        "weight": 25,
+        "minCount": 1,
+        "maxCount": 2
+      }
+    ],
+    "ambient": [
+      {
+        "type": "splendour_ablaze_epoch:rustedancestors",
+        "weight": 1,
+        "minCount": 1,
+        "maxCount": 1
+      },
+      {
+        "type": "splendour_ablaze_epoch:rustrelics",
+        "weight": 1,
+        "minCount": 1,
+        "maxCount": 1
+      },
+      {
+        "type": "splendour_ablaze_epoch:rusthound",
+        "weight": 3,
+        "minCount": 1,
+        "maxCount": 1
+      }
+    ],
+    "axolotls": [],
+    "underground_water_creature": [],
+    "water_creature": [],
+    "water_ambient": [],
+    "misc": []
+  },
+  "spawn_costs": {},
+  "carvers": {},
+  "features": [
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [
+      "splendour_ablaze_epoch:splendourablazehills_tree",
+      "minecraft:patch_grass_forest"
+    ],
+    []
+  ]
+}

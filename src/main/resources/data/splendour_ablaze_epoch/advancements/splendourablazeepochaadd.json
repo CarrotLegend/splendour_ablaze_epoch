@@ -1,0 +1,23 @@
+{
+  "display": {
+    "background": "minecraft:textures/block/stone.png",
+    "icon": {
+      "item": "splendour_ablaze_epoch:wutong_leaves"
+    },
+    "title": {
+      "translate": "advancements.splendourablazeepochaadd.title"
+    },
+    "description": {
+      "translate": "advancements.splendourablazeepochaadd.descr"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "splendourablazeepochaadd_0": {
+      "trigger": "minecraft:impossible"
+    }
+  }
+}

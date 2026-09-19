@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "wooden_fence_gate",
+  "category": "redstone",
+  "pattern": [
+    "aba",
+    "aba"
+  ],
+  "key": {
+    "a": {
+      "item": "minecraft:stick"
+    },
+    "b": {
+      "item": "splendour_ablaze_epoch:wutong_planks"
+    }
+  },
+  "result": {
+    "item": "splendour_ablaze_epoch:wutong_fence_gate",
+    "count": 1
+  }
+}

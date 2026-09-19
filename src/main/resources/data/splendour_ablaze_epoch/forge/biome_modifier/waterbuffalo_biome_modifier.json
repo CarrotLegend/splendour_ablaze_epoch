@@ -1,0 +1,13 @@
+{
+  "type": "forge:add_spawns",
+  "biomes": [
+    "splendour_ablaze_epoch:bambusmulberrywetland",
+    "splendour_ablaze_epoch:descenjadeshoal"
+  ],
+  "spawners": {
+    "type": "splendour_ablaze_epoch:waterbuffalo",
+    "weight": 20,
+    "minCount": 1,
+    "maxCount": 3
+  }
+}

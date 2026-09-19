@@ -1,0 +1,10 @@
+{
+  "type": "forge:add_features",
+  "biomes": [
+    "splendour_ablaze_epoch:bambusmulberrywetland",
+    "splendour_ablaze_epoch:craneplumeocean",
+    "splendour_ablaze_epoch:descenjadeshoal"
+  ],
+  "features": "splendour_ablaze_epoch:dripstoneadd",
+  "step": "surface_structures"
+}

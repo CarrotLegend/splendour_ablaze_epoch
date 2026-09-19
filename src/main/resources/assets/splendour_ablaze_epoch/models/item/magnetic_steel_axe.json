@@ -1,0 +1,6 @@
+{
+  "parent": "item/handheld",
+  "textures": {
+    "layer0": "splendour_ablaze_epoch:item/magnetic_steel_axe"
+  }
+}

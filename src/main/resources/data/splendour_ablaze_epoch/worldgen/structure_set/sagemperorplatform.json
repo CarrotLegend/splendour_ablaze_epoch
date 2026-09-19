@@ -1,0 +1,14 @@
+{
+  "structures": [
+    {
+      "structure": "splendour_ablaze_epoch:sagemperorplatform",
+      "weight": 1
+    }
+  ],
+  "placement": {
+    "type": "minecraft:random_spread",
+    "spacing": 70,
+    "separation": 60,
+    "salt": 843120886
+  }
+}

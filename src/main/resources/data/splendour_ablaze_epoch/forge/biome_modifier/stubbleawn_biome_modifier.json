@@ -1,0 +1,9 @@
+{
+  "type": "forge:add_features",
+  "biomes": [
+    "splendour_ablaze_epoch:speclumeforest",
+    "splendour_ablaze_epoch:splendourablazehills"
+  ],
+  "features": "splendour_ablaze_epoch:stubbleawn",
+  "step": "vegetal_decoration"
+}

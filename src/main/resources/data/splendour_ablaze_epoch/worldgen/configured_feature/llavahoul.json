@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:lake",
+  "config": {
+    "fluid": {
+      "type": "minecraft:simple_state_provider",
+      "state": {
+        "Name": "minecraft:lava"
+      }
+    },
+    "barrier": {
+      "type": "minecraft:weighted_state_provider",
+      "entries": [
+        {
+          "data": {
+            "Name": "splendour_ablaze_epoch:firmrocksulfurore"
+          },
+          "weight": 1
+        },
+        {
+          "data": {
+            "Name": "splendour_ablaze_epoch:firmrock"
+          },
+          "weight": 1
+        }
+      ]
+    }
+  }
+}

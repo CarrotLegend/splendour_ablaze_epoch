@@ -1,0 +1,12 @@
+{
+  "type": "splendour_ablaze_epoch:structure_feature",
+  "config": {
+    "structure": "splendour_ablaze_epoch:specularpine_1",
+    "ignored_blocks": "minecraft:air",
+    "offset": [
+      -9,
+      -2,
+      -9
+    ]
+  }
+}

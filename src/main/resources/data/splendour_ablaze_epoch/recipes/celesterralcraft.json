@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "aaa",
+    "aba",
+    "aaa"
+  ],
+  "key": {
+    "a": {
+      "item": "splendour_ablaze_epoch:celesterraldebris"
+    },
+    "b": {
+      "item": "splendour_ablaze_epoch:pyrotempertinder"
+    }
+  },
+  "result": {
+    "item": "splendour_ablaze_epoch:celes_terral_ingot",
+    "count": 1
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "count": 1,
+  "ingredient": {
+    "item": "splendour_ablaze_epoch:polishedradiantlimestone"
+  },
+  "result": "splendour_ablaze_epoch:chiseledcastradiantlimestone"
+}

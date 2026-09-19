@@ -1,0 +1,33 @@
+{
+  "type": "minecraft:block",
+  "random_sequence": "splendour_ablaze_epoch:blocks/auroraleadenblockslab",
+  "pools": [
+    {
+      "rolls": 1.0,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "splendour_ablaze_epoch:auroraleadenblockslab",
+          "functions": [
+            {
+              "conditions": [
+                {
+                  "condition": "minecraft:block_state_property",
+                  "block": "splendour_ablaze_epoch:auroraleadenblockslab",
+                  "properties": {
+                    "type": "double"
+                  }
+                }
+              ],
+              "count": 2.0,
+              "function": "minecraft:set_count"
+            },
+            {
+              "function": "minecraft:explosion_decay"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

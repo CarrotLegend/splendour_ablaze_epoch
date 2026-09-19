@@ -1,0 +1,13 @@
+{
+  "parent": "block/cube",
+  "textures": {
+    "down": "splendour_ablaze_epoch:block/wet_whitewashed_bricksblock_side",
+    "up": "splendour_ablaze_epoch:block/wet_whitewashed_bricksblock_side",
+    "north": "splendour_ablaze_epoch:block/wet_whitewashed_bricksblock_top",
+    "east": "splendour_ablaze_epoch:block/wet_whitewashed_bricksblock_top",
+    "south": "splendour_ablaze_epoch:block/wet_whitewashed_bricksblock_top",
+    "west": "splendour_ablaze_epoch:block/wet_whitewashed_bricksblock_top",
+    "particle": "splendour_ablaze_epoch:block/wet_whitewashed_bricksblock_side"
+  },
+  "render_type": "solid"
+}

@@ -1,0 +1,36 @@
+{
+  "type": "splendour_ablaze_epoch:printinguui",
+  "ingredients": [
+    {
+      "item": "splendour_ablaze_epoch:typefirst"
+    },
+    {
+      "item": "splendour_ablaze_epoch:typesecond"
+    },
+    {
+      "item": "splendour_ablaze_epoch:typethird"
+    },
+    {
+      "item": "splendour_ablaze_epoch:typefourth"
+    },
+    {
+      "item": "splendour_ablaze_epoch:typefifth"
+    },
+    {
+      "item": "splendour_ablaze_epoch:typesixth"
+    },
+    {
+      "item": "minecraft:enchanted_book"
+    },
+    {
+      "item": "minecraft:book"
+    },
+    {
+      "item": "minecraft:black_dye"
+    }
+  ],
+  "output": {
+    "item": "minecraft:enchanted_book",
+    "count": 1
+  }
+}

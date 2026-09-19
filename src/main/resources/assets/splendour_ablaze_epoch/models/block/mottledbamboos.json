@@ -1,0 +1,9 @@
+{
+  "parent": "splendour_ablaze_epoch:custom/mottled_bamboo_s",
+  "textures": {
+    "all": "splendour_ablaze_epoch:block/e_air",
+    "particle": "splendour_ablaze_epoch:block/e_air",
+    "0": "splendour_ablaze_epoch:block/mottled_bamboo_s"
+  },
+  "render_type": "solid"
+}

@@ -1,0 +1,16 @@
+{
+  "type": "forge:add_spawns",
+  "biomes": [
+    "splendour_ablaze_epoch:archaicfadetimberland",
+    "splendour_ablaze_epoch:descenjadeshoal",
+    "splendour_ablaze_epoch:grazingmoonfield",
+    "splendour_ablaze_epoch:speclumeforest",
+    "splendour_ablaze_epoch:splendourablazehills"
+  ],
+  "spawners": {
+    "type": "splendour_ablaze_epoch:rustedwoman",
+    "weight": 10,
+    "minCount": 1,
+    "maxCount": 1
+  }
+}

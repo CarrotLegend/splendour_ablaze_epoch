@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "planks",
+  "category": "building",
+  "ingredients": [
+    {
+      "item": "splendour_ablaze_epoch:mulberry_wood"
+    }
+  ],
+  "result": {
+    "item": "splendour_ablaze_epoch:mulberry_planks",
+    "count": 4
+  }
+}

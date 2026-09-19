@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "blockstate=0": {
+      "model": "splendour_ablaze_epoch:block/wetwhitewashedbricksblock"
+    },
+    "blockstate=1": {
+      "model": "splendour_ablaze_epoch:block/wetwhitewashedbricksblock_1_blockstate_0"
+    }
+  }
+}

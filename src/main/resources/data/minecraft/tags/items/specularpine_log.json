@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "splendour_ablaze_epoch:specular_pine_wood",
+    "splendour_ablaze_epoch:specular_pine_log",
+    "splendour_ablaze_epoch:strippedspecularpinelog",
+    "splendour_ablaze_epoch:strippedspecularpinewood"
+  ]
+}

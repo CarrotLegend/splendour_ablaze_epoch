@@ -1,0 +1,11 @@
+{
+  "parent": "block/grass_block",
+  "textures": {
+    "bottom": "splendour_ablaze_epoch:block/ink_dirt",
+    "top": "splendour_ablaze_epoch:block/ink_grass_block_top",
+    "side": "splendour_ablaze_epoch:block/ink_dirt",
+    "overlay": "splendour_ablaze_epoch:block/grass_block_side_overlay",
+    "particle": "splendour_ablaze_epoch:block/ink_dirt"
+  },
+  "render_type": "cutout_mipped"
+}

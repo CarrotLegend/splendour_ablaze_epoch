@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:simple_random_selector",
+  "config": {
+    "features": [
+      {
+        "feature": {
+          "type": "splendour_ablaze_epoch:structure_feature",
+          "config": {
+            "structure": "splendour_ablaze_epoch:kelp1",
+            "ignored_blocks": "minecraft:air"
+          }
+        },
+        "placement": []
+      },
+      {
+        "feature": {
+          "type": "splendour_ablaze_epoch:structure_feature",
+          "config": {
+            "structure": "splendour_ablaze_epoch:kelp2",
+            "ignored_blocks": "minecraft:air"
+          }
+        },
+        "placement": []
+      }
+    ]
+  }
+}

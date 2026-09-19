@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "axis=z": {
+      "model": "splendour_ablaze_epoch:block/topworld_portal_ew"
+    },
+    "axis=x": {
+      "model": "splendour_ablaze_epoch:block/topworld_portal_ns"
+    }
+  }
+}

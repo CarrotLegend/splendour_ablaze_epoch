@@ -1,0 +1,11 @@
+{
+  "type": "forge:add_features",
+  "biomes": [
+    "splendour_ablaze_epoch:archaicfadetimberland",
+    "splendour_ablaze_epoch:craneplumeocean",
+    "splendour_ablaze_epoch:grazingmoonfield",
+    "splendour_ablaze_epoch:splendourablazehills"
+  ],
+  "features": "splendour_ablaze_epoch:suspiciousradiantlimestonetinore",
+  "step": "underground_ores"
+}

@@ -1,0 +1,40 @@
+{
+  "variants": {
+    "axis=x,blockstate=0": {
+      "model": "splendour_ablaze_epoch:block/bluishstonepillar",
+      "x": 90,
+      "y": 90
+    },
+    "axis=y,blockstate=0": {
+      "model": "splendour_ablaze_epoch:block/bluishstonepillar"
+    },
+    "axis=z,blockstate=0": {
+      "model": "splendour_ablaze_epoch:block/bluishstonepillar",
+      "x": 90
+    },
+    "axis=x,blockstate=1": {
+      "model": "splendour_ablaze_epoch:block/bluishstonepillar_1_blockstate_0",
+      "x": 90,
+      "y": 90
+    },
+    "axis=y,blockstate=1": {
+      "model": "splendour_ablaze_epoch:block/bluishstonepillar_1_blockstate_0"
+    },
+    "axis=z,blockstate=1": {
+      "model": "splendour_ablaze_epoch:block/bluishstonepillar_1_blockstate_0",
+      "x": 90
+    },
+    "axis=x,blockstate=2": {
+      "model": "splendour_ablaze_epoch:block/bluishstonepillar_1_blockstate_1",
+      "x": 90,
+      "y": 90
+    },
+    "axis=y,blockstate=2": {
+      "model": "splendour_ablaze_epoch:block/bluishstonepillar_1_blockstate_1"
+    },
+    "axis=z,blockstate=2": {
+      "model": "splendour_ablaze_epoch:block/bluishstonepillar_1_blockstate_1",
+      "x": 90
+    }
+  }
+}

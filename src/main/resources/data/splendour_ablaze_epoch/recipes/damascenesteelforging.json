@@ -1,0 +1,13 @@
+{
+  "type": "splendour_ablaze_epoch:forgingfurnacejei",
+  "ingredients": [
+    { "item": "minecraft:iron_ingot" },
+    { "item": "splendour_ablaze_epoch:dragonsophora_log" },
+    { "item": "splendour_ablaze_epoch:darksaltpeter" },
+    { "item": "splendour_ablaze_epoch:pyrotemperdust", "consume_chance": 0.33333334 }
+  ],
+  "output": {
+    "item": "splendour_ablaze_epoch:damascene_steel_ingot",
+    "count": 1
+  }
+}

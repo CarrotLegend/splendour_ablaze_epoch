@@ -1,0 +1,18 @@
+{
+  "replace": false,
+  "values": [
+    "splendour_ablaze_epoch:mold_tin_block",
+    "splendour_ablaze_epoch:firmrockdarksaltpeterore",
+    "splendour_ablaze_epoch:antigravitdevice",
+    "splendour_ablaze_epoch:darksteelbricksslab",
+    "splendour_ablaze_epoch:darksteelbricksstairs",
+    "splendour_ablaze_epoch:darksteelbrickswall",
+    "splendour_ablaze_epoch:patternedsilverdarksteelbricks",
+    "splendour_ablaze_epoch:chiseleddarksteelbricks",
+    "splendour_ablaze_epoch:darksteelstone",
+    "splendour_ablaze_epoch:darksteelbricks",
+    "splendour_ablaze_epoch:bronze_block",
+    "splendour_ablaze_epoch:tin_block",
+    "splendour_ablaze_epoch:lead_block"
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "display": {
+    "icon": {
+      "item": "splendour_ablaze_epoch:initialseal"
+    },
+    "title": {
+      "translate": "advancements.shieldalsosharp.title"
+    },
+    "description": {
+      "translate": "advancements.shieldalsosharp.descr"
+    },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "shieldalsosharp_0": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "rewards": {
+    "experience": 5
+  },
+  "parent": "splendour_ablaze_epoch:thechangeofdynasties"
+}

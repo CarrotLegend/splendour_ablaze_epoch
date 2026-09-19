@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "splendour_ablaze_epoch:sulfur"
+    },
+    {
+      "item": "splendour_ablaze_epoch:saltpeter"
+    },
+    {
+      "tag": "forge:coal"
+    },
+    {
+      "item": "splendour_ablaze_epoch:saltpeter"
+    },
+    {
+      "tag": "forge:coal"
+    },
+    {
+      "tag": "forge:coal"
+    }
+  ],
+  "result": {
+    "item": "splendour_ablaze_epoch:blackpowder",
+    "count": 5
+  }
+}

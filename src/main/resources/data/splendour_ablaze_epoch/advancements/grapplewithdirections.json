@@ -1,0 +1,39 @@
+{
+  "display": {
+    "icon": {
+      "item": "splendour_ablaze_epoch:chronsovereigntystar"
+    },
+    "title": {
+      "translate": "advancements.grapplewithdirections.title"
+    },
+    "description": {
+      "translate": "advancements.grapplewithdirections.descr"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "grapplewithdirections_0": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "splendour_ablaze_epoch:chronsovereigntystar"
+            ],
+            "count": {
+              "min": 1,
+              "max": 1
+            }
+          }
+        ]
+      }
+    }
+  },
+  "rewards": {
+    "experience": 10
+  },
+  "parent": "splendour_ablaze_epoch:limitsoflatlong"
+}

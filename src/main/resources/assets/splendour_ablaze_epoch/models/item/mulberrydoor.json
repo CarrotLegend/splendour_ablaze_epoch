@@ -1,0 +1,7 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "splendour_ablaze_epoch:item/mulberry_door"
+  },
+  "render_type": "translucent"
+}

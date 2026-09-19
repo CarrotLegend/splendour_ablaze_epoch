@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "blockstate=0": {
+      "model": "splendour_ablaze_epoch:block/milletplant"
+    },
+    "blockstate=1": {
+      "model": "splendour_ablaze_epoch:block/milletage_blockstate_0"
+    },
+    "blockstate=2": {
+      "model": "splendour_ablaze_epoch:block/milletage_blockstate_1"
+    },
+    "blockstate=3": {
+      "model": "splendour_ablaze_epoch:block/milletage_blockstate_2"
+    },
+    "blockstate=4": {
+      "model": "splendour_ablaze_epoch:block/milletage_blockstate_3"
+    }
+  }
+}

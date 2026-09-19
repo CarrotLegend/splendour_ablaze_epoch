@@ -1,0 +1,42 @@
+{
+  "display": {
+    "icon": {
+      "item": "splendour_ablaze_epoch:pyrotemperdust"
+    },
+    "title": {
+      "translate": "advancements.disposablefurnace.title"
+    },
+    "description": {
+      "translate": "advancements.disposablefurnace.descr"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "disposablefurnace_0": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "splendour_ablaze_epoch:pyrotemperdust"
+            ],
+            "count": {
+              "min": 1,
+              "max": 1
+            }
+          }
+        ]
+      }
+    }
+  },
+  "rewards": {
+    "experience": 0,
+    "recipes": [
+      "splendour_ablaze_epoch:splendourablazecompasscraft"
+    ]
+  },
+  "parent": "splendour_ablaze_epoch:splendourablazeepochaadd"
+}

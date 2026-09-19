@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "ab"
+  ],
+  "key": {
+    "a": {
+      "item": "splendour_ablaze_epoch:magnetiteblock"
+    },
+    "b": {
+      "item": "splendour_ablaze_epoch:pyrotemperdust"
+    }
+  },
+  "result": {
+    "item": "minecraft:iron_block",
+    "count": 1
+  }
+}

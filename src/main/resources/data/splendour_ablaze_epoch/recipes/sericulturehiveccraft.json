@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "aaa",
+    "bbb",
+    "aaa"
+  ],
+  "key": {
+    "a": {
+      "tag": "minecraft:planks"
+    },
+    "b": {
+      "item": "splendour_ablaze_epoch:silkworm"
+    }
+  },
+  "result": {
+    "item": "splendour_ablaze_epoch:sericulturehive",
+    "count": 1
+  }
+}

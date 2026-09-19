@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "splendour_ablaze_epoch:decayed_wood",
+    "splendour_ablaze_epoch:decayed_log",
+    "splendour_ablaze_epoch:strippeddecayedlog",
+    "splendour_ablaze_epoch:strippeddecayedwood"
+  ]
+}

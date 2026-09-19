@@ -1,0 +1,10 @@
+{
+  "parent": "block/slab_top",
+  "textures": {
+    "particle": "splendour_ablaze_epoch:block/dragonsophora_planks",
+    "bottom": "splendour_ablaze_epoch:block/dragonsophora_planks",
+    "top": "splendour_ablaze_epoch:block/dragonsophora_planks",
+    "side": "splendour_ablaze_epoch:block/dragonsophora_planks"
+  },
+  "render_type": "solid"
+}

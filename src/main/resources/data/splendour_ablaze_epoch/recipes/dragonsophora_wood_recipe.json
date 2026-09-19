@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "bark",
+  "category": "building",
+  "pattern": [
+    "aa",
+    "aa"
+  ],
+  "key": {
+    "a": {
+      "item": "splendour_ablaze_epoch:dragonsophora_log"
+    }
+  },
+  "result": {
+    "item": "splendour_ablaze_epoch:dragonsophora_wood",
+    "count": 3
+  }
+}

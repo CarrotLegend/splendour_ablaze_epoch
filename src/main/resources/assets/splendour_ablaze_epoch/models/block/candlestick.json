@@ -1,0 +1,9 @@
+{
+  "parent": "splendour_ablaze_epoch:custom/candlestick",
+  "textures": {
+    "all": "splendour_ablaze_epoch:block/e_air",
+    "particle": "splendour_ablaze_epoch:block/e_air",
+    "0": "splendour_ablaze_epoch:block/candlestick_block"
+  },
+  "render_type": "solid"
+}

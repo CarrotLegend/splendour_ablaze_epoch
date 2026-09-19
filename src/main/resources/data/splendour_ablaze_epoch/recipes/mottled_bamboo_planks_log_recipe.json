@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "planks",
+  "category": "building",
+  "ingredients": [
+    {
+      "item": "splendour_ablaze_epoch:mottledbambooblock"
+    }
+  ],
+  "result": {
+    "item": "splendour_ablaze_epoch:mottled_bamboo_planks",
+    "count": 4
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "type": "forge:add_features",
+  "biomes": "splendour_ablaze_epoch:craneplumeocean",
+  "features": "splendour_ablaze_epoch:waves",
+  "step": "surface_structures"
+}

@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:jigsaw",
+  "start_pool": "splendour_ablaze_epoch:fudetemple",
+  "size": 1,
+  "max_distance_from_center": 64,
+  "spawn_overrides": {},
+  "step": "surface_structures",
+  "terrain_adaptation": "beard_thin",
+  "start_height": {
+    "absolute": 0
+  },
+  "project_start_to_heightmap": "MOTION_BLOCKING_NO_LEAVES",
+  "biomes": [
+    "splendour_ablaze_epoch:archaicfadetimberland",
+    "splendour_ablaze_epoch:descenjadeshoal",
+    "splendour_ablaze_epoch:grazingmoonfield",
+    "splendour_ablaze_epoch:speclumeforest",
+    "splendour_ablaze_epoch:splendourablazehills"
+  ],
+  "use_expansion_hack": false
+}

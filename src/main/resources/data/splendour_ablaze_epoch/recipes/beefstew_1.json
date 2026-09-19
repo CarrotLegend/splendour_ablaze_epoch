@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "tag": "minecraft:spice"
+    },
+    {
+      "tag": "minecraft:spice"
+    },
+    {
+      "tag": "minecraft:spice"
+    },
+    {
+      "item": "minecraft:beef"
+    },
+    {
+      "item": "minecraft:bowl"
+    }
+  ],
+  "result": {
+    "item": "splendour_ablaze_epoch:beefstew",
+    "count": 1
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "aaa",
+    "aba",
+    "aca"
+  ],
+  "key": {
+    "a": {
+      "item": "minecraft:diamond"
+    },
+    "b": {
+      "item": "splendour_ablaze_epoch:celesterralupgradesmithingtemplate"
+    },
+    "c": {
+      "item": "splendour_ablaze_epoch:castradiantlimestone"
+    }
+  },
+  "result": {
+    "item": "splendour_ablaze_epoch:celesterralupgradesmithingtemplate",
+    "count": 2
+  }
+}

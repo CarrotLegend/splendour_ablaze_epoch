@@ -1,0 +1,9 @@
+{
+  "parent": "splendour_ablaze_epoch:custom/simple_grave",
+  "textures": {
+    "all": "splendour_ablaze_epoch:block/e_air",
+    "particle": "splendour_ablaze_epoch:block/e_air",
+    "0": "splendour_ablaze_epoch:block/simple_grave"
+  },
+  "render_type": "cutout_mipped"
+}

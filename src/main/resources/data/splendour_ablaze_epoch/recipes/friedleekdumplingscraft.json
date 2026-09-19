@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "minecraft:wheat"
+    },
+    {
+      "item": "splendour_ablaze_epoch:leek"
+    },
+    {
+      "item": "splendour_ablaze_epoch:leek"
+    }
+  ],
+  "result": {
+    "item": "splendour_ablaze_epoch:friedleekdumplings",
+    "count": 1
+  }
+}

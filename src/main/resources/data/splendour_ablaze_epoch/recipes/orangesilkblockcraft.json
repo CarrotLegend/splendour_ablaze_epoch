@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "aaa",
+    "aba",
+    "aaa"
+  ],
+  "key": {
+    "a": {
+      "item": "splendour_ablaze_epoch:silkblock"
+    },
+    "b": {
+      "item": "minecraft:orange_dye"
+    }
+  },
+  "result": {
+    "item": "splendour_ablaze_epoch:orangesilkblock",
+    "count": 8
+  }
+}

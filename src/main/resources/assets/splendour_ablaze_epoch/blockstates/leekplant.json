@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "blockstate=0": {
+      "model": "splendour_ablaze_epoch:block/leekplant"
+    },
+    "blockstate=1": {
+      "model": "splendour_ablaze_epoch:block/leekage_blockstate_0"
+    },
+    "blockstate=2": {
+      "model": "splendour_ablaze_epoch:block/leekage_blockstate_1"
+    }
+  }
+}

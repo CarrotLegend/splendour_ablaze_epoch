@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "planks",
+  "category": "building",
+  "ingredients": [
+    {
+      "tag": "minecraft:osmanthus_log"
+    }
+  ],
+  "result": {
+    "item": "splendour_ablaze_epoch:osmanthus_planks",
+    "count": 4
+  }
+}

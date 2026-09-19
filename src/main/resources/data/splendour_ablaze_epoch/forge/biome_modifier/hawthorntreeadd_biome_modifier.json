@@ -1,0 +1,9 @@
+{
+  "type": "forge:add_features",
+  "biomes": [
+    "splendour_ablaze_epoch:splendourablazehills",
+    "splendour_ablaze_epoch:archaicfadetimberland"
+  ],
+  "features": "splendour_ablaze_epoch:hawthorntreeadd",
+  "step": "surface_structures"
+}

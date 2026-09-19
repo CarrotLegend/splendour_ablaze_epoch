@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "aaa",
+    "aaa"
+  ],
+  "key": {
+    "a": {
+      "item": "splendour_ablaze_epoch:specular_pine_planks"
+    }
+  },
+  "result": {
+    "item": "splendour_ablaze_epoch:specularpinetrapdoor",
+    "count": 2
+  }
+}

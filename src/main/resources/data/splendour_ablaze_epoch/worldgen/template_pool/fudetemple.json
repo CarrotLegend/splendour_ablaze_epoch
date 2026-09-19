@@ -1,0 +1,29 @@
+{
+  "name": "splendour_ablaze_epoch:fudetemple",
+  "fallback": "minecraft:empty",
+  "elements": [
+    {
+      "weight": 1,
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "splendour_ablaze_epoch:fude_temple",
+        "projection": "rigid",
+        "processors": {
+          "processors": [
+            {
+              "processor_type": "minecraft:block_ignore",
+              "blocks": [
+                {
+                  "Name": "minecraft:structure_block"
+                },
+                {
+                  "Name": "splendour_ablaze_epoch:inkgrassblock"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

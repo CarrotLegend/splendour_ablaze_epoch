@@ -1,0 +1,9 @@
+{
+  "parent": "splendour_ablaze_epoch:custom/thin_pottery_jar",
+  "textures": {
+    "all": "splendour_ablaze_epoch:block/e_air",
+    "particle": "splendour_ablaze_epoch:block/e_air",
+    "3": "splendour_ablaze_epoch:block/thin_pottery_jar"
+  },
+  "render_type": "solid"
+}

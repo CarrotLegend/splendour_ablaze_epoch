@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "splendour_ablaze_epoch:similartinblock"
+    }
+  ],
+  "result": {
+    "item": "splendour_ablaze_epoch:similartin",
+    "count": 9
+  }
+}

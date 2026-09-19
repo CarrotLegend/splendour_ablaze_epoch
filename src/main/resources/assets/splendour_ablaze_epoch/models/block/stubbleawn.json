@@ -1,0 +1,8 @@
+{
+  "parent": "block/tinted_cross",
+  "textures": {
+    "cross": "splendour_ablaze_epoch:block/stubble_awn",
+    "particle": "splendour_ablaze_epoch:block/stubble_awn"
+  },
+  "render_type": "cutout"
+}

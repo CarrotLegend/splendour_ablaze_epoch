@@ -1,0 +1,24 @@
+{
+  "replace": false,
+  "values": [
+    "splendour_ablaze_epoch:wutong_log",
+    "splendour_ablaze_epoch:specular_pine_log",
+    "splendour_ablaze_epoch:ginkgo_log",
+    "splendour_ablaze_epoch:cerasus_japonica_log",
+    "splendour_ablaze_epoch:osmanthus_log",
+    "splendour_ablaze_epoch:dragonsophora_log",
+    "splendour_ablaze_epoch:mulberry_log",
+    "splendour_ablaze_epoch:mottledbambooblock",
+    "splendour_ablaze_epoch:mottled_bamboo_wood",
+    "splendour_ablaze_epoch:decayed_log",
+    "splendour_ablaze_epoch:strippedwutonglog",
+    "splendour_ablaze_epoch:strippedspecularpinelog",
+    "splendour_ablaze_epoch:strippedginkgolog",
+    "splendour_ablaze_epoch:strippedcerasusjaponicalog",
+    "splendour_ablaze_epoch:strippedosmanthuslog",
+    "splendour_ablaze_epoch:strippedmulberrylog",
+    "splendour_ablaze_epoch:strippeddragonsophoralog",
+    "splendour_ablaze_epoch:strippeddecayedlog",
+    "splendour_ablaze_epoch:lacqueredwood"
+  ]
+}

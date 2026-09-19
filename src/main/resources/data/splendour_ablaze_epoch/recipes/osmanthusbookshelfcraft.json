@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "aaa",
+    "bbb",
+    "aaa"
+  ],
+  "key": {
+    "a": {
+      "item": "splendour_ablaze_epoch:osmanthus_planks"
+    },
+    "b": {
+      "item": "splendour_ablaze_epoch:classics"
+    }
+  },
+  "result": {
+    "item": "splendour_ablaze_epoch:osmanthusbookshelf",
+    "count": 1
+  }
+}

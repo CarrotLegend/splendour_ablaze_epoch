@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:block",
+  "random_sequence": "splendour_ablaze_epoch:blocks/polished_ribbonrock",
+  "pools": [
+    {
+      "rolls": 1.0,
+      "conditions": [
+        {
+          "condition": "minecraft:survives_explosion"
+        }
+      ],
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "splendour_ablaze_epoch:polished_ribbonrock"
+        }
+      ]
+    }
+  ]
+}

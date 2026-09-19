@@ -1,0 +1,26 @@
+{
+  "display": {
+    "icon": {
+      "item": "splendour_ablaze_epoch:dagger"
+    },
+    "title": {
+      "translate": "advancements.hands_off_my_lord.title"
+    },
+    "description": {
+      "translate": "advancements.hands_off_my_lord.descr"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "hands_off_my_lord_0": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "rewards": {
+    "experience": 5
+  },
+  "parent": "splendour_ablaze_epoch:informalarchaeology"
+}

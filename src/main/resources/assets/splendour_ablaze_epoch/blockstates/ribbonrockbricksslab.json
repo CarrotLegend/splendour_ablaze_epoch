@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "splendour_ablaze_epoch:block/ribbonrockbricksslab"
+    },
+    "type=top": {
+      "model": "splendour_ablaze_epoch:block/ribbonrockbricksslab_top"
+    },
+    "type=double": {
+      "model": "splendour_ablaze_epoch:block/ribbonrockbricksslab_full"
+    }
+  }
+}

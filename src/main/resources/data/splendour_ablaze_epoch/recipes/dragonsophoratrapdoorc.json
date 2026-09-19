@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "aaa",
+    "aaa"
+  ],
+  "key": {
+    "a": {
+      "item": "splendour_ablaze_epoch:dragonsophora_planks"
+    }
+  },
+  "result": {
+    "item": "splendour_ablaze_epoch:dragonsophoratrapdoor",
+    "count": 2
+  }
+}

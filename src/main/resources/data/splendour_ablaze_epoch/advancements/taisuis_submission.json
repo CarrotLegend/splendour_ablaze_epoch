@@ -1,0 +1,23 @@
+{
+  "display": {
+    "icon": {
+      "item": "splendour_ablaze_epoch:purplegoldbell"
+    },
+    "title": {
+      "translate": "advancements.taisuis_submission.title"
+    },
+    "description": {
+      "translate": "advancements.taisuis_submission.descr"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "taisuis_submission_0": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "parent": "splendour_ablaze_epoch:splendourablazeepoch_11"
+}

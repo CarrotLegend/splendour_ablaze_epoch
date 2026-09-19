@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "aaa"
+  ],
+  "key": {
+    "a": {
+      "item": "splendour_ablaze_epoch:firmrockbricks"
+    }
+  },
+  "result": {
+    "item": "splendour_ablaze_epoch:firmrockbricksslab",
+    "count": 6
+  }
+}

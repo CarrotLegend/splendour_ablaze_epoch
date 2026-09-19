@@ -1,0 +1,26 @@
+{
+  "display": {
+    "icon": {
+      "item": "splendour_ablaze_epoch:initialhandscroll"
+    },
+    "title": {
+      "translate": "advancements.taoist_me_made_it.title"
+    },
+    "description": {
+      "translate": "advancements.taoist_me_made_it.descr"
+    },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "taoist_me_made_it_0": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "rewards": {
+    "experience": 5
+  },
+  "parent": "splendour_ablaze_epoch:inkdyedeternity"
+}

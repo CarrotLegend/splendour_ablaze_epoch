@@ -1,0 +1,58 @@
+{
+  "type": "minecraft:random_selector",
+  "config": {
+    "default": {
+      "feature": {
+        "type": "splendour_ablaze_epoch:structure_feature",
+        "config": {
+          "structure": "splendour_ablaze_epoch:mulberry1",
+          "ignored_blocks": "minecraft:air",
+          "offset": [
+            -3,
+            0,
+            -3
+          ]
+        }
+      },
+      "placement": []
+    },
+    "features": [
+      {
+        "chance": 0.2,
+        "feature": {
+          "feature": {
+            "type": "splendour_ablaze_epoch:structure_feature",
+            "config": {
+              "structure": "splendour_ablaze_epoch:mulberry2",
+              "ignored_blocks": "minecraft:air",
+              "offset": [
+                -3,
+                0,
+                -3
+              ]
+            }
+          },
+          "placement": []
+        }
+      },
+      {
+        "chance": 0.6,
+        "feature": {
+          "feature": {
+            "type": "splendour_ablaze_epoch:structure_feature",
+            "config": {
+              "structure": "splendour_ablaze_epoch:mulberry3",
+              "ignored_blocks": "minecraft:air",
+              "offset": [
+                -3,
+                0,
+                -3
+              ]
+            }
+          },
+          "placement": []
+        }
+      }
+    ]
+  }
+}

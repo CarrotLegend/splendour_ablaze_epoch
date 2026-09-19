@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "tag": "splendour_ablaze_epoch:potherb"
+    },
+    {
+      "tag": "splendour_ablaze_epoch:potherb"
+    },
+    {
+      "tag": "splendour_ablaze_epoch:potherb"
+    },
+    {
+      "item": "minecraft:bowl"
+    }
+  ],
+  "result": {
+    "item": "splendour_ablaze_epoch:potherbsoup",
+    "count": 1
+  }
+}

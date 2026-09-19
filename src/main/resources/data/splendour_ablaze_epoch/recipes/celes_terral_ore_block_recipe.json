@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "pattern": [
+    "aaa",
+    "aaa",
+    "aaa"
+  ],
+  "key": {
+    "a": {
+      "item": "splendour_ablaze_epoch:celes_terral_ingot"
+    }
+  },
+  "result": {
+    "item": "splendour_ablaze_epoch:celes_terral_block",
+    "count": 1
+  }
+}

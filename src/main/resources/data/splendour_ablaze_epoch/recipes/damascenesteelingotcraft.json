@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "aaa",
+    "bcb",
+    "ddd"
+  ],
+  "key": {
+    "a": {
+      "tag": "forge:iron"
+    },
+    "b": {
+      "item": "splendour_ablaze_epoch:dragonsophora_log"
+    },
+    "c": {
+      "item": "splendour_ablaze_epoch:pyrotemperdust"
+    },
+    "d": {
+      "item": "splendour_ablaze_epoch:darksaltpeter"
+    }
+  },
+  "result": {
+    "item": "splendour_ablaze_epoch:damascene_steel_ingot",
+    "count": 2
+  }
+}

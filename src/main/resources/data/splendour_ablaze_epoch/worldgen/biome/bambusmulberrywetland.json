@@ -1,0 +1,92 @@
+{
+  "has_precipitation": true,
+  "temperature": 0.5,
+  "downfall": 0.5,
+  "effects": {
+    "foliage_color": -13345721,
+    "grass_color": -12096156,
+    "sky_color": -3345174,
+    "fog_color": -8277595,
+    "water_color": -14530735,
+    "water_fog_color": -16304593
+  },
+  "spawners": {
+    "monster": [],
+    "creature": [
+      {
+        "type": "splendour_ablaze_epoch:magpie",
+        "weight": 20,
+        "minCount": 1,
+        "maxCount": 4
+      },
+      {
+        "type": "splendour_ablaze_epoch:pheasant",
+        "weight": 30,
+        "minCount": 2,
+        "maxCount": 4
+      },
+      {
+        "type": "frog",
+        "weight": 20,
+        "minCount": 1,
+        "maxCount": 4
+      },
+      {
+        "type": "splendour_ablaze_epoch:waterbuffalo",
+        "weight": 20,
+        "minCount": 1,
+        "maxCount": 3
+      }
+    ],
+    "ambient": [
+      {
+        "type": "splendour_ablaze_epoch:rustrelics",
+        "weight": 1,
+        "minCount": 1,
+        "maxCount": 1
+      },
+      {
+        "type": "splendour_ablaze_epoch:rusthound",
+        "weight": 1,
+        "minCount": 1,
+        "maxCount": 1
+      },
+      {
+        "type": "splendour_ablaze_epoch:rustedancestors",
+        "weight": 1,
+        "minCount": 1,
+        "maxCount": 1
+      }
+    ],
+    "axolotls": [],
+    "underground_water_creature": [],
+    "water_creature": [],
+    "water_ambient": [],
+    "misc": []
+  },
+  "spawn_costs": {},
+  "carvers": {
+    "air": [
+      "minecraft:cave",
+      "minecraft:cave_extra_underground",
+      "minecraft:canyon"
+    ]
+  },
+  "features": [
+    [],
+    [
+      "minecraft:lake_lava_underground"
+    ],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [
+      "splendour_ablaze_epoch:bambusmulberrywetland_tree"
+    ],
+    []
+  ]
+}

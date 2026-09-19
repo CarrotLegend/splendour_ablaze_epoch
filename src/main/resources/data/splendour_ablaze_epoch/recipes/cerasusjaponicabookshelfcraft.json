@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "aaa",
+    "bbb",
+    "aaa"
+  ],
+  "key": {
+    "a": {
+      "item": "splendour_ablaze_epoch:cerasus_japonica_planks"
+    },
+    "b": {
+      "item": "splendour_ablaze_epoch:positioningscroll_1"
+    }
+  },
+  "result": {
+    "item": "splendour_ablaze_epoch:cerasusjaponicabookshelf",
+    "count": 1
+  }
+}

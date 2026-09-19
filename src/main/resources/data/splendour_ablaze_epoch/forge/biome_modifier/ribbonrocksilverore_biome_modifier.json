@@ -1,0 +1,6 @@
+{
+  "type": "forge:add_features",
+  "biomes": "splendour_ablaze_epoch:speclumeforest",
+  "features": "splendour_ablaze_epoch:ribbonrocksilverore",
+  "step": "underground_ores"
+}

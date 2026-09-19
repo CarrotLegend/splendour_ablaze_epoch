@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    " a ",
+    "aba",
+    " c "
+  ],
+  "key": {
+    "a": {
+      "item": "splendour_ablaze_epoch:cinnabar"
+    },
+    "b": {
+      "item": "splendour_ablaze_epoch:talisman"
+    },
+    "c": {
+      "item": "splendour_ablaze_epoch:talisman_2"
+    }
+  },
+  "result": {
+    "item": "splendour_ablaze_epoch:talisman_2",
+    "count": 2
+  }
+}

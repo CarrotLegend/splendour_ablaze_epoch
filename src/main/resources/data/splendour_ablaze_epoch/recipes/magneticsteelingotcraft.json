@@ -1,0 +1,37 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "tag": "forge:iron"
+    },
+    {
+      "tag": "forge:iron"
+    },
+    {
+      "tag": "forge:iron"
+    },
+    {
+      "tag": "forge:coal"
+    },
+    {
+      "item": "splendour_ablaze_epoch:pyrotemperdust"
+    },
+    {
+      "tag": "forge:coal"
+    },
+    {
+      "item": "splendour_ablaze_epoch:magnetite"
+    },
+    {
+      "item": "splendour_ablaze_epoch:magnetite"
+    },
+    {
+      "item": "splendour_ablaze_epoch:magnetite"
+    }
+  ],
+  "result": {
+    "item": "splendour_ablaze_epoch:magnetic_steel_ingot",
+    "count": 4
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "a"
+  ],
+  "key": {
+    "a": {
+      "item": "splendour_ablaze_epoch:demoncopperblock"
+    }
+  },
+  "result": {
+    "item": "splendour_ablaze_epoch:demoncopper",
+    "count": 9
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "type": "forge:add_features",
+  "biomes": "splendour_ablaze_epoch:archaicfadetimberland",
+  "features": "splendour_ablaze_epoch:tower_1",
+  "step": "surface_structures"
+}

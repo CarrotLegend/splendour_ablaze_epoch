@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "splendour_ablaze_epoch:block/ambiguousimmortale"
+    },
+    "facing=east": {
+      "model": "splendour_ablaze_epoch:block/ambiguousimmortale",
+      "y": 90
+    },
+    "facing=south": {
+      "model": "splendour_ablaze_epoch:block/ambiguousimmortale",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "splendour_ablaze_epoch:block/ambiguousimmortale",
+      "y": 270
+    }
+  }
+}

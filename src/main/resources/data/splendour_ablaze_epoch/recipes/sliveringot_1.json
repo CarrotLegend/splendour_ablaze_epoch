@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:blasting",
+  "category": "misc",
+  "experience": 1,
+  "cookingtime": 100,
+  "ingredient": {
+    "item": "splendour_ablaze_epoch:rawsilver"
+  },
+  "result": "splendour_ablaze_epoch:sliveringot"
+}

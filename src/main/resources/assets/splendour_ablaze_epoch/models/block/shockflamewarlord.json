@@ -1,0 +1,9 @@
+{
+  "parent": "splendour_ablaze_epoch:custom/shock_flame_warlord",
+  "textures": {
+    "all": "splendour_ablaze_epoch:block/e_air",
+    "particle": "splendour_ablaze_epoch:block/e_air",
+    "1": "splendour_ablaze_epoch:block/shock_flame_warlord"
+  },
+  "render_type": "cutout_mipped"
+}

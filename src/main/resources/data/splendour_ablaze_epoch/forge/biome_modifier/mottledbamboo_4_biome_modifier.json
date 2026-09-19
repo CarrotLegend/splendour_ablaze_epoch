@@ -1,0 +1,6 @@
+{
+  "type": "forge:add_features",
+  "biomes": "splendour_ablaze_epoch:bambusmulberrywetland",
+  "features": "splendour_ablaze_epoch:mottledbamboo_4",
+  "step": "surface_structures"
+}

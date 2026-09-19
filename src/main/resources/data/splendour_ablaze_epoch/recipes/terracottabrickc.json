@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "aa",
+    "aa"
+  ],
+  "key": {
+    "a": {
+      "item": "minecraft:terracotta"
+    }
+  },
+  "result": {
+    "item": "splendour_ablaze_epoch:terracottabricks",
+    "count": 4
+  }
+}
