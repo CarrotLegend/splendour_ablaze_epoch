@@ -38,10 +38,10 @@ public final class PrintTableRecipeCategory
 
     private static final int[][] INPUT_POSITIONS = {
             {17, 15},
-            {37, 15},
             {17, 35},
-            {37, 35},
             {17, 55},
+            {37, 15},
+            {37, 35},
             {37, 55},
             {74, 23},
             {66, 54},
@@ -103,7 +103,7 @@ public final class PrintTableRecipeCategory
             PrintTableRecipe recipe,
             IFocusGroup focuses
     ) {
-        for (int i = 0; i < 9; i++) {
+        for (int i = 0; i < PrintTableRecipe.INPUT_COUNT; i++) {
             if (recipe.getDisplayStacks(i).isEmpty()) {
                 continue;
             }

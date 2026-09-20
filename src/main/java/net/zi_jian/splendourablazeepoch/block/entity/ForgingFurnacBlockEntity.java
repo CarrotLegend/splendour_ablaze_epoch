@@ -30,6 +30,7 @@ import net.minecraftforge.items.wrapper.SidedInvWrapper;
 import net.zi_jian.splendourablazeepoch.menu.ForgingFurnaceMenu;
 import net.zi_jian.splendourablazeepoch.recipe.ForgingFurnaceRecipe;
 import net.zi_jian.splendourablazeepoch.registry.ModBlockEntities;
+import net.zi_jian.splendourablazeepoch.registry.ModItems;
 import net.zi_jian.splendourablazeepoch.registry.ModRecipes;
 
 public final class ForgingFurnacBlockEntity
@@ -37,6 +38,7 @@ public final class ForgingFurnacBlockEntity
         implements WorldlyContainer {
 
     public static final int INPUT_SLOTS = 4;
+    public static final int PYROTEMPER_DUST_SLOT = 3;
     public static final int OUTPUT_SLOT = 4;
     public static final int SLOT_COUNT = 5;
     public static final int COOK_TIME = 220;
@@ -49,28 +51,32 @@ public final class ForgingFurnacBlockEntity
 
     private int cookProgress;
 
-    private final ContainerData data = new ContainerData() {
-        @Override
-        public int get(int index) {
-            return switch (index) {
-                case 0 -> cookProgress;
-                case 1 -> COOK_TIME;
-                default -> 0;
+    private final ContainerData data =
+            new ContainerData() {
+                @Override
+                public int get(int index) {
+                    return switch (index) {
+                        case 0 -> cookProgress;
+                        case 1 -> COOK_TIME;
+                        default -> 0;
+                    };
+                }
+
+                @Override
+                public void set(
+                        int index,
+                        int value
+                ) {
+                    if (index == 0) {
+                        cookProgress = value;
+                    }
+                }
+
+                @Override
+                public int getCount() {
+                    return 2;
+                }
             };
-        }
-
-        @Override
-        public void set(int index, int value) {
-            if (index == 0) {
-                cookProgress = value;
-            }
-        }
-
-        @Override
-        public int getCount() {
-            return 2;
-        }
-    };
 
     private final LazyOptional<? extends IItemHandler>[] sidedHandlers =
             SidedInvWrapper.create(
@@ -104,13 +110,20 @@ public final class ForgingFurnacBlockEntity
                 furnace.findRecipe();
 
         if (recipe.isPresent()
-                && furnace.canOutput(recipe.get())) {
+                && furnace.canOutput(
+                        recipe.get()
+                )) {
 
             furnace.cookProgress++;
 
-            if (furnace.cookProgress >= COOK_TIME) {
+            if (furnace.cookProgress
+                    >= COOK_TIME) {
+
                 furnace.cookProgress = 0;
-                furnace.craft(recipe.get());
+
+                furnace.craft(
+                        recipe.get()
+                );
             }
 
             furnace.setChanged();
@@ -171,9 +184,12 @@ public final class ForgingFurnacBlockEntity
             int slot,
             ItemStack stack
     ) {
-        ItemStack inserted = stack.copy();
+        ItemStack inserted =
+                stack.copy();
 
-        if (inserted.getCount() > getMaxStackSize()) {
+        if (inserted.getCount()
+                > getMaxStackSize()) {
+
             inserted.setCount(
                     getMaxStackSize()
             );
@@ -196,8 +212,20 @@ public final class ForgingFurnacBlockEntity
             int slot,
             ItemStack stack
     ) {
-        return slot >= 0
-                && slot < INPUT_SLOTS;
+        if (slot < 0
+                || slot >= INPUT_SLOTS) {
+            return false;
+        }
+
+        if (slot == PYROTEMPER_DUST_SLOT) {
+            return stack.is(
+                    ModItems.PYROTEMPER_DUST.get()
+            );
+        }
+
+        return !stack.is(
+                ModItems.PYROTEMPER_DUST.get()
+        );
     }
 
     @Override
@@ -205,11 +233,12 @@ public final class ForgingFurnacBlockEntity
             int slot,
             int amount
     ) {
-        ItemStack removed = ContainerHelper.removeItem(
-                items,
-                slot,
-                amount
-        );
+        ItemStack removed =
+                ContainerHelper.removeItem(
+                        items,
+                        slot,
+                        amount
+                );
 
         if (!removed.isEmpty()) {
             if (slot < INPUT_SLOTS) {
@@ -226,10 +255,11 @@ public final class ForgingFurnacBlockEntity
     public ItemStack removeItemNoUpdate(
             int slot
     ) {
-        ItemStack removed = ContainerHelper.takeItem(
-                items,
-                slot
-        );
+        ItemStack removed =
+                ContainerHelper.takeItem(
+                        items,
+                        slot
+                );
 
         if (slot < INPUT_SLOTS) {
             cookProgress = 0;
@@ -286,7 +316,8 @@ public final class ForgingFurnacBlockEntity
         return ItemStack.isSameItemSameTags(
                 output,
                 result
-        ) && output.getCount() + result.getCount()
+        ) && output.getCount()
+                + result.getCount()
                 <= output.getMaxStackSize();
     }
 
@@ -301,7 +332,10 @@ public final class ForgingFurnacBlockEntity
             return;
         }
 
-        for (int i = 0; i < INPUT_SLOTS; i++) {
+        for (int i = 0;
+             i < INPUT_SLOTS;
+             i++) {
+
             ForgingFurnaceRecipe.Input input =
                     recipe.input(i);
 
@@ -354,7 +388,10 @@ public final class ForgingFurnacBlockEntity
                         INPUT_SLOTS
                 );
 
-        for (int i = 0; i < INPUT_SLOTS; i++) {
+        for (int i = 0;
+             i < INPUT_SLOTS;
+             i++) {
+
             container.setItem(
                     i,
                     items.get(i).copy()
@@ -369,7 +406,9 @@ public final class ForgingFurnacBlockEntity
             Player player
     ) {
         return level != null
-                && level.getBlockEntity(worldPosition) == this
+                && level.getBlockEntity(
+                        worldPosition
+                ) == this
                 && player.distanceToSqr(
                         worldPosition.getX() + 0.5D,
                         worldPosition.getY() + 0.5D,
@@ -414,7 +453,8 @@ public final class ForgingFurnacBlockEntity
             @Nullable Direction side
     ) {
         if (!remove
-                && capability == ForgeCapabilities.ITEM_HANDLER) {
+                && capability
+                == ForgeCapabilities.ITEM_HANDLER) {
 
             return (
                     side == null

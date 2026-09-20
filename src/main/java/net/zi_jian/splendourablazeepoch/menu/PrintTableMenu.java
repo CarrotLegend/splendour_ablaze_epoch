@@ -2,8 +2,14 @@ package net.zi_jian.splendourablazeepoch.menu;
 
 import java.util.Optional;
 
+import net.minecraft.advancements.Advancement;
+import net.minecraft.advancements.AdvancementProgress;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.Container;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
@@ -13,36 +19,42 @@ import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.inventory.ResultContainer;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.Ingredient;
+import net.zi_jian.splendourablazeepoch.SplendourAblazeEpochMod;
 import net.zi_jian.splendourablazeepoch.block.entity.PrintTableBlockEntity;
 import net.zi_jian.splendourablazeepoch.recipe.PrintTableRecipe;
 import net.zi_jian.splendourablazeepoch.registry.ModBlocks;
 import net.zi_jian.splendourablazeepoch.registry.ModMenus;
 import net.zi_jian.splendourablazeepoch.registry.ModRecipes;
 
-public final class PrintTableMenu
-        extends AbstractContainerMenu {
+public final class PrintTableMenu extends AbstractContainerMenu {
+    private static final int INPUT_COUNT =
+            PrintTableRecipe.INPUT_COUNT;
 
-    private static final int INPUT_COUNT = 9;
     private static final int RESULT_INDEX = 9;
     private static final int PLAYER_INVENTORY_START = 10;
     private static final int PLAYER_HOTBAR_START = 37;
     private static final int PLAYER_END = 46;
 
     private static final int[][] INPUT_POSITIONS = {
-            {15, 17},
+            {16, 17},
+            {16, 35},
+            {16, 53},
             {34, 17},
-            {15, 35},
             {34, 35},
-            {15, 54},
-            {34, 54},
-            {69, 25},
+            {34, 53},
+            {70, 26},
             {61, 53},
             {79, 53}
     };
 
     private static final int RESULT_X = 133;
     private static final int RESULT_Y = 26;
+
+    private static final ResourceLocation LIFES_WORK_ADVANCEMENT =
+            new ResourceLocation(
+                    SplendourAblazeEpochMod.MOD_ID,
+                    "lifeswork"
+            );
 
     private final PrintTableBlockEntity table;
     private final ResultContainer result =
@@ -79,15 +91,12 @@ public final class PrintTableMenu
         this.table = table;
         this.player = inventory.player;
 
-        this.access =
-                ContainerLevelAccess.create(
-                        inventory.player.level(),
-                        table.getBlockPos()
-                );
-
-        table.startOpen(
-                inventory.player
+        this.access = ContainerLevelAccess.create(
+                inventory.player.level(),
+                table.getBlockPos()
         );
+
+        table.startOpen(inventory.player);
 
         for (int i = 0; i < INPUT_COUNT; i++) {
             addSlot(
@@ -118,9 +127,16 @@ public final class PrintTableMenu
                     public boolean mayPickup(
                             Player player
                     ) {
-                        return !getItem().isEmpty()
-                                && PrintTableMenu.this
-                                .findRecipe()
+                        if (getItem().isEmpty()) {
+                            return false;
+                        }
+
+                        SimpleContainer input =
+                                PrintTableMenu.this
+                                        .createInputContainer();
+
+                        return PrintTableMenu.this
+                                .findRecipe(input)
                                 .isPresent();
                     }
 
@@ -130,7 +146,7 @@ public final class PrintTableMenu
                             ItemStack stack
                     ) {
                         PrintTableMenu.this
-                                .consumeIngredients();
+                                .finishPrint(player);
 
                         super.onTake(
                                 player,
@@ -175,7 +191,6 @@ public final class PrintTableMenu
                 .level()
                 .getBlockEntity(pos)
                 instanceof PrintTableBlockEntity table) {
-
             return table;
         }
 
@@ -201,12 +216,14 @@ public final class PrintTableMenu
         return container;
     }
 
-    private Optional<PrintTableRecipe> findRecipe() {
+    private Optional<PrintTableRecipe> findRecipe(
+            SimpleContainer input
+    ) {
         return player.level()
                 .getRecipeManager()
                 .getRecipeFor(
                         ModRecipes.PRINT_TABLE_TYPE,
-                        createInputContainer(),
+                        input,
                         player.level()
                 );
     }
@@ -216,32 +233,46 @@ public final class PrintTableMenu
             return;
         }
 
-        Optional<PrintTableRecipe> recipe =
-                findRecipe();
+        SimpleContainer input =
+                createInputContainer();
 
-        ItemStack next =
-                recipe.map(
-                                PrintTableRecipe::getResult
-                        )
-                        .orElse(
-                                ItemStack.EMPTY
-                        );
+        Optional<PrintTableRecipe> recipe =
+                findRecipe(input);
+
+        ItemStack output = recipe
+                .map(value -> value.assemble(
+                        input,
+                        player.level()
+                                .registryAccess()
+                ))
+                .orElse(ItemStack.EMPTY);
 
         result.setItem(
                 0,
-                next
+                output
         );
 
-        recipe.ifPresent(
-                result::setRecipeUsed
-        );
+        if (recipe.isPresent()) {
+            result.setRecipeUsed(
+                    recipe.get()
+            );
+        }
     }
 
-    private void consumeIngredients() {
-        Optional<PrintTableRecipe> optional =
-                findRecipe();
+    private void finishPrint(
+            Player craftingPlayer
+    ) {
+        if (craftingPlayer.level().isClientSide) {
+            return;
+        }
 
-        if (optional.isEmpty()) {
+        SimpleContainer input =
+                createInputContainer();
+
+        Optional<PrintTableRecipe> recipe =
+                findRecipe(input);
+
+        if (recipe.isEmpty()) {
             result.setItem(
                     0,
                     ItemStack.EMPTY
@@ -250,52 +281,130 @@ public final class PrintTableMenu
             return;
         }
 
-        PrintTableRecipe recipe =
-                optional.get();
+        RandomSource random =
+                craftingPlayer.getRandom();
 
-        for (int i = 0; i < INPUT_COUNT; i++) {
-            Ingredient ingredient =
-                    recipe.input(i);
+        consumeMovableTypePair(
+                0,
+                1,
+                random
+        );
 
-            if (ingredient == Ingredient.EMPTY) {
-                continue;
-            }
+        consumeMovableTypePair(
+                2,
+                3,
+                random
+        );
 
-            ItemStack stack =
-                    table.getItem(i);
+        consumeMovableTypePair(
+                4,
+                5,
+                random
+        );
 
-            if (!stack.isEmpty()) {
-                stack.shrink(1);
+        shrinkInput(
+                PrintTableRecipe.BOOK_SLOT
+        );
 
-                if (stack.isEmpty()) {
-                    table.setItem(
-                            i,
-                            ItemStack.EMPTY
-                    );
-                }
-            }
-        }
+        shrinkInput(
+                PrintTableRecipe.INK_SLOT
+        );
 
         table.setChanged();
 
+        grantLifesWork(
+                craftingPlayer
+        );
+
         updateResult();
+    }
+
+    private void consumeMovableTypePair(
+            int firstSlot,
+            int secondSlot,
+            RandomSource random
+    ) {
+        if (random.nextInt(3) == 2) {
+            shrinkInput(firstSlot);
+            return;
+        }
+
+        if (random.nextInt(3) == 1) {
+            shrinkInput(secondSlot);
+        }
+    }
+
+    private void shrinkInput(
+            int slot
+    ) {
+        ItemStack stack =
+                table.getItem(slot);
+
+        if (stack.isEmpty()) {
+            return;
+        }
+
+        table.removeItem(
+                slot,
+                1
+        );
+    }
+
+    private static void grantLifesWork(
+            Player player
+    ) {
+        if (!(player instanceof ServerPlayer serverPlayer)) {
+            return;
+        }
+
+        MinecraftServer server =
+                serverPlayer.getServer();
+
+        if (server == null) {
+            return;
+        }
+
+        Advancement advancement =
+                server.getAdvancements()
+                        .getAdvancement(
+                                LIFES_WORK_ADVANCEMENT
+                        );
+
+        if (advancement == null) {
+            return;
+        }
+
+        AdvancementProgress progress =
+                serverPlayer.getAdvancements()
+                        .getOrStartProgress(
+                                advancement
+                        );
+
+        if (progress.isDone()) {
+            return;
+        }
+
+        for (String criterion :
+                progress.getRemainingCriteria()) {
+            serverPlayer.getAdvancements()
+                    .award(
+                            advancement,
+                            criterion
+                    );
+        }
     }
 
     @Override
     public void slotsChanged(
             Container container
     ) {
-        super.slotsChanged(
-                container
-        );
-
+        super.slotsChanged(container);
         updateResult();
     }
 
     @Override
     public void broadcastChanges() {
         updateResult();
-
         super.broadcastChanges();
     }
 
@@ -372,13 +481,15 @@ public final class PrintTableMenu
                     )) {
                         return ItemStack.EMPTY;
                     }
-                } else if (!moveItemStackTo(
-                        stack,
-                        PLAYER_INVENTORY_START,
-                        PLAYER_HOTBAR_START,
-                        false
-                )) {
-                    return ItemStack.EMPTY;
+                } else {
+                    if (!moveItemStackTo(
+                            stack,
+                            PLAYER_INVENTORY_START,
+                            PLAYER_HOTBAR_START,
+                            false
+                    )) {
+                        return ItemStack.EMPTY;
+                    }
                 }
             }
         }
@@ -408,12 +519,7 @@ public final class PrintTableMenu
     public void removed(
             Player player
     ) {
-        super.removed(
-                player
-        );
-
-        table.stopOpen(
-                player
-        );
+        super.removed(player);
+        table.stopOpen(player);
     }
 }

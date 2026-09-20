@@ -12,6 +12,7 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.RenderShape;
+import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
@@ -20,11 +21,22 @@ import net.minecraftforge.network.NetworkHooks;
 import net.zi_jian.splendourablazeepoch.block.entity.PrintTableBlockEntity;
 
 public final class PrintTableBlock extends BaseEntityBlock {
-
     public PrintTableBlock(
             BlockBehaviour.Properties properties
     ) {
-        super(properties);
+        super(
+                properties
+                        .strength(
+                                2.0F,
+                                20.0F
+                        )
+                        .sound(
+                                SoundType.WOOD
+                        )
+                        .lightLevel(
+                                state -> 15
+                        )
+        );
     }
 
     @Override
@@ -59,7 +71,6 @@ public final class PrintTableBlock extends BaseEntityBlock {
                 && player instanceof ServerPlayer serverPlayer
                 && level.getBlockEntity(pos)
                 instanceof PrintTableBlockEntity table) {
-
             NetworkHooks.openScreen(
                     serverPlayer,
                     table,
@@ -85,7 +96,6 @@ public final class PrintTableBlock extends BaseEntityBlock {
         )) {
             if (level.getBlockEntity(pos)
                     instanceof PrintTableBlockEntity table) {
-
                 Containers.dropContents(
                         level,
                         pos,

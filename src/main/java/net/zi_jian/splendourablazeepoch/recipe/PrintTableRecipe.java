@@ -25,20 +25,21 @@ import net.minecraft.world.item.crafting.ShapedRecipe;
 import net.minecraft.world.level.Level;
 import net.zi_jian.splendourablazeepoch.registry.ModRecipes;
 
-public final class PrintTableRecipe
-        implements Recipe<SimpleContainer> {
-
+public final class PrintTableRecipe implements Recipe<SimpleContainer> {
     public static final int INPUT_COUNT = 9;
+    public static final int MASTER_SLOT = 6;
+    public static final int BOOK_SLOT = 7;
+    public static final int INK_SLOT = 8;
 
     private final ResourceLocation id;
     private final List<Ingredient> inputs;
     private final NonNullList<Ingredient> ingredients;
-    private final ItemStack result;
+    private final ItemStack displayResult;
 
     public PrintTableRecipe(
             ResourceLocation id,
             List<Ingredient> inputs,
-            ItemStack result
+            ItemStack displayResult
     ) {
         if (inputs.size() != INPUT_COUNT) {
             throw new IllegalArgumentException(
@@ -48,19 +49,15 @@ public final class PrintTableRecipe
 
         this.id = id;
         this.inputs = List.copyOf(inputs);
-        this.result = result.copy();
+        this.displayResult = displayResult.copy();
 
-        this.ingredients =
-                NonNullList.withSize(
-                        INPUT_COUNT,
-                        Ingredient.EMPTY
-                );
+        this.ingredients = NonNullList.withSize(
+                INPUT_COUNT,
+                Ingredient.EMPTY
+        );
 
         for (int i = 0; i < INPUT_COUNT; i++) {
-            ingredients.set(
-                    i,
-                    inputs.get(i)
-            );
+            ingredients.set(i, inputs.get(i));
         }
     }
 
@@ -74,11 +71,8 @@ public final class PrintTableRecipe
         }
 
         for (int i = 0; i < INPUT_COUNT; i++) {
-            Ingredient ingredient =
-                    inputs.get(i);
-
-            ItemStack stack =
-                    container.getItem(i);
+            Ingredient ingredient = inputs.get(i);
+            ItemStack stack = container.getItem(i);
 
             if (ingredient == Ingredient.EMPTY) {
                 if (!stack.isEmpty()) {
@@ -96,44 +90,45 @@ public final class PrintTableRecipe
         return true;
     }
 
-    public Ingredient input(
-            int index
-    ) {
+    public Ingredient input(int index) {
         return inputs.get(index);
     }
 
-    public List<ItemStack> getDisplayStacks(
-            int index
-    ) {
-        Ingredient ingredient =
-                inputs.get(index);
+    public List<ItemStack> getDisplayStacks(int index) {
+        Ingredient ingredient = inputs.get(index);
 
         if (ingredient == Ingredient.EMPTY) {
             return List.of();
         }
 
-        List<ItemStack> stacks =
-                new ArrayList<>();
+        List<ItemStack> stacks = new ArrayList<>();
 
         for (ItemStack stack : ingredient.getItems()) {
-            stacks.add(
-                    stack.copy()
-            );
+            stacks.add(stack.copy());
         }
 
         return stacks;
     }
 
     public ItemStack getResult() {
-        return result.copy();
+        return displayResult.copy();
     }
 
     @Override
     public ItemStack assemble(
             SimpleContainer container,
-            RegistryAccess access
+            RegistryAccess registryAccess
     ) {
-        return result.copy();
+        ItemStack master = container.getItem(MASTER_SLOT);
+
+        if (master.isEmpty()) {
+            return ItemStack.EMPTY;
+        }
+
+        ItemStack output = master.copy();
+        output.setCount(1);
+
+        return output;
     }
 
     @Override
@@ -146,9 +141,9 @@ public final class PrintTableRecipe
 
     @Override
     public ItemStack getResultItem(
-            RegistryAccess access
+            RegistryAccess registryAccess
     ) {
-        return result.copy();
+        return displayResult.copy();
     }
 
     @Override
@@ -179,11 +174,10 @@ public final class PrintTableRecipe
                 ResourceLocation id,
                 JsonObject json
         ) {
-            JsonArray array =
-                    GsonHelper.getAsJsonArray(
-                            json,
-                            "ingredients"
-                    );
+            JsonArray array = GsonHelper.getAsJsonArray(
+                    json,
+                    "ingredients"
+            );
 
             if (array.size() != INPUT_COUNT) {
                 throw new JsonParseException(
@@ -192,34 +186,27 @@ public final class PrintTableRecipe
                 );
             }
 
-            List<Ingredient> inputs =
-                    new ArrayList<>(
-                            INPUT_COUNT
-                    );
+            List<Ingredient> inputs = new ArrayList<>(
+                    INPUT_COUNT
+            );
 
             for (JsonElement element : array) {
                 if (element.isJsonObject()
                         && element.getAsJsonObject().size() == 0) {
-
-                    inputs.add(
-                            Ingredient.EMPTY
-                    );
+                    inputs.add(Ingredient.EMPTY);
                 } else {
                     inputs.add(
-                            Ingredient.fromJson(
-                                    element
-                            )
+                            Ingredient.fromJson(element)
                     );
                 }
             }
 
-            ItemStack output =
-                    ShapedRecipe.itemStackFromJson(
-                            GsonHelper.getAsJsonObject(
-                                    json,
-                                    "output"
-                            )
-                    );
+            ItemStack output = ShapedRecipe.itemStackFromJson(
+                    GsonHelper.getAsJsonObject(
+                            json,
+                            "output"
+                    )
+            );
 
             return new PrintTableRecipe(
                     id,
@@ -234,21 +221,17 @@ public final class PrintTableRecipe
                 ResourceLocation id,
                 FriendlyByteBuf buffer
         ) {
-            List<Ingredient> inputs =
-                    new ArrayList<>(
-                            INPUT_COUNT
-                    );
+            List<Ingredient> inputs = new ArrayList<>(
+                    INPUT_COUNT
+            );
 
             for (int i = 0; i < INPUT_COUNT; i++) {
                 inputs.add(
-                        Ingredient.fromNetwork(
-                                buffer
-                        )
+                        Ingredient.fromNetwork(buffer)
                 );
             }
 
-            ItemStack result =
-                    buffer.readItem();
+            ItemStack result = buffer.readItem();
 
             return new PrintTableRecipe(
                     id,
@@ -262,15 +245,12 @@ public final class PrintTableRecipe
                 FriendlyByteBuf buffer,
                 PrintTableRecipe recipe
         ) {
-            for (Ingredient ingredient
-                    : recipe.inputs) {
-                ingredient.toNetwork(
-                        buffer
-                );
+            for (Ingredient ingredient : recipe.inputs) {
+                ingredient.toNetwork(buffer);
             }
 
             buffer.writeItem(
-                    recipe.result
+                    recipe.displayResult
             );
         }
     }
