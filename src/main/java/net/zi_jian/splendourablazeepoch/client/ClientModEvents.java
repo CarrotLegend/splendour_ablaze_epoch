@@ -130,10 +130,17 @@ public final class ClientModEvents {
             FMLClientSetupEvent event
     ) {
         event.enqueueWork(
-                () -> MenuScreens.register(
-                        ModMenus.FORGING_FURNACE_GUI.get(),
-                        ForgingFurnaceScreen::new
-                )
+                () -> {
+                        MenuScreens.register(
+                                ModMenus.FORGING_FURNACE_GUI.get(),
+                                ForgingFurnaceScreen::new
+                        );
+
+                        MenuScreens.register(
+                                ModMenus.PRINT_TABLE_GUI.get(),
+                                PrintTableScreen::new
+                        );
+                }
         );
     }
 

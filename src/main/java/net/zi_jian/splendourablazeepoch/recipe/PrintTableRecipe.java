@@ -1,0 +1,277 @@
+package net.zi_jian.splendourablazeepoch.recipe;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.jetbrains.annotations.Nullable;
+
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
+
+import net.minecraft.core.NonNullList;
+import net.minecraft.core.RegistryAccess;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.GsonHelper;
+import net.minecraft.world.SimpleContainer;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.item.crafting.ShapedRecipe;
+import net.minecraft.world.level.Level;
+import net.zi_jian.splendourablazeepoch.registry.ModRecipes;
+
+public final class PrintTableRecipe
+        implements Recipe<SimpleContainer> {
+
+    public static final int INPUT_COUNT = 9;
+
+    private final ResourceLocation id;
+    private final List<Ingredient> inputs;
+    private final NonNullList<Ingredient> ingredients;
+    private final ItemStack result;
+
+    public PrintTableRecipe(
+            ResourceLocation id,
+            List<Ingredient> inputs,
+            ItemStack result
+    ) {
+        if (inputs.size() != INPUT_COUNT) {
+            throw new IllegalArgumentException(
+                    "Print table recipe requires exactly 9 inputs"
+            );
+        }
+
+        this.id = id;
+        this.inputs = List.copyOf(inputs);
+        this.result = result.copy();
+
+        this.ingredients =
+                NonNullList.withSize(
+                        INPUT_COUNT,
+                        Ingredient.EMPTY
+                );
+
+        for (int i = 0; i < INPUT_COUNT; i++) {
+            ingredients.set(
+                    i,
+                    inputs.get(i)
+            );
+        }
+    }
+
+    @Override
+    public boolean matches(
+            SimpleContainer container,
+            Level level
+    ) {
+        if (container.getContainerSize() < INPUT_COUNT) {
+            return false;
+        }
+
+        for (int i = 0; i < INPUT_COUNT; i++) {
+            Ingredient ingredient =
+                    inputs.get(i);
+
+            ItemStack stack =
+                    container.getItem(i);
+
+            if (ingredient == Ingredient.EMPTY) {
+                if (!stack.isEmpty()) {
+                    return false;
+                }
+
+                continue;
+            }
+
+            if (!ingredient.test(stack)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public Ingredient input(
+            int index
+    ) {
+        return inputs.get(index);
+    }
+
+    public List<ItemStack> getDisplayStacks(
+            int index
+    ) {
+        Ingredient ingredient =
+                inputs.get(index);
+
+        if (ingredient == Ingredient.EMPTY) {
+            return List.of();
+        }
+
+        List<ItemStack> stacks =
+                new ArrayList<>();
+
+        for (ItemStack stack : ingredient.getItems()) {
+            stacks.add(
+                    stack.copy()
+            );
+        }
+
+        return stacks;
+    }
+
+    public ItemStack getResult() {
+        return result.copy();
+    }
+
+    @Override
+    public ItemStack assemble(
+            SimpleContainer container,
+            RegistryAccess access
+    ) {
+        return result.copy();
+    }
+
+    @Override
+    public boolean canCraftInDimensions(
+            int width,
+            int height
+    ) {
+        return true;
+    }
+
+    @Override
+    public ItemStack getResultItem(
+            RegistryAccess access
+    ) {
+        return result.copy();
+    }
+
+    @Override
+    public NonNullList<Ingredient> getIngredients() {
+        return ingredients;
+    }
+
+    @Override
+    public ResourceLocation getId() {
+        return id;
+    }
+
+    @Override
+    public RecipeSerializer<?> getSerializer() {
+        return ModRecipes.PRINT_TABLE_SERIALIZER.get();
+    }
+
+    @Override
+    public RecipeType<?> getType() {
+        return ModRecipes.PRINT_TABLE_TYPE;
+    }
+
+    public static final class Serializer
+            implements RecipeSerializer<PrintTableRecipe> {
+
+        @Override
+        public PrintTableRecipe fromJson(
+                ResourceLocation id,
+                JsonObject json
+        ) {
+            JsonArray array =
+                    GsonHelper.getAsJsonArray(
+                            json,
+                            "ingredients"
+                    );
+
+            if (array.size() != INPUT_COUNT) {
+                throw new JsonParseException(
+                        "Print table recipe must contain exactly 9 ingredients: "
+                                + id
+                );
+            }
+
+            List<Ingredient> inputs =
+                    new ArrayList<>(
+                            INPUT_COUNT
+                    );
+
+            for (JsonElement element : array) {
+                if (element.isJsonObject()
+                        && element.getAsJsonObject().size() == 0) {
+
+                    inputs.add(
+                            Ingredient.EMPTY
+                    );
+                } else {
+                    inputs.add(
+                            Ingredient.fromJson(
+                                    element
+                            )
+                    );
+                }
+            }
+
+            ItemStack output =
+                    ShapedRecipe.itemStackFromJson(
+                            GsonHelper.getAsJsonObject(
+                                    json,
+                                    "output"
+                            )
+                    );
+
+            return new PrintTableRecipe(
+                    id,
+                    inputs,
+                    output
+            );
+        }
+
+        @Nullable
+        @Override
+        public PrintTableRecipe fromNetwork(
+                ResourceLocation id,
+                FriendlyByteBuf buffer
+        ) {
+            List<Ingredient> inputs =
+                    new ArrayList<>(
+                            INPUT_COUNT
+                    );
+
+            for (int i = 0; i < INPUT_COUNT; i++) {
+                inputs.add(
+                        Ingredient.fromNetwork(
+                                buffer
+                        )
+                );
+            }
+
+            ItemStack result =
+                    buffer.readItem();
+
+            return new PrintTableRecipe(
+                    id,
+                    inputs,
+                    result
+            );
+        }
+
+        @Override
+        public void toNetwork(
+                FriendlyByteBuf buffer,
+                PrintTableRecipe recipe
+        ) {
+            for (Ingredient ingredient
+                    : recipe.inputs) {
+                ingredient.toNetwork(
+                        buffer
+                );
+            }
+
+            buffer.writeItem(
+                    recipe.result
+            );
+        }
+    }
+}

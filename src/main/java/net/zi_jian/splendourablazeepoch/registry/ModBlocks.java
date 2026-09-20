@@ -23,6 +23,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import net.zi_jian.splendourablazeepoch.SplendourAblazeEpochMod;
 import net.zi_jian.splendourablazeepoch.block.ForgingFurnacBlock;
+import net.zi_jian.splendourablazeepoch.block.GnomeBlock;
 import net.zi_jian.splendourablazeepoch.block.LegacyChestBlock;
 import net.zi_jian.splendourablazeepoch.block.LegacyPillarVariantBlock;
 import net.zi_jian.splendourablazeepoch.block.LegacyVariantBlock;
@@ -34,6 +35,7 @@ import net.zi_jian.splendourablazeepoch.block.MigratedFacingEntityBlock;
 import net.zi_jian.splendourablazeepoch.block.MottledBambooBudBlock;
 import net.zi_jian.splendourablazeepoch.block.MottledBambooStalkBlock;
 import net.zi_jian.splendourablazeepoch.block.TopworldPlantBlock;
+import net.zi_jian.splendourablazeepoch.block.PrintTableBlock;
 import net.zi_jian.splendourablazeepoch.world.TopworldClosure;
 
 public final class ModBlocks {
@@ -865,7 +867,7 @@ public final class ModBlocks {
     public static final RegistryObject<Block> CLAY_POT =
             registerTopworldBlock(
                     "claypot",
-                    () -> new MigratedEntityBlock(
+                    () -> new LegacyChestBlock(
                             "claypot",
                             BlockBehaviour.Properties.copy(Blocks.TERRACOTTA)
                                     .noOcclusion()
@@ -875,7 +877,7 @@ public final class ModBlocks {
     public static final RegistryObject<Block> EXQUISITE_WOODEN_BOX =
             registerTopworldBlock(
                     "exquisitewoodenbox",
-                    () -> new MigratedEntityBlock(
+                    () -> new LegacyChestBlock(
                             "exquisitewoodenbox",
                             BlockBehaviour.Properties.copy(Blocks.BARREL)
                     )
@@ -884,10 +886,8 @@ public final class ModBlocks {
     public static final RegistryObject<Block> GNOME =
             registerTopworldBlock(
                     "gnome",
-                    () -> new MigratedFacingEntityBlock(
-                            "gnome",
+                    () -> new GnomeBlock(
                             BlockBehaviour.Properties.copy(Blocks.STONE)
-                                    .noOcclusion()
                     )
             );
 
@@ -903,8 +903,7 @@ public final class ModBlocks {
     public static final RegistryObject<Block> PRINT_TABLE =
             registerTopworldBlock(
                     "printtable",
-                    () -> new MigratedEntityBlock(
-                            "printtable",
+                        () -> new PrintTableBlock(
                             BlockBehaviour.Properties.copy(Blocks.CRAFTING_TABLE)
                     )
             );
@@ -912,7 +911,7 @@ public final class ModBlocks {
     public static final RegistryObject<Block> WOODEN_CRATE =
             registerTopworldBlock(
                     "woodencrate",
-                    () -> new MigratedEntityBlock(
+                    () -> new LegacyChestBlock(
                             "woodencrate",
                             BlockBehaviour.Properties.copy(Blocks.BARREL)
                     )
