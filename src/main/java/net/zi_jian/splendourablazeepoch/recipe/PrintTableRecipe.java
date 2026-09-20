@@ -30,15 +30,26 @@ public final class PrintTableRecipe
 
     public static final int INPUT_COUNT = 9;
 
+    /*
+     * Legacy print-table layout:
+     * 0-5 movable type, 6 enchanted-book master,
+     * 7 blank book, 8 black dye.
+     *
+     * The master is deliberately copied rather than consumed.
+     */
+    public static final int MASTER_SLOT = 6;
+    public static final int BOOK_SLOT = 7;
+    public static final int INK_SLOT = 8;
+
     private final ResourceLocation id;
     private final List<Ingredient> inputs;
     private final NonNullList<Ingredient> ingredients;
-    private final ItemStack result;
+    private final ItemStack displayResult;
 
     public PrintTableRecipe(
             ResourceLocation id,
             List<Ingredient> inputs,
-            ItemStack result
+            ItemStack displayResult
     ) {
         if (inputs.size() != INPUT_COUNT) {
             throw new IllegalArgumentException(
@@ -48,7 +59,7 @@ public final class PrintTableRecipe
 
         this.id = id;
         this.inputs = List.copyOf(inputs);
-        this.result = result.copy();
+        this.displayResult = displayResult.copy();
 
         this.ingredients =
                 NonNullList.withSize(
@@ -124,8 +135,12 @@ public final class PrintTableRecipe
         return stacks;
     }
 
+    /**
+     * JEI needs a stable output even though the real printed item is copied
+     * from the enchanted-book master at runtime.
+     */
     public ItemStack getResult() {
-        return result.copy();
+        return displayResult.copy();
     }
 
     @Override
@@ -133,7 +148,23 @@ public final class PrintTableRecipe
             SimpleContainer container,
             RegistryAccess access
     ) {
-        return result.copy();
+        ItemStack master =
+                container.getItem(
+                        MASTER_SLOT
+                );
+
+        if (master.isEmpty()) {
+            return ItemStack.EMPTY;
+        }
+
+        ItemStack printed =
+                master.copy();
+
+        printed.setCount(
+                displayResult.getCount()
+        );
+
+        return printed;
     }
 
     @Override
@@ -148,7 +179,7 @@ public final class PrintTableRecipe
     public ItemStack getResultItem(
             RegistryAccess access
     ) {
-        return result.copy();
+        return displayResult.copy();
     }
 
     @Override
@@ -270,7 +301,7 @@ public final class PrintTableRecipe
             }
 
             buffer.writeItem(
-                    recipe.result
+                    recipe.displayResult
             );
         }
     }
