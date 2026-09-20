@@ -1,5 +1,11 @@
 package net.zi_jian.splendourablazeepoch.menu;
 
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
@@ -9,8 +15,11 @@ import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.zi_jian.splendourablazeepoch.block.entity.ForgingFurnacBlockEntity;
+import net.zi_jian.splendourablazeepoch.recipe.ForgingFurnaceRecipe;
 import net.zi_jian.splendourablazeepoch.registry.ModBlocks;
+import net.zi_jian.splendourablazeepoch.registry.ModItems;
 import net.zi_jian.splendourablazeepoch.registry.ModMenus;
+import net.zi_jian.splendourablazeepoch.registry.ModRecipes;
 
 public final class ForgingFurnaceMenu
         extends AbstractContainerMenu {
@@ -22,6 +31,7 @@ public final class ForgingFurnaceMenu
 
     private final ForgingFurnacBlockEntity furnace;
     private final ContainerLevelAccess access;
+    private final Inventory playerInventory;
 
     public ForgingFurnaceMenu(
             int containerId,
@@ -49,49 +59,39 @@ public final class ForgingFurnaceMenu
         );
 
         this.furnace = furnace;
-        this.access = ContainerLevelAccess.create(
-                inventory.player.level(),
-                furnace.getBlockPos()
-        );
+        this.playerInventory = inventory;
+        this.access =
+                ContainerLevelAccess.create(
+                        inventory.player.level(),
+                        furnace.getBlockPos()
+                );
 
         furnace.startOpen(
                 inventory.player
         );
 
-        addSlot(
-                new Slot(
-                        furnace,
-                        0,
-                        25,
-                        17
-                )
+        addInputSlot(
+                0,
+                25,
+                17
         );
 
-        addSlot(
-                new Slot(
-                        furnace,
-                        1,
-                        25,
-                        35
-                )
+        addInputSlot(
+                1,
+                25,
+                35
         );
 
-        addSlot(
-                new Slot(
-                        furnace,
-                        2,
-                        25,
-                        53
-                )
+        addInputSlot(
+                2,
+                25,
+                53
         );
 
-        addSlot(
-                new Slot(
-                        furnace,
-                        3,
-                        69,
-                        14
-                )
+        addInputSlot(
+                ForgingFurnacBlockEntity.PYROTEMPER_DUST_SLOT,
+                69,
+                14
         );
 
         addSlot(
@@ -111,7 +111,10 @@ public final class ForgingFurnaceMenu
         );
 
         for (int row = 0; row < 3; row++) {
-            for (int column = 0; column < 9; column++) {
+            for (int column = 0;
+                 column < 9;
+                 column++) {
+
                 addSlot(
                         new Slot(
                                 inventory,
@@ -123,7 +126,10 @@ public final class ForgingFurnaceMenu
             }
         }
 
-        for (int column = 0; column < 9; column++) {
+        for (int column = 0;
+             column < 9;
+             column++) {
+
             addSlot(
                     new Slot(
                             inventory,
@@ -139,27 +145,59 @@ public final class ForgingFurnaceMenu
         );
     }
 
+    private void addInputSlot(
+            int slotIndex,
+            int x,
+            int y
+    ) {
+        addSlot(
+                new Slot(
+                        furnace,
+                        slotIndex,
+                        x,
+                        y
+                ) {
+                    @Override
+                    public boolean mayPlace(
+                            ItemStack stack
+                    ) {
+                        return furnace.canPlaceItem(
+                                slotIndex,
+                                stack
+                        );
+                    }
+                }
+        );
+    }
+
     private static ForgingFurnacBlockEntity findFurnace(
             Inventory inventory,
             BlockPos pos
     ) {
-        if (inventory.player.level().getBlockEntity(pos)
+        if (inventory.player.level()
+                .getBlockEntity(pos)
                 instanceof ForgingFurnacBlockEntity furnace) {
             return furnace;
         }
 
         throw new IllegalStateException(
-                "Forging furnace block entity not found at " + pos
+                "Forging furnace block entity not found at "
+                        + pos
         );
     }
 
     public int getScaledProgress(
             int width
     ) {
-        int progress = furnace.getDataAccess().get(0);
-        int total = furnace.getDataAccess().get(1);
+        int progress =
+                furnace.getDataAccess()
+                        .get(0);
 
-        return total == 0
+        int total =
+                furnace.getDataAccess()
+                        .get(1);
+
+        return total <= 0
                 ? 0
                 : progress * width / total;
     }
@@ -180,81 +218,286 @@ public final class ForgingFurnaceMenu
             Player player,
             int index
     ) {
-        if (index < 0 || index >= slots.size()) {
+        if (index < 0
+                || index >= slots.size()) {
             return ItemStack.EMPTY;
         }
 
-        Slot slot = slots.get(index);
+        Slot sourceSlot =
+                slots.get(index);
 
-        if (!slot.hasItem()) {
+        if (!sourceSlot.hasItem()) {
             return ItemStack.EMPTY;
         }
 
-        ItemStack stack = slot.getItem();
-        ItemStack original = stack.copy();
+        ItemStack sourceStack =
+                sourceSlot.getItem();
+
+        ItemStack original =
+                sourceStack.copy();
 
         if (index < MACHINE_SLOT_COUNT) {
             if (!moveItemStackTo(
-                    stack,
+                    sourceStack,
                     PLAYER_INVENTORY_START,
                     PLAYER_END,
                     true
             )) {
                 return ItemStack.EMPTY;
             }
-        } else if (!moveItemStackTo(
-                stack,
-                0,
-                ForgingFurnacBlockEntity.INPUT_SLOTS,
-                false
-        )) {
-            if (index < PLAYER_HOTBAR_START) {
-                if (!moveItemStackTo(
-                        stack,
-                        PLAYER_HOTBAR_START,
-                        PLAYER_END,
-                        false
-                )) {
+        } else {
+            boolean movedToMachine;
+
+            if (sourceStack.is(
+                    ModItems.PYROTEMPER_DUST.get()
+            )) {
+                movedToMachine =
+                        moveItemStackTo(
+                                sourceStack,
+                                ForgingFurnacBlockEntity.PYROTEMPER_DUST_SLOT,
+                                ForgingFurnacBlockEntity.PYROTEMPER_DUST_SLOT + 1,
+                                false
+                        );
+            } else {
+                movedToMachine =
+                        moveToBestMaterialSlot(
+                                sourceStack
+                        );
+            }
+
+            if (!movedToMachine) {
+                if (index >= PLAYER_INVENTORY_START
+                        && index < PLAYER_HOTBAR_START) {
+
+                    if (!moveItemStackTo(
+                            sourceStack,
+                            PLAYER_HOTBAR_START,
+                            PLAYER_END,
+                            false
+                    )) {
+                        return ItemStack.EMPTY;
+                    }
+
+                } else if (index >= PLAYER_HOTBAR_START
+                        && index < PLAYER_END) {
+
+                    if (!moveItemStackTo(
+                            sourceStack,
+                            PLAYER_INVENTORY_START,
+                            PLAYER_HOTBAR_START,
+                            false
+                    )) {
+                        return ItemStack.EMPTY;
+                    }
+
+                } else {
                     return ItemStack.EMPTY;
                 }
-            } else if (!moveItemStackTo(
-                    stack,
-                    PLAYER_INVENTORY_START,
-                    PLAYER_HOTBAR_START,
-                    false
-            )) {
-                return ItemStack.EMPTY;
             }
         }
 
-        if (stack.isEmpty()) {
-            slot.setByPlayer(
+        if (sourceStack.isEmpty()) {
+            sourceSlot.setByPlayer(
                     ItemStack.EMPTY
             );
         } else {
-            slot.setChanged();
+            sourceSlot.setChanged();
         }
 
-        if (stack.getCount() == original.getCount()) {
+        if (sourceStack.getCount()
+                == original.getCount()) {
             return ItemStack.EMPTY;
         }
 
-        slot.onTake(
+        sourceSlot.onTake(
                 player,
-                stack
+                sourceStack
         );
 
         return original;
+    }
+
+    private boolean moveToBestMaterialSlot(
+            ItemStack stack
+    ) {
+        List<SlotCandidate> candidates =
+                findMaterialSlotCandidates(
+                        stack
+                );
+
+        if (candidates.isEmpty()) {
+            return false;
+        }
+
+        candidates.sort(
+                Comparator
+                        .comparingInt(
+                                SlotCandidate::score
+                        )
+                        .reversed()
+                        .thenComparingInt(
+                                candidate ->
+                                        isMergeTarget(
+                                                candidate.slot(),
+                                                stack
+                                        )
+                                                ? 0
+                                                : 1
+                        )
+                        .thenComparingInt(
+                                SlotCandidate::slot
+                        )
+        );
+
+        for (SlotCandidate candidate
+                : candidates) {
+
+            if (moveItemStackTo(
+                    stack,
+                    candidate.slot(),
+                    candidate.slot() + 1,
+                    false
+            )) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private List<SlotCandidate> findMaterialSlotCandidates(
+            ItemStack stack
+    ) {
+        Map<Integer, Integer> bestScores =
+                new HashMap<>();
+
+        List<ForgingFurnaceRecipe> recipes =
+                playerInventory.player
+                        .level()
+                        .getRecipeManager()
+                        .getAllRecipesFor(
+                                ModRecipes.FORGING_FURNACE_TYPE
+                        );
+
+        for (ForgingFurnaceRecipe recipe
+                : recipes) {
+
+            for (int slot =
+                    ForgingFurnacBlockEntity.MATERIAL_SLOT_START;
+                 slot <
+                         ForgingFurnacBlockEntity.MATERIAL_SLOT_END;
+                 slot++) {
+
+                ForgingFurnaceRecipe.Input input =
+                        recipe.input(slot);
+
+                if (input.isEmpty()
+                        || !input.ingredient()
+                                .test(stack)) {
+                    continue;
+                }
+
+                int score =
+                        getRecipeCompatibilityScore(
+                                recipe,
+                                slot
+                        );
+
+                if (score < 0) {
+                    continue;
+                }
+
+                bestScores.merge(
+                        slot,
+                        score,
+                        Math::max
+                );
+            }
+        }
+
+        List<SlotCandidate> candidates =
+                new ArrayList<>();
+
+        for (Map.Entry<Integer, Integer> entry
+                : bestScores.entrySet()) {
+
+            candidates.add(
+                    new SlotCandidate(
+                            entry.getKey(),
+                            entry.getValue()
+                    )
+            );
+        }
+
+        return candidates;
+    }
+
+    private int getRecipeCompatibilityScore(
+            ForgingFurnaceRecipe recipe,
+            int targetSlot
+    ) {
+        int score = 0;
+
+        for (int slot = 0;
+             slot < ForgingFurnacBlockEntity.INPUT_SLOTS;
+             slot++) {
+
+            if (slot == targetSlot) {
+                continue;
+            }
+
+            ItemStack existing =
+                    furnace.getItem(slot);
+
+            if (existing.isEmpty()) {
+                continue;
+            }
+
+            ForgingFurnaceRecipe.Input expected =
+                    recipe.input(slot);
+
+            if (expected.isEmpty()
+                    || !expected.ingredient()
+                            .test(existing)) {
+                return -1;
+            }
+
+            score++;
+        }
+
+        return score;
+    }
+
+    private boolean isMergeTarget(
+            int slot,
+            ItemStack stack
+    ) {
+        ItemStack existing =
+                furnace.getItem(slot);
+
+        return !existing.isEmpty()
+                && ItemStack.isSameItemSameTags(
+                        existing,
+                        stack
+                );
     }
 
     @Override
     public void removed(
             Player player
     ) {
-        super.removed(player);
+        super.removed(
+                player
+        );
 
         furnace.stopOpen(
                 player
         );
+    }
+
+    private record SlotCandidate(
+            int slot,
+            int score
+    ) {
     }
 }

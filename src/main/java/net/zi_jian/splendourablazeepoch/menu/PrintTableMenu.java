@@ -26,7 +26,9 @@ import net.zi_jian.splendourablazeepoch.registry.ModBlocks;
 import net.zi_jian.splendourablazeepoch.registry.ModMenus;
 import net.zi_jian.splendourablazeepoch.registry.ModRecipes;
 
-public final class PrintTableMenu extends AbstractContainerMenu {
+public final class PrintTableMenu
+        extends AbstractContainerMenu {
+
     private static final int INPUT_COUNT =
             PrintTableRecipe.INPUT_COUNT;
 
@@ -36,13 +38,13 @@ public final class PrintTableMenu extends AbstractContainerMenu {
     private static final int PLAYER_END = 46;
 
     private static final int[][] INPUT_POSITIONS = {
-            {16, 17},
-            {16, 35},
-            {16, 53},
+            {15, 17},
+            {15, 35},
+            {15, 54},
             {34, 17},
             {34, 35},
-            {34, 53},
-            {70, 26},
+            {34, 54},
+            {69, 25},
             {61, 53},
             {79, 53}
     };
@@ -57,6 +59,7 @@ public final class PrintTableMenu extends AbstractContainerMenu {
             );
 
     private final PrintTableBlockEntity table;
+
     private final ResultContainer result =
             new ResultContainer();
 
@@ -91,21 +94,39 @@ public final class PrintTableMenu extends AbstractContainerMenu {
         this.table = table;
         this.player = inventory.player;
 
-        this.access = ContainerLevelAccess.create(
-                inventory.player.level(),
-                table.getBlockPos()
+        this.access =
+                ContainerLevelAccess.create(
+                        inventory.player.level(),
+                        table.getBlockPos()
+                );
+
+        table.startOpen(
+                inventory.player
         );
 
-        table.startOpen(inventory.player);
+        for (int i = 0;
+             i < INPUT_COUNT;
+             i++) {
 
-        for (int i = 0; i < INPUT_COUNT; i++) {
+            int slotIndex = i;
+
             addSlot(
                     new Slot(
                             table,
-                            i,
-                            INPUT_POSITIONS[i][0],
-                            INPUT_POSITIONS[i][1]
-                    )
+                            slotIndex,
+                            INPUT_POSITIONS[slotIndex][0],
+                            INPUT_POSITIONS[slotIndex][1]
+                    ) {
+                        @Override
+                        public boolean mayPlace(
+                                ItemStack stack
+                        ) {
+                            return table.canPlaceItem(
+                                    slotIndex,
+                                    stack
+                            );
+                        }
+                    }
             );
         }
 
@@ -146,7 +167,9 @@ public final class PrintTableMenu extends AbstractContainerMenu {
                             ItemStack stack
                     ) {
                         PrintTableMenu.this
-                                .finishPrint(player);
+                                .finishPrint(
+                                        player
+                                );
 
                         super.onTake(
                                 player,
@@ -156,12 +179,19 @@ public final class PrintTableMenu extends AbstractContainerMenu {
                 }
         );
 
-        for (int row = 0; row < 3; row++) {
-            for (int column = 0; column < 9; column++) {
+        for (int row = 0;
+             row < 3;
+             row++) {
+
+            for (int column = 0;
+                 column < 9;
+                 column++) {
+
                 addSlot(
                         new Slot(
                                 inventory,
-                                column + (row + 1) * 9,
+                                column
+                                        + (row + 1) * 9,
                                 8 + column * 18,
                                 84 + row * 18
                         )
@@ -169,7 +199,10 @@ public final class PrintTableMenu extends AbstractContainerMenu {
             }
         }
 
-        for (int column = 0; column < 9; column++) {
+        for (int column = 0;
+             column < 9;
+             column++) {
+
             addSlot(
                     new Slot(
                             inventory,
@@ -206,10 +239,14 @@ public final class PrintTableMenu extends AbstractContainerMenu {
                         INPUT_COUNT
                 );
 
-        for (int i = 0; i < INPUT_COUNT; i++) {
+        for (int i = 0;
+             i < INPUT_COUNT;
+             i++) {
+
             container.setItem(
                     i,
-                    table.getItem(i).copy()
+                    table.getItem(i)
+                            .copy()
             );
         }
 
@@ -229,7 +266,8 @@ public final class PrintTableMenu extends AbstractContainerMenu {
     }
 
     private void updateResult() {
-        if (player.level().isClientSide) {
+        if (player.level()
+                .isClientSide) {
             return;
         }
 
@@ -237,32 +275,38 @@ public final class PrintTableMenu extends AbstractContainerMenu {
                 createInputContainer();
 
         Optional<PrintTableRecipe> recipe =
-                findRecipe(input);
+                findRecipe(
+                        input
+                );
 
-        ItemStack output = recipe
-                .map(value -> value.assemble(
-                        input,
-                        player.level()
-                                .registryAccess()
-                ))
-                .orElse(ItemStack.EMPTY);
+        ItemStack output =
+                recipe.map(
+                                value ->
+                                        value.assemble(
+                                                input,
+                                                player.level()
+                                                        .registryAccess()
+                                        )
+                        )
+                        .orElse(
+                                ItemStack.EMPTY
+                        );
 
         result.setItem(
                 0,
                 output
         );
 
-        if (recipe.isPresent()) {
-            result.setRecipeUsed(
-                    recipe.get()
-            );
-        }
+        recipe.ifPresent(
+                result::setRecipeUsed
+        );
     }
 
     private void finishPrint(
             Player craftingPlayer
     ) {
-        if (craftingPlayer.level().isClientSide) {
+        if (craftingPlayer.level()
+                .isClientSide) {
             return;
         }
 
@@ -270,7 +314,9 @@ public final class PrintTableMenu extends AbstractContainerMenu {
                 createInputContainer();
 
         Optional<PrintTableRecipe> recipe =
-                findRecipe(input);
+                findRecipe(
+                        input
+                );
 
         if (recipe.isEmpty()) {
             result.setItem(
@@ -325,12 +371,17 @@ public final class PrintTableMenu extends AbstractContainerMenu {
             RandomSource random
     ) {
         if (random.nextInt(3) == 2) {
-            shrinkInput(firstSlot);
+            shrinkInput(
+                    firstSlot
+            );
+
             return;
         }
 
         if (random.nextInt(3) == 1) {
-            shrinkInput(secondSlot);
+            shrinkInput(
+                    secondSlot
+            );
         }
     }
 
@@ -338,7 +389,9 @@ public final class PrintTableMenu extends AbstractContainerMenu {
             int slot
     ) {
         ItemStack stack =
-                table.getItem(slot);
+                table.getItem(
+                        slot
+                );
 
         if (stack.isEmpty()) {
             return;
@@ -353,7 +406,8 @@ public final class PrintTableMenu extends AbstractContainerMenu {
     private static void grantLifesWork(
             Player player
     ) {
-        if (!(player instanceof ServerPlayer serverPlayer)) {
+        if (!(player
+                instanceof ServerPlayer serverPlayer)) {
             return;
         }
 
@@ -384,8 +438,9 @@ public final class PrintTableMenu extends AbstractContainerMenu {
             return;
         }
 
-        for (String criterion :
-                progress.getRemainingCriteria()) {
+        for (String criterion
+                : progress.getRemainingCriteria()) {
+
             serverPlayer.getAdvancements()
                     .award(
                             advancement,
@@ -398,13 +453,17 @@ public final class PrintTableMenu extends AbstractContainerMenu {
     public void slotsChanged(
             Container container
     ) {
-        super.slotsChanged(container);
+        super.slotsChanged(
+                container
+        );
+
         updateResult();
     }
 
     @Override
     public void broadcastChanges() {
         updateResult();
+
         super.broadcastChanges();
     }
 
@@ -429,15 +488,15 @@ public final class PrintTableMenu extends AbstractContainerMenu {
             return ItemStack.EMPTY;
         }
 
-        Slot slot =
+        Slot sourceSlot =
                 slots.get(index);
 
-        if (!slot.hasItem()) {
+        if (!sourceSlot.hasItem()) {
             return ItemStack.EMPTY;
         }
 
         ItemStack stack =
-                slot.getItem();
+                sourceSlot.getItem();
 
         ItemStack original =
                 stack.copy();
@@ -452,7 +511,7 @@ public final class PrintTableMenu extends AbstractContainerMenu {
                 return ItemStack.EMPTY;
             }
 
-            slot.onQuickCraft(
+            sourceSlot.onQuickCraft(
                     stack,
                     original
             );
@@ -466,12 +525,21 @@ public final class PrintTableMenu extends AbstractContainerMenu {
                 return ItemStack.EMPTY;
             }
         } else if (index >= PLAYER_INVENTORY_START) {
-            if (!moveItemStackTo(
-                    stack,
-                    0,
-                    INPUT_COUNT,
-                    false
-            )) {
+            int targetSlot =
+                    table.findBestInputSlot(
+                            stack
+                    );
+
+            boolean movedToTable =
+                    targetSlot >= 0
+                            && moveItemStackTo(
+                                    stack,
+                                    targetSlot,
+                                    targetSlot + 1,
+                                    false
+                            );
+
+            if (!movedToTable) {
                 if (index < PLAYER_HOTBAR_START) {
                     if (!moveItemStackTo(
                             stack,
@@ -495,11 +563,11 @@ public final class PrintTableMenu extends AbstractContainerMenu {
         }
 
         if (stack.isEmpty()) {
-            slot.setByPlayer(
+            sourceSlot.setByPlayer(
                     ItemStack.EMPTY
             );
         } else {
-            slot.setChanged();
+            sourceSlot.setChanged();
         }
 
         if (stack.getCount()
@@ -507,7 +575,7 @@ public final class PrintTableMenu extends AbstractContainerMenu {
             return ItemStack.EMPTY;
         }
 
-        slot.onTake(
+        sourceSlot.onTake(
                 player,
                 stack
         );
@@ -519,7 +587,12 @@ public final class PrintTableMenu extends AbstractContainerMenu {
     public void removed(
             Player player
     ) {
-        super.removed(player);
-        table.stopOpen(player);
+        super.removed(
+                player
+        );
+
+        table.stopOpen(
+                player
+        );
     }
 }

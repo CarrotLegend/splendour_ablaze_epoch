@@ -1,70 +1,132 @@
 package net.zi_jian.splendourablazeepoch.registry;
 
-import net.zi_jian.splendourablazeepoch.SplendourAblazeEpochMod;
-import net.zi_jian.splendourablazeepoch.entity.MigratedTopworldMob;
-import net.zi_jian.splendourablazeepoch.entity.SkyDoorEntity;
-import net.zi_jian.splendourablazeepoch.world.TopworldClosure;
-import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.MobCategory;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
-import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.MobCategory;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
-
-import java.util.LinkedHashMap;
-import java.util.Map;
+import net.zi_jian.splendourablazeepoch.SplendourAblazeEpochMod;
+import net.zi_jian.splendourablazeepoch.entity.CroakerEntity;
+import net.zi_jian.splendourablazeepoch.entity.KoiFishEntity;
+import net.zi_jian.splendourablazeepoch.entity.MagpieEntity;
+import net.zi_jian.splendourablazeepoch.entity.MessengerEntity;
+import net.zi_jian.splendourablazeepoch.entity.MuskDeerEntity;
+import net.zi_jian.splendourablazeepoch.entity.PeacockEntity;
+import net.zi_jian.splendourablazeepoch.entity.PheasantEntity;
+import net.zi_jian.splendourablazeepoch.entity.RaccoonDogEntity;
+import net.zi_jian.splendourablazeepoch.entity.RustHoundEntity;
+import net.zi_jian.splendourablazeepoch.entity.RustRelicsEntity;
+import net.zi_jian.splendourablazeepoch.entity.RustedAncestorsEntity;
+import net.zi_jian.splendourablazeepoch.entity.RustedWomanEntity;
+import net.zi_jian.splendourablazeepoch.entity.SkyDoorEntity;
+import net.zi_jian.splendourablazeepoch.entity.WaterBuffaloEntity;
 
 public final class ModEntities {
-    public static final DeferredRegister<EntityType<?>> ENTITY_TYPES =
-            DeferredRegister.create(ForgeRegistries.ENTITY_TYPES, SplendourAblazeEpochMod.MOD_ID);
-    public static final RegistryObject<EntityType<SkyDoorEntity>> SKY_DOOR = ENTITY_TYPES.register("splendourablazedoor",
-            () -> EntityType.Builder.<SkyDoorEntity>of(SkyDoorEntity::new, MobCategory.MONSTER)
-                    .sized(3.0F, 1.0F).clientTrackingRange(64).updateInterval(3).fireImmune()
-                    .build("splendourablazedoor"));
-    public static final Map<String, RegistryObject<EntityType<MigratedTopworldMob>>> TOPWORLD_MOBS = new LinkedHashMap<>();
+    public static final DeferredRegister<EntityType<?>> ENTITY_TYPES = DeferredRegister.create(
+            ForgeRegistries.ENTITY_TYPES,
+            SplendourAblazeEpochMod.MOD_ID
+    );
 
-    static {
-        register("croaker", MobCategory.WATER_CREATURE, 0.8F, 0.8F);
-        register("koifish", MobCategory.WATER_CREATURE, 0.5F, 0.5F);
-        register("magpie", MobCategory.CREATURE, 0.6F, 0.6F);
-        register("messenger", MobCategory.MONSTER, 1.0F, 1.0F);
-        register("muskdeer", MobCategory.CREATURE, 0.6F, 1.8F);
-        register("peacock", MobCategory.CREATURE, 1.0F, 1.0F);
-        register("pheasant", MobCategory.CREATURE, 0.6F, 0.6F);
-        register("raccoondog", MobCategory.CREATURE, 1.0F, 0.8F);
-        register("rustedancestors", MobCategory.AMBIENT, 0.6F, 1.8F);
-        register("rustedwoman", MobCategory.AMBIENT, 0.6F, 1.8F);
-        register("rusthound", MobCategory.AMBIENT, 0.6F, 1.0F);
-        register("rustrelics", MobCategory.AMBIENT, 0.6F, 1.8F);
-        register("waterbuffalo", MobCategory.CREATURE, 1.0F, 1.5F);
-        if (!TOPWORLD_MOBS.keySet().equals(new java.util.LinkedHashSet<>(TopworldClosure.SPAWN_ENTITY_IDS))) {
-            throw new IllegalStateException("Topworld entity closure and registry differ");
-        }
+    public static final RegistryObject<EntityType<SkyDoorEntity>> SKY_DOOR = register(
+            "splendourablazedoor", SkyDoorEntity::new, MobCategory.MISC, 3.0F, 1.0F, true
+    );
+    public static final RegistryObject<EntityType<CroakerEntity>> CROAKER = register(
+            "croaker", CroakerEntity::new, MobCategory.WATER_CREATURE, 0.8F, 0.8F
+    );
+    public static final RegistryObject<EntityType<KoiFishEntity>> KOI_FISH = register(
+            "koifish", KoiFishEntity::new, MobCategory.WATER_CREATURE, 0.5F, 0.5F
+    );
+    public static final RegistryObject<EntityType<MagpieEntity>> MAGPIE = register(
+            "magpie", MagpieEntity::new, MobCategory.CREATURE, 0.6F, 0.6F
+    );
+    public static final RegistryObject<EntityType<MessengerEntity>> MESSENGER = register(
+            "messenger", MessengerEntity::new, MobCategory.MONSTER, 1.0F, 1.0F
+    );
+    public static final RegistryObject<EntityType<MuskDeerEntity>> MUSK_DEER = register(
+            "muskdeer", MuskDeerEntity::new, MobCategory.CREATURE, 0.6F, 1.8F
+    );
+    public static final RegistryObject<EntityType<PeacockEntity>> PEACOCK = register(
+            "peacock", PeacockEntity::new, MobCategory.CREATURE, 1.0F, 1.0F
+    );
+    public static final RegistryObject<EntityType<PheasantEntity>> PHEASANT = register(
+            "pheasant", PheasantEntity::new, MobCategory.CREATURE, 0.6F, 0.6F
+    );
+    public static final RegistryObject<EntityType<RaccoonDogEntity>> RACCOON_DOG = register(
+            "raccoondog", RaccoonDogEntity::new, MobCategory.CREATURE, 1.0F, 0.8F
+    );
+    public static final RegistryObject<EntityType<RustedAncestorsEntity>> RUSTED_ANCESTORS = register(
+            "rustedancestors", RustedAncestorsEntity::new, MobCategory.AMBIENT, 0.6F, 1.8F
+    );
+    public static final RegistryObject<EntityType<RustedWomanEntity>> RUSTED_WOMAN = register(
+            "rustedwoman", RustedWomanEntity::new, MobCategory.AMBIENT, 0.6F, 1.8F
+    );
+    public static final RegistryObject<EntityType<RustHoundEntity>> RUST_HOUND = register(
+            "rusthound", RustHoundEntity::new, MobCategory.AMBIENT, 0.6F, 1.0F
+    );
+    public static final RegistryObject<EntityType<RustRelicsEntity>> RUST_RELICS = register(
+            "rustrelics", RustRelicsEntity::new, MobCategory.AMBIENT, 0.6F, 1.8F
+    );
+    public static final RegistryObject<EntityType<WaterBuffaloEntity>> WATER_BUFFALO = register(
+            "waterbuffalo", WaterBuffaloEntity::new, MobCategory.CREATURE, 1.0F, 1.5F
+    );
+
+    private static <T extends Entity> RegistryObject<EntityType<T>> register(
+            String id,
+            EntityType.EntityFactory<T> factory,
+            MobCategory category,
+            float width,
+            float height
+    ) {
+        return register(id, factory, category, width, height, false);
     }
 
-    private static void register(String id, MobCategory category, float width, float height) {
-        TOPWORLD_MOBS.put(id, ENTITY_TYPES.register(id,
-                () -> EntityType.Builder.<MigratedTopworldMob>of((type, level) -> new MigratedTopworldMob(type, level, id), category)
-                        .sized(width, height).clientTrackingRange(64).updateInterval(3).build(id)));
+    private static <T extends Entity> RegistryObject<EntityType<T>> register(
+            String id,
+            EntityType.EntityFactory<T> factory,
+            MobCategory category,
+            float width,
+            float height,
+            boolean fireImmune
+    ) {
+        return ENTITY_TYPES.register(id, () -> {
+            EntityType.Builder<T> builder = EntityType.Builder.of(factory, category)
+                    .sized(width, height)
+                    .clientTrackingRange(64)
+                    .updateInterval(3);
+            if (fireImmune) {
+                builder.fireImmune();
+            }
+            return builder.build(id);
+        });
     }
 
-    public static AttributeSupplier.Builder attributes() {
-        return Mob.createMobAttributes().add(Attributes.MOVEMENT_SPEED, 0.3D).add(Attributes.MAX_HEALTH, 10.0D)
-                .add(Attributes.ARMOR, 0.0D).add(Attributes.ATTACK_DAMAGE, 0.0D)
-                .add(Attributes.FOLLOW_RANGE, 16.0D).add(Attributes.KNOCKBACK_RESISTANCE, 0.3D);
-    }
-
-    @Mod.EventBusSubscriber(modid = SplendourAblazeEpochMod.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
+    @Mod.EventBusSubscriber(
+            modid = SplendourAblazeEpochMod.MOD_ID,
+            bus = Mod.EventBusSubscriber.Bus.MOD
+    )
     public static final class AttributesHandler {
         @SubscribeEvent
         public static void registerAttributes(EntityAttributeCreationEvent event) {
-            event.put(SKY_DOOR.get(), attributes().build());
-            TOPWORLD_MOBS.values().forEach(type -> event.put(type.get(), attributes().build()));
+            event.put(CROAKER.get(), CroakerEntity.createAttributes().build());
+            event.put(KOI_FISH.get(), KoiFishEntity.createAttributes().build());
+            event.put(MAGPIE.get(), MagpieEntity.createAttributes().build());
+            event.put(MESSENGER.get(), MessengerEntity.createAttributes().build());
+            event.put(MUSK_DEER.get(), MuskDeerEntity.createAttributes().build());
+            event.put(PEACOCK.get(), PeacockEntity.createAttributes().build());
+            event.put(PHEASANT.get(), PheasantEntity.createAttributes().build());
+            event.put(RACCOON_DOG.get(), RaccoonDogEntity.createAttributes().build());
+            event.put(RUSTED_ANCESTORS.get(), RustedAncestorsEntity.createAttributes().build());
+            event.put(RUSTED_WOMAN.get(), RustedWomanEntity.createAttributes().build());
+            event.put(RUST_HOUND.get(), RustHoundEntity.createAttributes().build());
+            event.put(RUST_RELICS.get(), RustRelicsEntity.createAttributes().build());
+            event.put(WATER_BUFFALO.get(), WaterBuffaloEntity.createAttributes().build());
+        }
+
+        private AttributesHandler() {
         }
     }
 

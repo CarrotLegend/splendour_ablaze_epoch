@@ -9,6 +9,7 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.RenderShape;
@@ -20,7 +21,9 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraftforge.network.NetworkHooks;
 import net.zi_jian.splendourablazeepoch.block.entity.PrintTableBlockEntity;
 
-public final class PrintTableBlock extends BaseEntityBlock {
+public final class PrintTableBlock
+        extends BaseEntityBlock {
+
     public PrintTableBlock(
             BlockBehaviour.Properties properties
     ) {
@@ -67,10 +70,50 @@ public final class PrintTableBlock extends BaseEntityBlock {
             InteractionHand hand,
             BlockHitResult hit
     ) {
+        if (!(level.getBlockEntity(pos)
+                instanceof PrintTableBlockEntity table)) {
+            return InteractionResult.PASS;
+        }
+
+        ItemStack heldStack =
+                player.getItemInHand(
+                        hand
+                );
+
+        if (player.isShiftKeyDown()
+                && !heldStack.isEmpty()) {
+
+            int targetSlot =
+                    table.findBestInputSlot(
+                            heldStack
+                    );
+
+            if (targetSlot >= 0) {
+                if (!level.isClientSide) {
+                    if (player.getAbilities().instabuild) {
+                        ItemStack copy =
+                                heldStack.copy();
+
+                        table.insertIntoBestSlot(
+                                copy
+                        );
+                    } else {
+                        table.insertIntoBestSlot(
+                                heldStack
+                        );
+                    }
+                }
+
+                return InteractionResult.sidedSuccess(
+                        level.isClientSide
+                );
+            }
+        }
+
         if (!level.isClientSide
-                && player instanceof ServerPlayer serverPlayer
-                && level.getBlockEntity(pos)
-                instanceof PrintTableBlockEntity table) {
+                && player
+                instanceof ServerPlayer serverPlayer) {
+
             NetworkHooks.openScreen(
                     serverPlayer,
                     table,
@@ -96,6 +139,7 @@ public final class PrintTableBlock extends BaseEntityBlock {
         )) {
             if (level.getBlockEntity(pos)
                     instanceof PrintTableBlockEntity table) {
+
                 Containers.dropContents(
                         level,
                         pos,
@@ -133,7 +177,9 @@ public final class PrintTableBlock extends BaseEntityBlock {
     ) {
         return AbstractContainerMenu
                 .getRedstoneSignalFromBlockEntity(
-                        level.getBlockEntity(pos)
+                        level.getBlockEntity(
+                                pos
+                        )
                 );
     }
 }

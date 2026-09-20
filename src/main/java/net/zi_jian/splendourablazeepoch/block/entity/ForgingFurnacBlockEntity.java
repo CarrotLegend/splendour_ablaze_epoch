@@ -37,8 +37,10 @@ public final class ForgingFurnacBlockEntity
         extends BaseContainerBlockEntity
         implements WorldlyContainer {
 
-    public static final int INPUT_SLOTS = 4;
+    public static final int MATERIAL_SLOT_START = 0;
+    public static final int MATERIAL_SLOT_END = 3;
     public static final int PYROTEMPER_DUST_SLOT = 3;
+    public static final int INPUT_SLOTS = 4;
     public static final int OUTPUT_SLOT = 4;
     public static final int SLOT_COUNT = 5;
     public static final int COOK_TIME = 220;
@@ -78,13 +80,13 @@ public final class ForgingFurnacBlockEntity
                 }
             };
 
-    private final LazyOptional<? extends IItemHandler>[] sidedHandlers =
+    private LazyOptional<? extends IItemHandler>[] sidedHandlers =
             SidedInvWrapper.create(
                     this,
                     Direction.values()
             );
 
-    private final LazyOptional<IItemHandler> unsidedHandler =
+    private LazyOptional<IItemHandler> unsidedHandler =
             LazyOptional.of(
                     () -> new InvWrapper(this)
             );
@@ -110,15 +112,11 @@ public final class ForgingFurnacBlockEntity
                 furnace.findRecipe();
 
         if (recipe.isPresent()
-                && furnace.canOutput(
-                        recipe.get()
-                )) {
+                && furnace.canOutput(recipe.get())) {
 
             furnace.cookProgress++;
 
-            if (furnace.cookProgress
-                    >= COOK_TIME) {
-
+            if (furnace.cookProgress >= COOK_TIME) {
                 furnace.cookProgress = 0;
 
                 furnace.craft(
@@ -212,8 +210,7 @@ public final class ForgingFurnacBlockEntity
             int slot,
             ItemStack stack
     ) {
-        if (slot < 0
-                || slot >= INPUT_SLOTS) {
+        if (stack.isEmpty()) {
             return false;
         }
 
@@ -223,8 +220,46 @@ public final class ForgingFurnacBlockEntity
             );
         }
 
-        return !stack.is(
+        if (slot < MATERIAL_SLOT_START
+                || slot >= MATERIAL_SLOT_END) {
+            return false;
+        }
+
+        if (stack.is(
                 ModItems.PYROTEMPER_DUST.get()
+        )) {
+            return false;
+        }
+
+        if (level == null) {
+            return false;
+        }
+
+        for (ForgingFurnaceRecipe recipe
+                : level.getRecipeManager()
+                        .getAllRecipesFor(
+                                ModRecipes.FORGING_FURNACE_TYPE
+                        )) {
+
+            ForgingFurnaceRecipe.Input input =
+                    recipe.input(slot);
+
+            if (!input.isEmpty()
+                    && input.ingredient().test(stack)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public boolean isValidMaterialForSlot(
+            int slot,
+            ItemStack stack
+    ) {
+        return canPlaceItem(
+                slot,
+                stack
         );
     }
 
@@ -280,13 +315,10 @@ public final class ForgingFurnacBlockEntity
             return Optional.empty();
         }
 
-        SimpleContainer container =
-                createInputContainer();
-
         return level.getRecipeManager()
                 .getRecipeFor(
                         ModRecipes.FORGING_FURNACE_TYPE,
-                        container,
+                        createInputContainer(),
                         level
                 );
     }
@@ -303,6 +335,10 @@ public final class ForgingFurnacBlockEntity
                         level.registryAccess()
                 );
 
+        if (result.isEmpty()) {
+            return false;
+        }
+
         ItemStack output =
                 items.get(
                         OUTPUT_SLOT
@@ -310,7 +346,10 @@ public final class ForgingFurnacBlockEntity
 
         if (output.isEmpty()) {
             return result.getCount()
-                    <= result.getMaxStackSize();
+                    <= Math.min(
+                            result.getMaxStackSize(),
+                            getMaxStackSize()
+                    );
         }
 
         return ItemStack.isSameItemSameTags(
@@ -318,7 +357,10 @@ public final class ForgingFurnacBlockEntity
                 result
         ) && output.getCount()
                 + result.getCount()
-                <= output.getMaxStackSize();
+                <= Math.min(
+                        output.getMaxStackSize(),
+                        getMaxStackSize()
+                );
     }
 
     private void craft(
@@ -328,7 +370,8 @@ public final class ForgingFurnacBlockEntity
                 || !recipe.matches(
                         createInputContainer(),
                         level
-                )) {
+                )
+                || !canOutput(recipe)) {
             return;
         }
 
@@ -481,6 +524,22 @@ public final class ForgingFurnacBlockEntity
                 : sidedHandlers) {
             handler.invalidate();
         }
+    }
+
+    @Override
+    public void reviveCaps() {
+        super.reviveCaps();
+
+        sidedHandlers =
+                SidedInvWrapper.create(
+                        this,
+                        Direction.values()
+                );
+
+        unsidedHandler =
+                LazyOptional.of(
+                        () -> new InvWrapper(this)
+                );
     }
 
     @Override

@@ -1,5 +1,7 @@
 package net.zi_jian.splendourablazeepoch.block.entity;
 
+import java.util.List;
+
 import org.jetbrains.annotations.Nullable;
 
 import net.minecraft.core.BlockPos;
@@ -13,6 +15,7 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.block.entity.BaseContainerBlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
@@ -23,7 +26,9 @@ import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.wrapper.InvWrapper;
 import net.minecraftforge.items.wrapper.SidedInvWrapper;
 import net.zi_jian.splendourablazeepoch.menu.PrintTableMenu;
+import net.zi_jian.splendourablazeepoch.recipe.PrintTableRecipe;
 import net.zi_jian.splendourablazeepoch.registry.ModBlockEntities;
+import net.zi_jian.splendourablazeepoch.registry.ModRecipes;
 
 public final class PrintTableBlockEntity
         extends BaseContainerBlockEntity
@@ -161,16 +166,25 @@ public final class PrintTableBlockEntity
             int slot,
             ItemStack stack
     ) {
-        items.set(
-                slot,
-                stack
-        );
+        ItemStack inserted =
+                stack.copy();
 
-        if (stack.getCount() > getMaxStackSize()) {
-            stack.setCount(
-                    getMaxStackSize()
+        int maxStackSize =
+                Math.min(
+                        getMaxStackSize(),
+                        inserted.getMaxStackSize()
+                );
+
+        if (inserted.getCount() > maxStackSize) {
+            inserted.setCount(
+                    maxStackSize
             );
         }
+
+        items.set(
+                slot,
+                inserted
+        );
 
         setChanged();
     }
@@ -180,13 +194,277 @@ public final class PrintTableBlockEntity
             int slot,
             ItemStack stack
     ) {
-        return slot >= 0
-                && slot < INPUT_SLOTS;
+        if (level == null
+                || stack.isEmpty()
+                || slot < 0
+                || slot >= INPUT_SLOTS) {
+            return false;
+        }
+
+        List<PrintTableRecipe> recipes =
+                level.getRecipeManager()
+                        .getAllRecipesFor(
+                                ModRecipes.PRINT_TABLE_TYPE
+                        );
+
+        for (PrintTableRecipe recipe : recipes) {
+            Ingredient ingredient =
+                    recipe.input(slot);
+
+            if (ingredient != Ingredient.EMPTY
+                    && ingredient.test(stack)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public int findBestInputSlot(
+            ItemStack stack
+    ) {
+        if (level == null
+                || stack.isEmpty()) {
+            return -1;
+        }
+
+        List<PrintTableRecipe> recipes =
+                level.getRecipeManager()
+                        .getAllRecipesFor(
+                                ModRecipes.PRINT_TABLE_TYPE
+                        );
+
+        int bestSlot = -1;
+        int bestScore = Integer.MIN_VALUE;
+
+        for (PrintTableRecipe recipe : recipes) {
+            for (int targetSlot = 0;
+                 targetSlot < INPUT_SLOTS;
+                 targetSlot++) {
+
+                Ingredient targetIngredient =
+                        recipe.input(targetSlot);
+
+                if (targetIngredient == Ingredient.EMPTY
+                        || !targetIngredient.test(stack)) {
+                    continue;
+                }
+
+                if (!canAcceptStack(
+                        targetSlot,
+                        stack
+                )) {
+                    continue;
+                }
+
+                int score =
+                        getRecipeCompatibilityScore(
+                                recipe,
+                                targetSlot
+                        );
+
+                if (score < 0) {
+                    continue;
+                }
+
+                ItemStack existing =
+                        items.get(targetSlot);
+
+                if (!existing.isEmpty()
+                        && ItemStack.isSameItemSameTags(
+                                existing,
+                                stack
+                        )) {
+                    score += 1000;
+                }
+
+                if (score > bestScore) {
+                    bestScore = score;
+                    bestSlot = targetSlot;
+                }
+            }
+        }
+
+        return bestSlot;
+    }
+
+    public boolean insertIntoBestSlot(
+            ItemStack source
+    ) {
+        if (source.isEmpty()) {
+            return false;
+        }
+
+        int targetSlot =
+                findBestInputSlot(
+                        source
+                );
+
+        if (targetSlot < 0) {
+            return false;
+        }
+
+        ItemStack existing =
+                items.get(targetSlot);
+
+        if (existing.isEmpty()) {
+            int maxStackSize =
+                    Math.min(
+                            source.getMaxStackSize(),
+                            getMaxStackSize()
+                    );
+
+            int transfer =
+                    Math.min(
+                            source.getCount(),
+                            maxStackSize
+                    );
+
+            if (transfer <= 0) {
+                return false;
+            }
+
+            ItemStack inserted =
+                    source.copy();
+
+            inserted.setCount(
+                    transfer
+            );
+
+            items.set(
+                    targetSlot,
+                    inserted
+            );
+
+            source.shrink(
+                    transfer
+            );
+
+            setChanged();
+
+            return true;
+        }
+
+        if (!ItemStack.isSameItemSameTags(
+                existing,
+                source
+        )) {
+            return false;
+        }
+
+        int maxStackSize =
+                Math.min(
+                        existing.getMaxStackSize(),
+                        getMaxStackSize()
+                );
+
+        int space =
+                maxStackSize
+                        - existing.getCount();
+
+        if (space <= 0) {
+            return false;
+        }
+
+        int transfer =
+                Math.min(
+                        source.getCount(),
+                        space
+                );
+
+        if (transfer <= 0) {
+            return false;
+        }
+
+        existing.grow(
+                transfer
+        );
+
+        source.shrink(
+                transfer
+        );
+
+        setChanged();
+
+        return true;
+    }
+
+    private boolean canAcceptStack(
+            int slot,
+            ItemStack stack
+    ) {
+        if (!canPlaceItem(
+                slot,
+                stack
+        )) {
+            return false;
+        }
+
+        ItemStack existing =
+                items.get(slot);
+
+        if (existing.isEmpty()) {
+            return true;
+        }
+
+        if (!ItemStack.isSameItemSameTags(
+                existing,
+                stack
+        )) {
+            return false;
+        }
+
+        int maxStackSize =
+                Math.min(
+                        existing.getMaxStackSize(),
+                        getMaxStackSize()
+                );
+
+        return existing.getCount()
+                < maxStackSize;
+    }
+
+    private int getRecipeCompatibilityScore(
+            PrintTableRecipe recipe,
+            int targetSlot
+    ) {
+        int score = 0;
+
+        for (int slot = 0;
+             slot < INPUT_SLOTS;
+             slot++) {
+
+            if (slot == targetSlot) {
+                continue;
+            }
+
+            ItemStack existing =
+                    items.get(slot);
+
+            if (existing.isEmpty()) {
+                continue;
+            }
+
+            Ingredient expected =
+                    recipe.input(slot);
+
+            if (expected == Ingredient.EMPTY
+                    || !expected.test(existing)) {
+                return -1;
+            }
+
+            score++;
+        }
+
+        return score;
     }
 
     @Override
     public void clearContent() {
-        for (int i = 0; i < items.size(); i++) {
+        for (int i = 0;
+             i < items.size();
+             i++) {
+
             items.set(
                     i,
                     ItemStack.EMPTY
@@ -200,21 +478,15 @@ public final class PrintTableBlockEntity
     public boolean stillValid(
             Player player
     ) {
-        if (level == null) {
-            return false;
-        }
-
-        if (level.getBlockEntity(
-                worldPosition
-        ) != this) {
-            return false;
-        }
-
-        return player.distanceToSqr(
-                worldPosition.getX() + 0.5D,
-                worldPosition.getY() + 0.5D,
-                worldPosition.getZ() + 0.5D
-        ) <= 64.0D;
+        return level != null
+                && level.getBlockEntity(
+                        worldPosition
+                ) == this
+                && player.distanceToSqr(
+                        worldPosition.getX() + 0.5D,
+                        worldPosition.getY() + 0.5D,
+                        worldPosition.getZ() + 0.5D
+                ) <= 64.0D;
     }
 
     @Override
@@ -282,12 +554,15 @@ public final class PrintTableBlockEntity
             @Nullable Direction side
     ) {
         if (!remove
-                && capability == ForgeCapabilities.ITEM_HANDLER) {
+                && capability
+                == ForgeCapabilities.ITEM_HANDLER) {
 
             return (
                     side == null
                             ? unsidedHandler
-                            : sidedHandlers[side.ordinal()]
+                            : sidedHandlers[
+                                    side.ordinal()
+                            ]
             ).cast();
         }
 

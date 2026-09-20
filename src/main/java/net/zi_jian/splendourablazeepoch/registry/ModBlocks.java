@@ -29,9 +29,7 @@ import net.zi_jian.splendourablazeepoch.block.LegacyPillarVariantBlock;
 import net.zi_jian.splendourablazeepoch.block.LegacyVariantBlock;
 import net.zi_jian.splendourablazeepoch.block.LegacyVariantOneBlock;
 import net.zi_jian.splendourablazeepoch.block.LegacyVariantTwoBlock;
-import net.zi_jian.splendourablazeepoch.block.MigratedEntityBlock;
-import net.zi_jian.splendourablazeepoch.block.MigratedFacingBlock;
-import net.zi_jian.splendourablazeepoch.block.MigratedFacingEntityBlock;
+import net.zi_jian.splendourablazeepoch.block.HorizontalFacingBlock;
 import net.zi_jian.splendourablazeepoch.block.MottledBambooBudBlock;
 import net.zi_jian.splendourablazeepoch.block.MottledBambooStalkBlock;
 import net.zi_jian.splendourablazeepoch.block.TopworldPlantBlock;
@@ -1006,7 +1004,7 @@ public final class ModBlocks {
     ) {
         return registerTopworldBlock(
                 id,
-                () -> new MigratedFacingBlock(
+                () -> new HorizontalFacingBlock(
                         BlockBehaviour.Properties.copy(Blocks.STONE)
                                 .noOcclusion()
                 )
