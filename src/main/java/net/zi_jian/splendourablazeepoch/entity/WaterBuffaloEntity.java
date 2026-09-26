@@ -6,6 +6,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.AgeableMob;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.MobType;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.BreedGoal;
@@ -48,6 +49,11 @@ public final class WaterBuffaloEntity extends TopworldAnimalEntity {
     @Override
     public boolean isFood(ItemStack stack) {
         return stack.is(Blocks.WHEAT.asItem()) || stack.is(Items.WHEAT);
+    }
+
+    @Override
+    public MobType getMobType() {
+        return MobType.ILLAGER;
     }
 
     public static AttributeSupplier.Builder createAttributes() {

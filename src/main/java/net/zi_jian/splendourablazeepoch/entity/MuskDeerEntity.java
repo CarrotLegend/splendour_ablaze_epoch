@@ -3,9 +3,11 @@ package net.zi_jian.splendourablazeepoch.entity;
 import org.jetbrains.annotations.Nullable;
 
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.AgeableMob;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.MobType;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.BreedGoal;
@@ -34,6 +36,15 @@ public final class MuskDeerEntity extends TopworldAnimalEntity {
         goalSelector.addGoal(5, new FloatGoal(this));
     }
 
+    @Override
+    public boolean hurt(DamageSource source, float amount) {
+        boolean hurt = super.hurt(source, amount);
+        if (hurt && !level().isClientSide) {
+            LegacyEntityBehavior.fleeAfterHurt(this);
+        }
+        return hurt;
+    }
+
     @Nullable
     @Override
     public MuskDeerEntity getBreedOffspring(ServerLevel level, AgeableMob otherParent) {
@@ -43,6 +54,11 @@ public final class MuskDeerEntity extends TopworldAnimalEntity {
     @Override
     public boolean isFood(ItemStack stack) {
         return stack.is(ModBlocks.CYAN_TWIG.get().asItem()) || stack.is(Items.WHEAT);
+    }
+
+    @Override
+    public MobType getMobType() {
+        return MobType.ILLAGER;
     }
 
     public static AttributeSupplier.Builder createAttributes() {

@@ -2,11 +2,13 @@ package net.zi_jian.splendourablazeepoch.entity;
 
 import org.jetbrains.annotations.Nullable;
 
+import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.AgeableMob;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.MobType;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.control.FlyingMoveControl;
@@ -16,7 +18,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.core.BlockPos;
 import net.zi_jian.splendourablazeepoch.registry.ModEntities;
 
 public final class MagpieEntity extends TopworldAnimalEntity {
@@ -40,6 +41,23 @@ public final class MagpieEntity extends TopworldAnimalEntity {
     public void aiStep() {
         super.aiStep();
         setNoGravity(true);
+
+        if (!level().isClientSide
+                && level().dimension().equals(SkyDoorEntity.TOPWORLD)
+                && getTarget() == null
+                && LegacyEntityBehavior.isMovePulse(this)
+                && getRandom().nextDouble() < 0.8D) {
+            LegacyEntityBehavior.moveRandom3D(this, 10.0D, 3.0D, 1.0D);
+        }
+    }
+
+    @Override
+    public boolean hurt(DamageSource source, float amount) {
+        boolean hurt = super.hurt(source, amount);
+        if (hurt && !level().isClientSide) {
+            LegacyEntityBehavior.fleeAfterHurt(this);
+        }
+        return hurt;
     }
 
     @Override
@@ -63,6 +81,11 @@ public final class MagpieEntity extends TopworldAnimalEntity {
                 || stack.is(Items.PUMPKIN_SEEDS)
                 || stack.is(Items.MELON_SEEDS)
                 || stack.is(Items.BEETROOT_SEEDS);
+    }
+
+    @Override
+    public MobType getMobType() {
+        return MobType.ILLAGER;
     }
 
     public static AttributeSupplier.Builder createAttributes() {

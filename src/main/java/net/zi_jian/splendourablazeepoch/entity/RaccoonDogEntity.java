@@ -2,6 +2,7 @@ package net.zi_jian.splendourablazeepoch.entity;
 
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.MobType;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.FloatGoal;
@@ -27,6 +28,11 @@ public final class RaccoonDogEntity extends TopworldPathfinderEntity {
         targetSelector.addGoal(4, new HurtByTargetGoal(this));
         goalSelector.addGoal(5, new RandomLookAroundGoal(this));
         goalSelector.addGoal(6, new FloatGoal(this));
+    }
+
+    @Override
+    public MobType getMobType() {
+        return MobType.ILLAGER;
     }
 
     public static AttributeSupplier.Builder createAttributes() {

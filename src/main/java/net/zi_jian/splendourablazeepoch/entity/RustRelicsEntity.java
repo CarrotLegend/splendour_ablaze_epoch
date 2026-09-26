@@ -1,7 +1,17 @@
 package net.zi_jian.splendourablazeepoch.entity;
 
+import org.jetbrains.annotations.Nullable;
+
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.DifficultyInstance;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.MobType;
+import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.SpawnGroupData;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
@@ -9,7 +19,10 @@ import net.minecraft.world.entity.ai.goal.RandomStrollGoal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
+import net.zi_jian.splendourablazeepoch.registry.ModEntities;
+import net.zi_jian.splendourablazeepoch.registry.ModItems;
 
 public final class RustRelicsEntity extends TopworldPathfinderEntity {
     public RustRelicsEntity(EntityType<? extends RustRelicsEntity> type, Level level) {
@@ -24,6 +37,58 @@ public final class RustRelicsEntity extends TopworldPathfinderEntity {
         goalSelector.addGoal(3, new LegacyMeleeAttackGoal(this, 1.2D, false));
         targetSelector.addGoal(4, new HurtByTargetGoal(this));
         goalSelector.addGoal(5, new RandomLookAroundGoal(this));
+    }
+
+    @Nullable
+    @Override
+    public SpawnGroupData finalizeSpawn(
+            ServerLevelAccessor level,
+            DifficultyInstance difficulty,
+            MobSpawnType reason,
+            @Nullable SpawnGroupData spawnData,
+            @Nullable CompoundTag dataTag
+    ) {
+        SpawnGroupData result = super.finalizeSpawn(level, difficulty, reason, spawnData, dataTag);
+
+
+        ServerLevel serverLevel = level.getLevel();
+
+        if (getRandom().nextInt(10) == 0) {
+            RustRelicsBowEntity replacement = ModEntities.RUST_RELICS_BOW.get().create(serverLevel);
+            if (replacement != null) {
+                replacement.moveTo(getX(), getY(), getZ(), getYRot(), getXRot());
+                serverLevel.addFreshEntity(replacement);
+                discard();
+            }
+            return result;
+        }
+
+        if (getRandom().nextInt(10) == 1) {
+            RustRelicsSwordEntity replacement = ModEntities.RUST_RELICS_SWORD.get().create(serverLevel);
+            if (replacement != null) {
+                replacement.moveTo(getX(), getY(), getZ(), getYRot(), getXRot());
+                serverLevel.addFreshEntity(replacement);
+                discard();
+            }
+        }
+
+        return result;
+    }
+
+    @Override
+    protected void dropCustomDeathLoot(DamageSource source, int looting, boolean recentlyHit) {
+        super.dropCustomDeathLoot(source, looting, recentlyHit);
+        if (getRandom().nextInt(10) == 4) {
+            spawnAtLocation(Items.BONE);
+        }
+        if (getRandom().nextDouble() < 0.1D) {
+            spawnAtLocation(ModItems.byId("staranise").get());
+        }
+    }
+
+    @Override
+    public MobType getMobType() {
+        return MobType.ILLAGER;
     }
 
     public static AttributeSupplier.Builder createAttributes() {

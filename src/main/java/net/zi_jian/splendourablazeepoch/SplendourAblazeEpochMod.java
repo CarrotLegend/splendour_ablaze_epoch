@@ -6,8 +6,9 @@ import net.zi_jian.splendourablazeepoch.registry.ModBlocks;
 import net.zi_jian.splendourablazeepoch.registry.ModCreativeTabs;
 import net.zi_jian.splendourablazeepoch.registry.ModEffects;
 import net.zi_jian.splendourablazeepoch.registry.ModEntities;
-import net.zi_jian.splendourablazeepoch.registry.ModItems;
+import net.zi_jian.splendourablazeepoch.registry.ModEntitySpawnPlacements;
 import net.zi_jian.splendourablazeepoch.registry.ModFeatures;
+import net.zi_jian.splendourablazeepoch.registry.ModItems;
 import net.zi_jian.splendourablazeepoch.registry.ModMenus;
 import net.zi_jian.splendourablazeepoch.registry.ModParticles;
 import net.zi_jian.splendourablazeepoch.registry.ModRecipes;
@@ -26,6 +27,7 @@ public final class SplendourAblazeEpochMod {
     public SplendourAblazeEpochMod(FMLJavaModLoadingContext context) {
         IEventBus modEventBus = context.getModEventBus();
 
+
         ModBlocks.BLOCKS.register(modEventBus);
         ModItems.ITEMS.register(modEventBus);
         ModEntities.ENTITY_TYPES.register(modEventBus);
@@ -42,6 +44,7 @@ public final class SplendourAblazeEpochMod {
     }
 
     private void commonSetup(FMLCommonSetupEvent event) {
+        event.enqueueWork(ModEntitySpawnPlacements::register);
         LOGGER.info("Common setup for {}", MOD_ID);
     }
 }

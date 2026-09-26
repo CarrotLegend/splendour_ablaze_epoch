@@ -26,39 +26,22 @@ import software.bernie.geckolib.core.animation.AnimationController;
 import software.bernie.geckolib.core.animation.RawAnimation;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
-public final class SkyDoorEntity
-        extends Entity
-        implements GeoEntity {
-
-    public static final ResourceKey<Level> TOPWORLD =
-            ResourceKey.create(
-                    Registries.DIMENSION,
-                    new ResourceLocation(
-                            SplendourAblazeEpochMod.MOD_ID,
-                            "topworld"
-                    )
-            );
+public final class SkyDoorEntity extends Entity implements GeoEntity {
+    public static final ResourceKey<Level> TOPWORLD = ResourceKey.create(
+            Registries.DIMENSION,
+            new ResourceLocation(SplendourAblazeEpochMod.MOD_ID, "topworld")
+    );
 
     private static final int MAX_LIFETIME_TICKS = 200;
     private static final long TELEPORT_COOLDOWN_TICKS = 40L;
     private static final String PORTAL_AGE_NBT = "SkyDoorAge";
-    private static final String PLAYER_COOLDOWN_NBT =
-            "SplendourAblazeSkyDoorCooldown";
+    private static final String PLAYER_COOLDOWN_NBT = "SplendourAblazeSkyDoorCooldown";
 
-    private final AnimatableInstanceCache animationCache =
-            GeckoLibUtil.createInstanceCache(this);
-
+    private final AnimatableInstanceCache animationCache = GeckoLibUtil.createInstanceCache(this);
     private int portalAge;
 
-    public SkyDoorEntity(
-            EntityType<? extends SkyDoorEntity> type,
-            Level level
-    ) {
-        super(
-                type,
-                level
-        );
-
+    public SkyDoorEntity(EntityType<? extends SkyDoorEntity> type, Level level) {
+        super(type, level);
         setNoGravity(true);
         setInvulnerable(true);
         noPhysics = true;
@@ -70,181 +53,87 @@ public final class SkyDoorEntity
 
     @Override
     public Packet<ClientGamePacketListener> getAddEntityPacket() {
-        return NetworkHooks.getEntitySpawningPacket(
-                this
-        );
+        return NetworkHooks.getEntitySpawningPacket(this);
     }
 
     @Override
     public void tick() {
         super.tick();
-
         setNoGravity(true);
         noPhysics = true;
-
-        setDeltaMovement(
-                Vec3.ZERO
-        );
+        setDeltaMovement(Vec3.ZERO);
 
         if (level().isClientSide) {
             return;
         }
 
         portalAge++;
-
         if (portalAge >= MAX_LIFETIME_TICKS) {
             discard();
         }
     }
 
     @Override
-    public boolean isInvulnerableTo(
-            DamageSource source
-    ) {
+    public boolean isInvulnerableTo(DamageSource source) {
         return true;
     }
 
     @Override
-    public void playerTouch(
-            Player player
-    ) {
-        if (level().isClientSide) {
+    public void playerTouch(Player player) {
+        if (level().isClientSide || !(player instanceof ServerPlayer serverPlayer)) {
             return;
         }
 
-        if (!(player instanceof ServerPlayer serverPlayer)) {
-            return;
-        }
-
-        ServerLevel sourceLevel =
-                serverPlayer.serverLevel();
-
-        long currentGameTime =
-                sourceLevel.getGameTime();
-
-        long cooldownUntil =
-                serverPlayer
-                        .getPersistentData()
-                        .getLong(
-                                PLAYER_COOLDOWN_NBT
-                        );
+        ServerLevel sourceLevel = serverPlayer.serverLevel();
+        long currentGameTime = sourceLevel.getGameTime();
+        long cooldownUntil = serverPlayer.getPersistentData().getLong(PLAYER_COOLDOWN_NBT);
 
         if (currentGameTime < cooldownUntil) {
             return;
         }
 
-        if (sourceLevel.dimension()
-                .equals(Level.OVERWORLD)) {
-
-            teleportToTopworld(
-                    serverPlayer,
-                    sourceLevel,
-                    currentGameTime
-            );
-
+        if (sourceLevel.dimension().equals(Level.OVERWORLD)) {
+            teleportToTopworld(serverPlayer, sourceLevel, currentGameTime);
             return;
         }
 
-        if (sourceLevel.dimension()
-                .equals(TOPWORLD)) {
-
-            teleportToOverworld(
-                    serverPlayer,
-                    sourceLevel,
-                    currentGameTime
-            );
+        if (sourceLevel.dimension().equals(TOPWORLD)) {
+            teleportToOverworld(serverPlayer, sourceLevel, currentGameTime);
         }
     }
 
-    private void teleportToTopworld(
-            ServerPlayer player,
-            ServerLevel sourceLevel,
-            long currentGameTime
-    ) {
-        ServerLevel targetLevel =
-                sourceLevel
-                        .getServer()
-                        .getLevel(
-                                TOPWORLD
-                        );
-
+    private void teleportToTopworld(ServerPlayer player, ServerLevel sourceLevel, long currentGameTime) {
+        ServerLevel targetLevel = sourceLevel.getServer().getLevel(TOPWORLD);
         if (targetLevel == null) {
             return;
         }
 
-        double targetX =
-                player.getX();
-
-        double targetZ =
-                player.getZ();
-
-        setPlayerPortalCooldown(
-                player,
-                currentGameTime
-        );
-
-        player.removeEffect(
-                MobEffects.LEVITATION
-        );
-
+        setPlayerPortalCooldown(player, currentGameTime);
+        player.removeEffect(MobEffects.LEVITATION);
         player.teleportTo(
                 targetLevel,
-                targetX,
+                player.getX(),
                 200.0D,
-                targetZ,
+                player.getZ(),
                 player.getYRot(),
                 player.getXRot()
         );
-
-        player.addEffect(
-                new MobEffectInstance(
-                        MobEffects.SLOW_FALLING,
-                        600,
-                        1,
-                        false,
-                        false
-                )
-        );
+        player.addEffect(new MobEffectInstance(MobEffects.SLOW_FALLING, 600, 1, false, false));
     }
 
-    private void teleportToOverworld(
-            ServerPlayer player,
-            ServerLevel sourceLevel,
-            long currentGameTime
-    ) {
-        ServerLevel targetLevel =
-                sourceLevel
-                        .getServer()
-                        .getLevel(
-                                Level.OVERWORLD
-                        );
-
+    private void teleportToOverworld(ServerPlayer player, ServerLevel sourceLevel, long currentGameTime) {
+        ServerLevel targetLevel = sourceLevel.getServer().getLevel(Level.OVERWORLD);
         if (targetLevel == null) {
             return;
         }
 
-        BlockPos destination;
+        BlockPos destination = player.getRespawnDimension().equals(Level.OVERWORLD)
+                && player.getRespawnPosition() != null
+                ? player.getRespawnPosition()
+                : targetLevel.getSharedSpawnPos();
 
-        if (player.getRespawnDimension()
-                .equals(Level.OVERWORLD)
-                && player.getRespawnPosition() != null) {
-
-            destination =
-                    player.getRespawnPosition();
-        } else {
-            destination =
-                    targetLevel.getSharedSpawnPos();
-        }
-
-        setPlayerPortalCooldown(
-                player,
-                currentGameTime
-        );
-
-        player.removeEffect(
-                MobEffects.LEVITATION
-        );
-
+        setPlayerPortalCooldown(player, currentGameTime);
+        player.removeEffect(MobEffects.LEVITATION);
         player.teleportTo(
                 targetLevel,
                 destination.getX() + 0.5D,
@@ -255,57 +144,31 @@ public final class SkyDoorEntity
         );
     }
 
-    private static void setPlayerPortalCooldown(
-            ServerPlayer player,
-            long currentGameTime
-    ) {
-        player.getPersistentData()
-                .putLong(
-                        PLAYER_COOLDOWN_NBT,
-                        currentGameTime
-                                + TELEPORT_COOLDOWN_TICKS
-                );
-    }
-
-    @Override
-    protected void addAdditionalSaveData(
-            CompoundTag tag
-    ) {
-        tag.putInt(
-                PORTAL_AGE_NBT,
-                portalAge
+    private static void setPlayerPortalCooldown(ServerPlayer player, long currentGameTime) {
+        player.getPersistentData().putLong(
+                PLAYER_COOLDOWN_NBT,
+                currentGameTime + TELEPORT_COOLDOWN_TICKS
         );
     }
 
     @Override
-    protected void readAdditionalSaveData(
-            CompoundTag tag
-    ) {
-        portalAge =
-                Math.max(
-                        0,
-                        tag.getInt(
-                                PORTAL_AGE_NBT
-                        )
-                );
+    protected void addAdditionalSaveData(CompoundTag tag) {
+        tag.putInt(PORTAL_AGE_NBT, portalAge);
     }
 
     @Override
-    public void registerControllers(
-            AnimatableManager.ControllerRegistrar controllers
-    ) {
-        controllers.add(
-                new AnimationController<>(
-                        this,
-                        "movement",
-                        4,
-                        state ->
-                                state.setAndContinue(
-                                        RawAnimation.begin()
-                                                .thenLoop("0")
-                                )
-                )
-        );
+    protected void readAdditionalSaveData(CompoundTag tag) {
+        portalAge = Math.max(0, tag.getInt(PORTAL_AGE_NBT));
+    }
+
+    @Override
+    public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
+        controllers.add(new AnimationController<>(
+                this,
+                "movement",
+                4,
+                state -> state.setAndContinue(RawAnimation.begin().thenLoop("0"))
+        ));
     }
 
     @Override

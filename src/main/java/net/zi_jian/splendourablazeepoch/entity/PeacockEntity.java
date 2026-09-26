@@ -8,6 +8,7 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.AgeableMob;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.MobType;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.control.FlyingMoveControl;
@@ -19,6 +20,7 @@ import net.minecraft.world.entity.ai.goal.RandomStrollGoal;
 import net.minecraft.world.entity.ai.navigation.FlyingPathNavigation;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.zi_jian.splendourablazeepoch.registry.ModEntities;
@@ -40,6 +42,14 @@ public final class PeacockEntity extends TopworldAnimalEntity {
     protected void registerGoals() {
         goalSelector.addGoal(1, new PanicGoal(this, 1.0D));
         goalSelector.addGoal(2, new RandomStrollGoal(this, 0.8D));
+        goalSelector.addGoal(3, new LegacyFlyingStrollGoal(
+                this,
+                10.0D,
+                20,
+                16,
+                16,
+                () -> LegacyEntityBehavior.isFlyWindow(this)
+        ));
         goalSelector.addGoal(4, new BreedGoal(this, 1.0D));
         goalSelector.addGoal(5, new RandomLookAroundGoal(this));
         goalSelector.addGoal(6, new FloatGoal(this));
@@ -49,6 +59,23 @@ public final class PeacockEntity extends TopworldAnimalEntity {
     public void aiStep() {
         super.aiStep();
         setNoGravity(true);
+
+        if (!level().isClientSide
+                && level().dimension().equals(SkyDoorEntity.TOPWORLD)
+                && getTarget() == null
+                && LegacyEntityBehavior.isMovePulse(this)
+                && getRandom().nextDouble() < 0.7D) {
+            LegacyEntityBehavior.moveRandom3D(this, 10.0D, 3.0D, 1.5D);
+        }
+    }
+
+    @Override
+    public boolean hurt(DamageSource source, float amount) {
+        boolean hurt = super.hurt(source, amount);
+        if (hurt && !level().isClientSide) {
+            LegacyEntityBehavior.fleeAfterHurt(this);
+        }
+        return hurt;
     }
 
     @Override
@@ -68,7 +95,12 @@ public final class PeacockEntity extends TopworldAnimalEntity {
 
     @Override
     public boolean isFood(ItemStack stack) {
-        return stack.is(net.minecraft.world.item.Items.WHEAT_SEEDS);
+        return stack.is(Items.WHEAT_SEEDS);
+    }
+
+    @Override
+    public MobType getMobType() {
+        return MobType.ILLAGER;
     }
 
     public static AttributeSupplier.Builder createAttributes() {

@@ -1,7 +1,9 @@
 package net.zi_jian.splendourablazeepoch.entity;
 
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.MobType;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
@@ -11,6 +13,7 @@ import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.animal.AbstractGolem;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import net.zi_jian.splendourablazeepoch.registry.ModItems;
 
 public final class RustedWomanEntity extends TopworldPathfinderEntity {
     public RustedWomanEntity(EntityType<? extends RustedWomanEntity> type, Level level) {
@@ -21,11 +24,24 @@ public final class RustedWomanEntity extends TopworldPathfinderEntity {
     @Override
     protected void registerGoals() {
         goalSelector.addGoal(1, new RandomStrollGoal(this, 1.0D));
-        targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, false));
-        targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, AbstractGolem.class, false));
+        targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, true, true));
+        targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, AbstractGolem.class, true, true));
         goalSelector.addGoal(4, new LegacyMeleeAttackGoal(this, 1.2D, false));
         targetSelector.addGoal(5, new HurtByTargetGoal(this));
         goalSelector.addGoal(6, new RandomLookAroundGoal(this));
+    }
+
+    @Override
+    protected void dropCustomDeathLoot(DamageSource source, int looting, boolean recentlyHit) {
+        super.dropCustomDeathLoot(source, looting, recentlyHit);
+        if (getRandom().nextDouble() < 0.1D) {
+            spawnAtLocation(ModItems.byId("clove").get());
+        }
+    }
+
+    @Override
+    public MobType getMobType() {
+        return MobType.ILLAGER;
     }
 
     public static AttributeSupplier.Builder createAttributes() {

@@ -14,6 +14,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.zi_jian.splendourablazeepoch.SplendourAblazeEpochMod;
+import net.zi_jian.splendourablazeepoch.entity.AwakenedAncestorEntity;
 import net.zi_jian.splendourablazeepoch.entity.CroakerEntity;
 import net.zi_jian.splendourablazeepoch.entity.KoiFishEntity;
 import net.zi_jian.splendourablazeepoch.entity.MagpieEntity;
@@ -23,8 +24,11 @@ import net.zi_jian.splendourablazeepoch.entity.PeacockEntity;
 import net.zi_jian.splendourablazeepoch.entity.PheasantEntity;
 import net.zi_jian.splendourablazeepoch.entity.RaccoonDogEntity;
 import net.zi_jian.splendourablazeepoch.entity.RustHoundEntity;
+import net.zi_jian.splendourablazeepoch.entity.RustRelicsBowEntity;
+import net.zi_jian.splendourablazeepoch.entity.RustRelicsSwordEntity;
 import net.zi_jian.splendourablazeepoch.entity.RustRelicsEntity;
 import net.zi_jian.splendourablazeepoch.entity.RustedAncestorsEntity;
+import net.zi_jian.splendourablazeepoch.entity.RustedChildEntity;
 import net.zi_jian.splendourablazeepoch.entity.RustedWomanEntity;
 import net.zi_jian.splendourablazeepoch.entity.WaterBuffaloEntity;
 import net.zi_jian.splendourablazeepoch.registry.ModBlocks;
@@ -50,9 +54,13 @@ public final class ClientModEvents {
         event.registerEntityRenderer(ModEntities.RACCOON_DOG.get(), context -> new TopworldMobRenderer<RaccoonDogEntity>(context));
         event.registerEntityRenderer(ModEntities.RUSTED_ANCESTORS.get(), context -> new TopworldMobRenderer<RustedAncestorsEntity>(context));
         event.registerEntityRenderer(ModEntities.RUSTED_WOMAN.get(), context -> new TopworldMobRenderer<RustedWomanEntity>(context));
+        event.registerEntityRenderer(ModEntities.RUSTED_CHILD.get(), context -> new TopworldMobRenderer<RustedChildEntity>(context));
         event.registerEntityRenderer(ModEntities.RUST_HOUND.get(), context -> new TopworldMobRenderer<RustHoundEntity>(context));
         event.registerEntityRenderer(ModEntities.RUST_RELICS.get(), context -> new TopworldMobRenderer<RustRelicsEntity>(context));
+        event.registerEntityRenderer(ModEntities.RUST_RELICS_BOW.get(), context -> new TopworldMobRenderer<RustRelicsBowEntity>(context));
+        event.registerEntityRenderer(ModEntities.RUST_RELICS_SWORD.get(), context -> new TopworldMobRenderer<RustRelicsSwordEntity>(context));
         event.registerEntityRenderer(ModEntities.WATER_BUFFALO.get(), context -> new TopworldMobRenderer<WaterBuffaloEntity>(context));
+        event.registerEntityRenderer(ModEntities.AWAKENED_ANCESTOR.get(), context -> new TopworldMobRenderer<AwakenedAncestorEntity>(context));
     }
 
     @SubscribeEvent
