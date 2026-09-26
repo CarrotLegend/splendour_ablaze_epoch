@@ -25,6 +25,8 @@ import net.zi_jian.splendourablazeepoch.registry.ModEntities;
 import net.zi_jian.splendourablazeepoch.registry.ModItems;
 
 public final class RustRelicsEntity extends TopworldPathfinderEntity {
+    private boolean pendingSpawnVariant;
+
     public RustRelicsEntity(EntityType<? extends RustRelicsEntity> type, Level level) {
         super(type, level);
         setMaxUpStep(0.6F);
@@ -39,6 +41,17 @@ public final class RustRelicsEntity extends TopworldPathfinderEntity {
         goalSelector.addGoal(5, new RandomLookAroundGoal(this));
     }
 
+    @Override
+    public void aiStep() {
+        if (!level().isClientSide && pendingSpawnVariant) {
+            pendingSpawnVariant = false;
+            if (trySpawnVariant()) {
+                return;
+            }
+        }
+        super.aiStep();
+    }
+
     @Nullable
     @Override
     public SpawnGroupData finalizeSpawn(
@@ -49,30 +62,33 @@ public final class RustRelicsEntity extends TopworldPathfinderEntity {
             @Nullable CompoundTag dataTag
     ) {
         SpawnGroupData result = super.finalizeSpawn(level, difficulty, reason, spawnData, dataTag);
-
-
-        ServerLevel serverLevel = level.getLevel();
-
-        if (getRandom().nextInt(10) == 0) {
-            RustRelicsBowEntity replacement = ModEntities.RUST_RELICS_BOW.get().create(serverLevel);
-            if (replacement != null) {
-                replacement.moveTo(getX(), getY(), getZ(), getYRot(), getXRot());
-                serverLevel.addFreshEntity(replacement);
-                discard();
-            }
-            return result;
-        }
-
-        if (getRandom().nextInt(10) == 1) {
-            RustRelicsSwordEntity replacement = ModEntities.RUST_RELICS_SWORD.get().create(serverLevel);
-            if (replacement != null) {
-                replacement.moveTo(getX(), getY(), getZ(), getYRot(), getXRot());
-                serverLevel.addFreshEntity(replacement);
-                discard();
-            }
-        }
-
+        pendingSpawnVariant = true;
         return result;
+    }
+
+    private boolean trySpawnVariant() {
+        if (!(level() instanceof ServerLevel serverLevel)) {
+            return false;
+        }
+
+        Mob replacement;
+        if (getRandom().nextInt(10) == 0) {
+            replacement = ModEntities.RUST_RELICS_BOW.get().create(serverLevel);
+        } else if (getRandom().nextInt(10) == 1) {
+            replacement = ModEntities.RUST_RELICS_SWORD.get().create(serverLevel);
+        } else {
+            return false;
+        }
+
+        if (replacement == null) {
+            return false;
+        }
+        replacement.moveTo(getX(), getY(), getZ(), getYRot(), getXRot());
+        if (!serverLevel.addFreshEntity(replacement)) {
+            return false;
+        }
+        discard();
+        return true;
     }
 
     @Override

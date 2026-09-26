@@ -2,6 +2,7 @@ package net.zi_jian.splendourablazeepoch.entity;
 
 import org.jetbrains.annotations.Nullable;
 
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.LivingEntity;
@@ -23,6 +24,9 @@ final class LegacyEntitySounds {
             case "rusthound" -> SoundEvents.WOLF_GROWL;
             case "rustrelics", "rustrelicsb", "rustrelicss" -> SoundEvents.SKELETON_AMBIENT;
             case "waterbuffalo" -> SoundEvents.COW_AMBIENT;
+            case "alivepictograph" -> sound("minecraft:block.enchantment_table.use");
+            case "darkworm" -> ModSounds.WORM_1.get();
+            case "pagewraith", "pagegnat" -> ModSounds.PAGE_1.get();
             default -> null;
         };
     }
@@ -38,7 +42,14 @@ final class LegacyEntitySounds {
             case "rusthound" -> SoundEvents.WOLF_HURT;
             case "rustrelics", "rustrelicsb", "rustrelicss" -> SoundEvents.SKELETON_HURT;
             case "waterbuffalo" -> SoundEvents.COW_HURT;
-            case "croaker", "koifish", "messenger", "raccoondog", "ac" -> SoundEvents.GENERIC_HURT;
+            case "alivepictograph" -> sound("minecraft:ui.stonecutter.take_result");
+            case "terracottawarriorsguard", "terracottawarriors" -> sound("minecraft:block.decorated_pot.shatter");
+            case "castinscribedautomaton" -> sound("minecraft:entity.iron_golem.damage");
+            case "darkworm" -> ModSounds.WORM_2.get();
+            case "pagewraith", "pagegnat" -> ModSounds.PAGE_2.get();
+            case "croaker", "koifish", "messenger", "raccoondog", "ac", "girlghost", "goldenhairhou",
+                    "rustedchef", "cauldronbeast", "terracottageneral", "flyarrowhead", "skyadministrator",
+                    "firearmtigerguard" -> SoundEvents.GENERIC_HURT;
             default -> null;
         };
     }
@@ -54,7 +65,13 @@ final class LegacyEntitySounds {
             case "rusthound" -> SoundEvents.WOLF_DEATH;
             case "rustrelics", "rustrelicsb", "rustrelicss" -> SoundEvents.SKELETON_DEATH;
             case "waterbuffalo" -> SoundEvents.COW_DEATH;
-            case "croaker", "koifish", "messenger", "raccoondog", "ac" -> SoundEvents.GENERIC_DEATH;
+            case "alivepictograph" -> sound("minecraft:entity.generic.explode");
+            case "terracottawarriorsguard", "terracottawarriors" -> sound("minecraft:block.decorated_pot.shatter");
+            case "castinscribedautomaton" -> sound("minecraft:entity.iron_golem.death");
+            case "pagewraith", "pagegnat" -> ModSounds.PAGE_3.get();
+            case "croaker", "koifish", "messenger", "raccoondog", "ac", "girlghost", "goldenhairhou",
+                    "rustedchef", "cauldronbeast", "terracottageneral", "flyarrowhead", "skyadministrator",
+                    "darkworm", "firearmtigerguard" -> SoundEvents.GENERIC_DEATH;
             default -> null;
         };
     }
@@ -66,8 +83,14 @@ final class LegacyEntitySounds {
             case "rustedancestors", "rustedwoman", "rustedchild" -> SoundEvents.HUSK_STEP;
             case "rustrelics", "rustrelicsb", "rustrelicss" -> SoundEvents.SKELETON_STEP;
             case "waterbuffalo" -> SoundEvents.COW_STEP;
+            case "terracottawarriorsguard", "terracottawarriors" -> sound("minecraft:block.decorated_pot.step");
             default -> null;
         };
+    }
+
+    @Nullable
+    private static SoundEvent sound(String id) {
+        return ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation(id));
     }
 
     private static String id(LivingEntity entity) {

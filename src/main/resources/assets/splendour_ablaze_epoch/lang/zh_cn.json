@@ -756,5 +756,11 @@
   "subtitles.xyfz_siwang": "玄印方尊：瓦解",
   "item.splendour_ablaze_epoch.blackpowder": "黑火药",
   "advancements.splendourablazeepoch_11.descr": "欢迎来到顶世界",
-  "block.splendour_ablaze_epoch.ribbonrockbricksslab": "虎纹石砖台阶"
+  "block.splendour_ablaze_epoch.ribbonrockbricksslab": "虎纹石砖台阶",
+  "message.splendour_ablaze_epoch.rusted_ancestor.yearning_1": "…… 红…… 红儿？",
+  "message.splendour_ablaze_epoch.rusted_ancestor.yearning_2": "对不起......我没能......为你摘下那朵花......",
+  "message.splendour_ablaze_epoch.rusted_ancestor.yearning_3": "能......带我回家吗......",
+  "message.splendour_ablaze_epoch.sky_emblem.not_high_enough": "还......还不够高......",
+  "entity.splendour_ablaze_epoch.ac.custom_name": "阿苍",
+  "jei.splendour_ablaze_epoch.forgingfurnacejei.title": "镕铸炉铸造"
 }

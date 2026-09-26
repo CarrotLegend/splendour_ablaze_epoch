@@ -19,6 +19,11 @@ public final class ModSounds {
     public static final RegistryObject<SoundEvent> PEACOCK_1 = register("peacock1");
     public static final RegistryObject<SoundEvent> PEACOCK_2 = register("peacock2");
     public static final RegistryObject<SoundEvent> PEACOCK_3 = register("peacock3");
+    public static final RegistryObject<SoundEvent> WORM_1 = register("worm1");
+    public static final RegistryObject<SoundEvent> WORM_2 = register("worm2");
+    public static final RegistryObject<SoundEvent> PAGE_1 = register("page1");
+    public static final RegistryObject<SoundEvent> PAGE_2 = register("page2");
+    public static final RegistryObject<SoundEvent> PAGE_3 = register("page3");
 
     private static RegistryObject<SoundEvent> register(String id) {
         return SOUND_EVENTS.register(

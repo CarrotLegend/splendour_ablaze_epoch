@@ -68,8 +68,8 @@ public final class ForgingFurnaceRecipeCategory
 
     @Override
     public Component getTitle() {
-        return Component.literal(
-                "镕铸炉铸造"
+        return Component.translatable(
+                "jei.splendour_ablaze_epoch.forgingfurnacejei.title"
         );
     }
 

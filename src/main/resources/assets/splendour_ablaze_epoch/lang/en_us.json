@@ -756,5 +756,11 @@
   "subtitles.xyfz_siwang": "玄印方尊：瓦解",
   "item.splendour_ablaze_epoch.blackpowder": "Blackpowder",
   "advancements.splendourablazeepoch_11.descr": "welcome to the TopWorld",
-  "block.splendour_ablaze_epoch.ribbonrockbricksslab": "Ribbonrockbricks"
+  "block.splendour_ablaze_epoch.ribbonrockbricksslab": "Ribbonrockbricks",
+  "message.splendour_ablaze_epoch.rusted_ancestor.yearning_1": "... Hong... Hong'er?",
+  "message.splendour_ablaze_epoch.rusted_ancestor.yearning_2": "I'm sorry... I couldn't... pick that flower for you...",
+  "message.splendour_ablaze_epoch.rusted_ancestor.yearning_3": "Can you... take me home...",
+  "message.splendour_ablaze_epoch.sky_emblem.not_high_enough": "Still... not high enough...",
+  "entity.splendour_ablaze_epoch.ac.custom_name": "A Cang",
+  "jei.splendour_ablaze_epoch.forgingfurnacejei.title": "Forging Furnace Casting"
 }

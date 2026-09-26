@@ -1,6 +1,8 @@
 package net.zi_jian.splendourablazeepoch.entity;
 
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.contents.LiteralContents;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.EntityType;
@@ -17,12 +19,26 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 
 public final class AwakenedAncestorEntity extends TopworldMonsterEntity {
+    private static final String CUSTOM_NAME_KEY = "entity.splendour_ablaze_epoch.ac.custom_name";
+
     public AwakenedAncestorEntity(EntityType<? extends AwakenedAncestorEntity> type, Level level) {
         super(type, level);
         setMaxUpStep(0.6F);
-        setCustomName(Component.literal("阿苍"));
+        setCustomName(Component.translatable(CUSTOM_NAME_KEY));
         setCustomNameVisible(true);
         setPersistenceRequired();
+    }
+
+    @Override
+    public void readAdditionalSaveData(CompoundTag tag) {
+        super.readAdditionalSaveData(tag);
+        Component name = getCustomName();
+        if (name != null
+                && name.getContents() instanceof LiteralContents literal
+                && "阿苍".equals(literal.text())
+                && name.getSiblings().isEmpty()) {
+            setCustomName(Component.translatable(CUSTOM_NAME_KEY));
+        }
     }
 
     @Override

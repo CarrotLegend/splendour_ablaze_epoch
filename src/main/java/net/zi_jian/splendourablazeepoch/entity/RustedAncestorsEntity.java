@@ -103,6 +103,13 @@ public final class RustedAncestorsEntity extends TopworldPathfinderEntity {
 
     @Override
     public void aiStep() {
+        if (!level().isClientSide && pendingSpawnVariant) {
+            pendingSpawnVariant = false;
+            if (trySpawnVariant()) {
+                return;
+            }
+        }
+
         super.aiStep();
 
         if (level().isClientSide || !yearningActive) {
@@ -116,11 +123,11 @@ public final class RustedAncestorsEntity extends TopworldPathfinderEntity {
         yearningTicks++;
 
         if (yearningTicks == 30) {
-            sendYearningMessage("…… 红…… 红儿？");
+            sendYearningMessage("message.splendour_ablaze_epoch.rusted_ancestor.yearning_1");
         } else if (yearningTicks == 50) {
-            sendYearningMessage("对不起......我没能......为你摘下那朵花......");
+            sendYearningMessage("message.splendour_ablaze_epoch.rusted_ancestor.yearning_2");
         } else if (yearningTicks >= 90) {
-            sendYearningMessage("能......带我回家吗......");
+            sendYearningMessage("message.splendour_ablaze_epoch.rusted_ancestor.yearning_3");
             awaken();
         }
     }
@@ -136,13 +143,13 @@ public final class RustedAncestorsEntity extends TopworldPathfinderEntity {
         }
     }
 
-    private void sendYearningMessage(String message) {
+    private void sendYearningMessage(String translationKey) {
         if (!(level() instanceof ServerLevel serverLevel) || yearningPlayer == null) {
             return;
         }
         ServerPlayer player = serverLevel.getServer().getPlayerList().getPlayer(yearningPlayer);
         if (player != null) {
-            player.displayClientMessage(Component.literal(message), true);
+            player.displayClientMessage(Component.translatable(translationKey), true);
         }
     }
 
@@ -158,6 +165,8 @@ public final class RustedAncestorsEntity extends TopworldPathfinderEntity {
         discard();
     }
 
+    private boolean pendingSpawnVariant;
+
     @Nullable
     @Override
     public SpawnGroupData finalizeSpawn(
@@ -168,28 +177,34 @@ public final class RustedAncestorsEntity extends TopworldPathfinderEntity {
             @Nullable CompoundTag dataTag
     ) {
         SpawnGroupData result = super.finalizeSpawn(level, difficulty, reason, spawnData, dataTag);
-        ServerLevel serverLevel = level.getLevel();
-
-        if (getRandom().nextDouble() < 0.2D) {
-            RustedWomanEntity replacement = ModEntities.RUSTED_WOMAN.get().create(serverLevel);
-            if (replacement != null) {
-                replacement.moveTo(getX(), getY(), getZ(), getRandom().nextFloat() * 360.0F, 0.0F);
-                serverLevel.addFreshEntity(replacement);
-                discard();
-            }
-            return result;
-        }
-
-        if (getRandom().nextDouble() < 0.1D) {
-            RustedChildEntity replacement = ModEntities.RUSTED_CHILD.get().create(serverLevel);
-            if (replacement != null) {
-                replacement.moveTo(getX(), getY(), getZ(), getRandom().nextFloat() * 360.0F, 0.0F);
-                serverLevel.addFreshEntity(replacement);
-                discard();
-            }
-        }
+        pendingSpawnVariant = true;
 
         return result;
+    }
+
+    private boolean trySpawnVariant() {
+        if (!(level() instanceof ServerLevel serverLevel)) {
+            return false;
+        }
+
+        Mob replacement;
+        if (getRandom().nextDouble() < 0.2D) {
+            replacement = ModEntities.RUSTED_WOMAN.get().create(serverLevel);
+        } else if (getRandom().nextDouble() < 0.1D) {
+            replacement = ModEntities.RUSTED_CHILD.get().create(serverLevel);
+        } else {
+            return false;
+        }
+
+        if (replacement == null) {
+            return false;
+        }
+        replacement.moveTo(getX(), getY(), getZ(), getYRot(), getXRot());
+        if (!serverLevel.addFreshEntity(replacement)) {
+            return false;
+        }
+        discard();
+        return true;
     }
 
     @Override

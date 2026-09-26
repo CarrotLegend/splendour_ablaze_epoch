@@ -22,7 +22,22 @@ public final class TopworldMobModel<T extends LivingEntity & GeoEntity> extends 
             Map.entry("rustrelicsb", "rust_relics"),
             Map.entry("rustrelicss", "rust_relics_s"),
             Map.entry("waterbuffalo", "water_buffalo"),
-            Map.entry("ac", "rusted_ancestors_ac")
+            Map.entry("ac", "rusted_ancestors_ac"),
+            Map.entry("girlghost", "girl_ghost"),
+            Map.entry("goldenhairhou", "goldenhaired_hou"),
+            Map.entry("rustedchef", "rusted_chef"),
+            Map.entry("cauldronbeast", "cauldron_beast"),
+            Map.entry("terracottawarriorsguard", "terracotta_warriors_guard"),
+            Map.entry("terracottageneral", "terracotta_general"),
+            Map.entry("terracottawarriors", "terracotta_warriors_guard"),
+            Map.entry("alivepictograph", "alive_pictograph"),
+            Map.entry("castinscribedautomaton", "cast_inscribed_automaton"),
+            Map.entry("flyarrowhead", "fly_arrowhead"),
+            Map.entry("skyadministrator", "sky_administrator"),
+            Map.entry("darkworm", "dark_worm"),
+            Map.entry("pagewraith", "page_wraith"),
+            Map.entry("pagegnat", "page_gnat"),
+            Map.entry("firearmtigerguard", "firearm_tiger_guard")
     );
 
     private static final Map<String, String> TEXTURE_NAMES = Map.ofEntries(
@@ -37,7 +52,22 @@ public final class TopworldMobModel<T extends LivingEntity & GeoEntity> extends 
             Map.entry("rustrelicsb", "rust_relics"),
             Map.entry("rustrelicss", "rust_relics"),
             Map.entry("waterbuffalo", "water_buffalo"),
-            Map.entry("ac", "rusted_ancestors")
+            Map.entry("ac", "rusted_ancestors"),
+            Map.entry("girlghost", "girl_ghost"),
+            Map.entry("goldenhairhou", "goldenhaired_hou"),
+            Map.entry("rustedchef", "rusted_chef"),
+            Map.entry("cauldronbeast", "cauldron_beast"),
+            Map.entry("terracottawarriorsguard", "terracotta_warriors_guard"),
+            Map.entry("terracottageneral", "terracotta_general"),
+            Map.entry("terracottawarriors", "terracotta_warriors_guard"),
+            Map.entry("alivepictograph", "alive_pictograph"),
+            Map.entry("castinscribedautomaton", "cast_inscribed_automaton"),
+            Map.entry("flyarrowhead", "fly_arrowhead"),
+            Map.entry("skyadministrator", "sky_administrator"),
+            Map.entry("darkworm", "dark_worm"),
+            Map.entry("pagewraith", "page_wraith"),
+            Map.entry("pagegnat", "page_gnat"),
+            Map.entry("firearmtigerguard", "firearm_tiger_guard")
     );
 
     private String entityId(T entity) {

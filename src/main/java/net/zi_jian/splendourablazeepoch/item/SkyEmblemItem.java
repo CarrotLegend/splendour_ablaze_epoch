@@ -126,8 +126,8 @@ public final class SkyEmblemItem extends Item {
 
         serverPlayer.connection.send(
                 new ClientboundSetTitleTextPacket(
-                        Component.literal(
-                                        "还......还不够高......"
+                        Component.translatable(
+                                        "message.splendour_ablaze_epoch.sky_emblem.not_high_enough"
                                 )
                                 .withStyle(
                                         ChatFormatting.GOLD,
