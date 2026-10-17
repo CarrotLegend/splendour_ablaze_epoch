@@ -23,6 +23,10 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import net.zi_jian.splendourablazeepoch.SplendourAblazeEpochMod;
 import net.zi_jian.splendourablazeepoch.block.ForgingFurnacBlock;
+import net.zi_jian.splendourablazeepoch.block.FeatheryFoamBlock;
+import net.zi_jian.splendourablazeepoch.block.ShearHarvestPlantBlock;
+import net.zi_jian.splendourablazeepoch.block.TallShearHarvestPlantBlock;
+import net.zi_jian.splendourablazeepoch.block.CogongrassBlock;
 import net.zi_jian.splendourablazeepoch.block.AntigravitDeviceBlock;
 import net.zi_jian.splendourablazeepoch.block.AuroraLeadenPillarBlock;
 import net.zi_jian.splendourablazeepoch.block.WetWhitewashedBricksBlock;
@@ -595,7 +599,7 @@ public final class ModBlocks {
     public static final RegistryObject<Block> FEATHERY_FOAM =
             registerTopworldBlock(
                     "featheryfoam",
-                    () -> new Block(
+                    () -> new FeatheryFoamBlock(
                             BlockBehaviour.Properties.copy(Blocks.WHITE_WOOL)
                                     .strength(0.2F)
                                     .noOcclusion()
@@ -1052,11 +1056,11 @@ public final class ModBlocks {
     ) {
         return registerTopworldBlock(
                 id,
-                () -> new TopworldPlantBlock(
-                        BlockBehaviour.Properties.copy(
-                                Blocks.GRASS
-                        )
-                )
+                () -> switch (id) {
+                    case "cyantwig", "artemisia", "saxifrage", "stubbleawn" ->
+                            new ShearHarvestPlantBlock(BlockBehaviour.Properties.copy(Blocks.GRASS), id);
+                    default -> new TopworldPlantBlock(BlockBehaviour.Properties.copy(Blocks.GRASS));
+                }
         );
     }
 
@@ -1065,11 +1069,13 @@ public final class ModBlocks {
     ) {
         return registerTopworldBlock(
                 id,
-                () -> new DoublePlantBlock(
-                        BlockBehaviour.Properties.copy(
-                                Blocks.TALL_GRASS
-                        )
-                )
+                () -> switch (id) {
+                    case "tallcyantwig" ->
+                            new TallShearHarvestPlantBlock(BlockBehaviour.Properties.copy(Blocks.TALL_GRASS));
+                    case "cogongrass" ->
+                            new CogongrassBlock(BlockBehaviour.Properties.copy(Blocks.TALL_GRASS));
+                    default -> new DoublePlantBlock(BlockBehaviour.Properties.copy(Blocks.TALL_GRASS));
+                }
         );
     }
 

@@ -2,6 +2,10 @@ package net.zi_jian.splendourablazeepoch.registry;
 
 import net.zi_jian.splendourablazeepoch.block.TopworldLogBlock;
 import net.zi_jian.splendourablazeepoch.block.TopworldSaplingBlock;
+import net.zi_jian.splendourablazeepoch.block.FruitBearingLeavesBlock;
+import net.zi_jian.splendourablazeepoch.block.FallingLeavesBlock;
+import net.zi_jian.splendourablazeepoch.block.HarvestLeavesBlock;
+import net.zi_jian.splendourablazeepoch.block.FlameLeavesBlock;
 import net.zi_jian.splendourablazeepoch.world.tree.ModTreeGrowers;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -458,11 +462,29 @@ public final class TopworldWoodRegistry {
         ) {
             register(
                     id,
-                    () -> new LeavesBlock(
-                            BlockBehaviour.Properties.copy(
-                                    Blocks.OAK_LEAVES
-                            )
-                    )
+                    () -> switch (id) {
+                        case "mulberry_leaves" ->
+                                new FruitBearingLeavesBlock(BlockBehaviour.Properties.copy(Blocks.OAK_LEAVES),
+                                        "mulberryfruitleaves", "mulberrywormleaves");
+                        case "hawthornleaves" ->
+                                new FruitBearingLeavesBlock(BlockBehaviour.Properties.copy(Blocks.OAK_LEAVES),
+                                        "hawthornfuritleaves", "hawthornleaves");
+                        case "wutong_leaves" ->
+                                new FallingLeavesBlock(BlockBehaviour.Properties.copy(Blocks.OAK_LEAVES), true);
+                        case "blossomosmanthusleaves" ->
+                                new FallingLeavesBlock(BlockBehaviour.Properties.copy(Blocks.OAK_LEAVES), false);
+                        case "hibiscusflameleaves" ->
+                                new FlameLeavesBlock(BlockBehaviour.Properties.copy(Blocks.OAK_LEAVES));
+                        case "ginkgo_leaves", "cerasus_japonica_leaves", "osmanthus_leaves",
+                                "mulberryfruitleaves", "specular_pine_leaves", "mottled_bamboo_leaves" ->
+                                new HarvestLeavesBlock(BlockBehaviour.Properties.copy(Blocks.OAK_LEAVES),
+                                        switch (id) {
+                                            case "cerasus_japonica_leaves" -> "ginkgo_leaves";
+                                            case "mulberryfruitleaves" -> "mulberrywormleaves";
+                                            default -> id;
+                                        });
+                        default -> new LeavesBlock(BlockBehaviour.Properties.copy(Blocks.OAK_LEAVES));
+                    }
             );
 
             return this;
@@ -650,6 +672,7 @@ public final class TopworldWoodRegistry {
                                 case "osmanthussapling" -> "osmanthus";
                                 case "mulberrysapling" -> "mulberry1";
                                 case "specularpinesapling" -> "specularpine_3";
+                                case "hawthornsapling" -> "hawthorn_tree";
                                 default -> null;
                             }
                     )

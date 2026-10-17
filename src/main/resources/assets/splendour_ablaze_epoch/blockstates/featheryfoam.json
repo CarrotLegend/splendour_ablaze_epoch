@@ -1,6 +1,9 @@
 {
   "variants": {
-    "": {
+    "waterlogged=false": {
+      "model": "splendour_ablaze_epoch:block/featheryfoam"
+    },
+    "waterlogged=true": {
       "model": "splendour_ablaze_epoch:block/featheryfoam"
     }
   }

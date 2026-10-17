@@ -80,6 +80,7 @@ public final class TopworldSaplingBlock extends SaplingBlock {
             case "wutong_small" -> pos.offset(-3, 0, -6);
             case "osmanthus" -> pos.offset(-4, 0, -4);
             case "mulberry1" -> pos.offset(-2, 0, -2);
+            case "hawthorn_tree" -> pos.offset(-2, -1, -2);
             default -> pos.offset(-3, 0, -3);
         };
         template.placeInWorld(level, origin, origin,
