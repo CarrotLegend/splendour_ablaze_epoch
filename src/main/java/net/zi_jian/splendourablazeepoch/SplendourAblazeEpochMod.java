@@ -5,6 +5,7 @@ import net.zi_jian.splendourablazeepoch.registry.ModBlockEntities;
 import net.zi_jian.splendourablazeepoch.registry.ModBlocks;
 import net.zi_jian.splendourablazeepoch.registry.ModCreativeTabs;
 import net.zi_jian.splendourablazeepoch.registry.ModEffects;
+import net.zi_jian.splendourablazeepoch.registry.ModEnchantments;
 import net.zi_jian.splendourablazeepoch.registry.ModEntities;
 import net.zi_jian.splendourablazeepoch.registry.ModEntitySpawnPlacements;
 import net.zi_jian.splendourablazeepoch.registry.ModFeatures;
@@ -34,6 +35,7 @@ public final class SplendourAblazeEpochMod {
         ModBlockEntities.BLOCK_ENTITY_TYPES.register(modEventBus);
         ModMenus.MENU_TYPES.register(modEventBus);
         ModEffects.MOB_EFFECTS.register(modEventBus);
+        ModEnchantments.ENCHANTMENTS.register(modEventBus);
         ModSounds.SOUND_EVENTS.register(modEventBus);
         ModParticles.PARTICLE_TYPES.register(modEventBus);
         ModFeatures.FEATURES.register(modEventBus);
