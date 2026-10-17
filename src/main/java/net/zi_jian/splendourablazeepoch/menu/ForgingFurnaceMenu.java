@@ -206,7 +206,7 @@ public final class ForgingFurnaceMenu
     public boolean stillValid(
             Player player
     ) {
-        return stillValid(
+        return player.level().getBlockEntity(furnace.getBlockPos()) == furnace && stillValid(
                 access,
                 player,
                 ModBlocks.FORGING_FURNAC.get()

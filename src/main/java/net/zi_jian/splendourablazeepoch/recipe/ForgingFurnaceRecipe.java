@@ -86,7 +86,7 @@ public final class ForgingFurnaceRecipe implements Recipe<SimpleContainer> {
 
         for (ItemStack stack : input.ingredient().getItems()) {
             ItemStack display = stack.copy();
-            display.setCount(input.consumeCount());
+            display.setCount(input.requiredCount());
             stacks.add(display);
         }
 
@@ -138,22 +138,30 @@ public final class ForgingFurnaceRecipe implements Recipe<SimpleContainer> {
 
     public record Input(
             Ingredient ingredient,
-            int consumeCount
+            int consumeCount,
+            int requiredCount
     ) {
 
         public boolean isEmpty() {
-            return ingredient == Ingredient.EMPTY;
+            return ingredient == Ingredient.EMPTY && consumeCount == 0;
+        }
+
+        public boolean unconstrained() {
+            return consumeCount == -1;
         }
 
         public boolean matches(
                 ItemStack stack
         ) {
+            if (unconstrained()) {
+                return true;
+            }
             if (isEmpty()) {
                 return stack.isEmpty();
             }
 
             return ingredient.test(stack)
-                    && stack.getCount() >= consumeCount;
+                    && stack.getCount() >= requiredCount;
         }
     }
 
@@ -188,9 +196,14 @@ public final class ForgingFurnaceRecipe implements Recipe<SimpleContainer> {
                     inputs.add(
                             new Input(
                                     Ingredient.EMPTY,
+                                    0,
                                     0
                             )
                     );
+                    continue;
+                }
+                if (GsonHelper.getAsBoolean(object, "any", false)) {
+                    inputs.add(new Input(Ingredient.EMPTY, -1, -1));
                     continue;
                 }
 
@@ -205,17 +218,23 @@ public final class ForgingFurnaceRecipe implements Recipe<SimpleContainer> {
                             "consume_count must be at least 1 in " + id
                     );
                 }
+                int requiredCount = GsonHelper.getAsInt(object, "required_count", consumeCount);
+                if (requiredCount < consumeCount) {
+                    throw new JsonParseException("required_count must be at least consume_count in " + id);
+                }
 
                 JsonObject ingredientJson = object.deepCopy();
 
                 ingredientJson.remove("consume_count");
+                ingredientJson.remove("required_count");
                 ingredientJson.remove("count");
                 ingredientJson.remove("consume_chance");
 
                 inputs.add(
                         new Input(
                                 Ingredient.fromJson(ingredientJson),
-                                consumeCount
+                                consumeCount,
+                                requiredCount
                         )
                 );
             }
@@ -245,6 +264,7 @@ public final class ForgingFurnaceRecipe implements Recipe<SimpleContainer> {
                 inputs.add(
                         new Input(
                                 Ingredient.fromNetwork(buffer),
+                                buffer.readVarInt(),
                                 buffer.readVarInt()
                         )
                 );
@@ -265,6 +285,7 @@ public final class ForgingFurnaceRecipe implements Recipe<SimpleContainer> {
             for (Input input : recipe.inputs) {
                 input.ingredient().toNetwork(buffer);
                 buffer.writeVarInt(input.consumeCount());
+                buffer.writeVarInt(input.requiredCount());
             }
 
             buffer.writeItem(recipe.result);

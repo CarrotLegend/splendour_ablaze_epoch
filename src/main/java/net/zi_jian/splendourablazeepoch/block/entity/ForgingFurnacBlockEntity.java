@@ -102,32 +102,21 @@ public final class ForgingFurnacBlockEntity
         );
     }
 
-    public static void serverTick(
-            Level level,
-            BlockPos pos,
-            BlockState state,
-            ForgingFurnacBlockEntity furnace
-    ) {
-        Optional<ForgingFurnaceRecipe> recipe =
-                furnace.findRecipe();
+    @Override
+    public void onLoad() {
+        super.onLoad();
+        if (level != null && !level.isClientSide) {
+            level.scheduleTick(worldPosition, getBlockState().getBlock(), 10);
+        }
+    }
 
-        if (recipe.isPresent()
-                && furnace.canOutput(recipe.get())) {
-
-            furnace.cookProgress++;
-
-            if (furnace.cookProgress >= COOK_TIME) {
-                furnace.cookProgress = 0;
-
-                furnace.craft(
-                        recipe.get()
-                );
-            }
-
-            furnace.setChanged();
-        } else if (furnace.cookProgress != 0) {
-            furnace.cookProgress = 0;
-            furnace.setChanged();
+    public void attemptCraft() {
+        if (level == null || level.isClientSide) {
+            return;
+        }
+        Optional<ForgingFurnaceRecipe> recipe = findRecipe();
+        if (recipe.isPresent() && canOutput(recipe.get())) {
+            craft(recipe.get());
         }
     }
 
@@ -244,7 +233,7 @@ public final class ForgingFurnacBlockEntity
             ForgingFurnaceRecipe.Input input =
                     recipe.input(slot);
 
-            if (!input.isEmpty()
+            if (input.unconstrained() || !input.isEmpty()
                     && input.ingredient().test(stack)) {
                 return true;
             }
@@ -344,23 +333,7 @@ public final class ForgingFurnacBlockEntity
                         OUTPUT_SLOT
                 );
 
-        if (output.isEmpty()) {
-            return result.getCount()
-                    <= Math.min(
-                            result.getMaxStackSize(),
-                            getMaxStackSize()
-                    );
-        }
-
-        return ItemStack.isSameItemSameTags(
-                output,
-                result
-        ) && output.getCount()
-                + result.getCount()
-                <= Math.min(
-                        output.getMaxStackSize(),
-                        getMaxStackSize()
-                );
+        return output.isEmpty() && result.getCount() <= Math.min(result.getMaxStackSize(), getMaxStackSize());
     }
 
     private void craft(
@@ -382,7 +355,12 @@ public final class ForgingFurnacBlockEntity
             ForgingFurnaceRecipe.Input input =
                     recipe.input(i);
 
-            if (input.isEmpty()) {
+            if (input.isEmpty() || input.unconstrained()) {
+                continue;
+            }
+
+            // The original completion procedure consumes pyrotemper dust on a 1/3 roll.
+            if (i == PYROTEMPER_DUST_SLOT && level.random.nextInt(3) != 2) {
                 continue;
             }
 
@@ -559,10 +537,7 @@ public final class ForgingFurnacBlockEntity
                 items
         );
 
-        cookProgress =
-                tag.getInt(
-                        "CookProgress"
-                );
+        cookProgress = 0;
     }
 
     @Override

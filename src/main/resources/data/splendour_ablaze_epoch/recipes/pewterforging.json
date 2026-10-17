@@ -7,9 +7,10 @@
     },
     {
       "item": "splendour_ablaze_epoch:leadnugget",
-      "consume_count": 4
+      "consume_count": 4,
+      "required_count": 5
     },
-    {},
+    {"any": true},
     {
       "item": "splendour_ablaze_epoch:pyrotemperdust",
       "consume_count": 1

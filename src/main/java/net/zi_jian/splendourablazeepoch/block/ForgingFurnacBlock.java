@@ -3,6 +3,8 @@ package net.zi_jian.splendourablazeepoch.block;
 import org.jetbrains.annotations.Nullable;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.RandomSource;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.Containers;
 import net.minecraft.world.InteractionHand;
@@ -42,6 +44,22 @@ public final class ForgingFurnacBlock
             BlockState state
     ) {
         return RenderShape.MODEL;
+    }
+
+    @Override
+    public void onPlace(BlockState state, Level level, BlockPos pos, BlockState oldState, boolean moving) {
+        super.onPlace(state, level, pos, oldState, moving);
+        if (!level.isClientSide && !state.is(oldState.getBlock())) {
+            level.scheduleTick(pos, this, 10);
+        }
+    }
+
+    @Override
+    public void tick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
+        if (level.getBlockEntity(pos) instanceof ForgingFurnacBlockEntity furnace) {
+            furnace.attemptCraft();
+        }
+        level.scheduleTick(pos, this, 10);
     }
 
     @Override
@@ -262,20 +280,4 @@ public final class ForgingFurnacBlock
         );
     }
 
-    @Nullable
-    @Override
-    public <T extends BlockEntity>
-    BlockEntityTicker<T> getTicker(
-            Level level,
-            BlockState state,
-            BlockEntityType<T> type
-    ) {
-        return level.isClientSide
-                ? null
-                : createTickerHelper(
-                        type,
-                        ModBlockEntities.FORGING_FURNAC.get(),
-                        ForgingFurnacBlockEntity::serverTick
-                );
-    }
 }

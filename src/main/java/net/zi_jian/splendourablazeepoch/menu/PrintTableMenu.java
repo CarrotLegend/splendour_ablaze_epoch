@@ -148,17 +148,7 @@ public final class PrintTableMenu
                     public boolean mayPickup(
                             Player player
                     ) {
-                        if (getItem().isEmpty()) {
-                            return false;
-                        }
-
-                        SimpleContainer input =
-                                PrintTableMenu.this
-                                        .createInputContainer();
-
-                        return PrintTableMenu.this
-                                .findRecipe(input)
-                                .isPresent();
+                        return PrintTableMenu.this.canTakeResult();
                     }
 
                     @Override
@@ -168,7 +158,7 @@ public final class PrintTableMenu
                     ) {
                         PrintTableMenu.this
                                 .finishPrint(
-                                        player
+                                        player, stack
                                 );
 
                         super.onTake(
@@ -265,6 +255,18 @@ public final class PrintTableMenu
                 );
     }
 
+    private boolean canTakeResult() {
+        ItemStack shown = result.getItem(0);
+        if (shown.isEmpty()) {
+            return false;
+        }
+        SimpleContainer input = createInputContainer();
+        return findRecipe(input).map(recipe ->
+                ItemStack.isSameItemSameTags(shown,
+                        recipe.assemble(input, player.level().registryAccess())))
+                .orElse(false);
+    }
+
     private void updateResult() {
         if (player.level()
                 .isClientSide) {
@@ -303,7 +305,8 @@ public final class PrintTableMenu
     }
 
     private void finishPrint(
-            Player craftingPlayer
+            Player craftingPlayer,
+            ItemStack taken
     ) {
         if (craftingPlayer.level()
                 .isClientSide) {
@@ -318,7 +321,8 @@ public final class PrintTableMenu
                         input
                 );
 
-        if (recipe.isEmpty()) {
+        if (recipe.isEmpty() || !ItemStack.isSameItemSameTags(taken,
+                recipe.get().assemble(input, craftingPlayer.level().registryAccess()))) {
             result.setItem(
                     0,
                     ItemStack.EMPTY
@@ -471,7 +475,7 @@ public final class PrintTableMenu
     public boolean stillValid(
             Player player
     ) {
-        return stillValid(
+        return player.level().getBlockEntity(table.getBlockPos()) == table && stillValid(
                 access,
                 player,
                 ModBlocks.PRINT_TABLE.get()
@@ -502,6 +506,9 @@ public final class PrintTableMenu
                 stack.copy();
 
         if (index == RESULT_INDEX) {
+            if (!canTakeResult()) {
+                return ItemStack.EMPTY;
+            }
             if (!moveItemStackTo(
                     stack,
                     PLAYER_INVENTORY_START,
@@ -577,7 +584,7 @@ public final class PrintTableMenu
 
         sourceSlot.onTake(
                 player,
-                stack
+                index == RESULT_INDEX ? original : stack
         );
 
         return original;

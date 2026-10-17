@@ -315,6 +315,12 @@ tasks.register('verifyForgingFurnaceData') {
                     return
                 }
 
+                if (ingredient.any == true) {
+                    assert ingredient.size() == 1 :
+                            "${entry.file.name} ingredient ${index} may only contain any"
+                    return
+                }
+
                 assert ingredient.item || ingredient.tag :
                         "${entry.file.name} ingredient ${index} needs item or tag"
 
@@ -326,6 +332,11 @@ tasks.register('verifyForgingFurnaceData') {
 
                 assert consumeCount >= 1 :
                         "${entry.file.name} ingredient ${index} has invalid consume_count ${consumeCount}"
+
+                if (ingredient.containsKey('required_count')) {
+                    assert (ingredient.required_count as int) >= consumeCount :
+                            "${entry.file.name} ingredient ${index} has required_count below consume_count"
+                }
 
                 assert !ingredient.containsKey('count') :
                         "${entry.file.name} ingredient ${index} still contains removed field count"
