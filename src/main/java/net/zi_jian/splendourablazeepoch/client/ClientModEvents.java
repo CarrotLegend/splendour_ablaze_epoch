@@ -10,10 +10,12 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.client.event.RegisterColorHandlersEvent;
 import net.minecraftforge.client.event.RegisterDimensionSpecialEffectsEvent;
+import net.minecraftforge.client.event.RegisterParticleProvidersEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.zi_jian.splendourablazeepoch.SplendourAblazeEpochMod;
+import net.zi_jian.splendourablazeepoch.client.particle.LegacyParticleProvider;
 import net.zi_jian.splendourablazeepoch.entity.AlivePictographEntity;
 import net.zi_jian.splendourablazeepoch.entity.AwakenedAncestorEntity;
 import net.zi_jian.splendourablazeepoch.entity.CastInscribedAutomatonEntity;
@@ -49,6 +51,7 @@ import net.zi_jian.splendourablazeepoch.entity.WaterBuffaloEntity;
 import net.zi_jian.splendourablazeepoch.registry.ModBlocks;
 import net.zi_jian.splendourablazeepoch.registry.ModEntities;
 import net.zi_jian.splendourablazeepoch.registry.ModMenus;
+import net.zi_jian.splendourablazeepoch.registry.ModParticles;
 
 @Mod.EventBusSubscriber(
         modid = SplendourAblazeEpochMod.MOD_ID,
@@ -91,6 +94,22 @@ public final class ClientModEvents {
         event.registerEntityRenderer(ModEntities.PAGE_WRAITH.get(), context -> new TopworldMobRenderer<PageWraithEntity>(context));
         event.registerEntityRenderer(ModEntities.PAGE_GNAT.get(), context -> new TopworldMobRenderer<PageGnatEntity>(context));
         event.registerEntityRenderer(ModEntities.FIREARM_TIGER_GUARD.get(), context -> new TopworldMobRenderer<FirearmTigerGuardEntity>(context));
+    }
+
+    @SubscribeEvent
+    public static void registerParticles(RegisterParticleProvidersEvent event) {
+        event.registerSpriteSet(ModParticles.WUTONG_LEAVES_FALLING.get(), sprites ->
+                new LegacyParticleProvider(sprites, LegacyParticleProvider.Kind.WUTONG));
+        event.registerSpriteSet(ModParticles.WUTONG_LEAVES_FALLING_0.get(), sprites ->
+                new LegacyParticleProvider(sprites, LegacyParticleProvider.Kind.WUTONG_0));
+        event.registerSpriteSet(ModParticles.OSMANTHUS_FLOWER_FALL.get(), sprites ->
+                new LegacyParticleProvider(sprites, LegacyParticleProvider.Kind.OSMANTHUS));
+        event.registerSpriteSet(ModParticles.CHAIN.get(), sprites ->
+                new LegacyParticleProvider(sprites, LegacyParticleProvider.Kind.CHAIN));
+        event.registerSpriteSet(ModParticles.LOC.get(), sprites ->
+                new LegacyParticleProvider(sprites, LegacyParticleProvider.Kind.LOC));
+        event.registerSpriteSet(ModParticles.FLOWING.get(), sprites ->
+                new LegacyParticleProvider(sprites, LegacyParticleProvider.Kind.FLOWING));
     }
 
     @SubscribeEvent
@@ -137,6 +156,8 @@ public final class ClientModEvents {
     @SubscribeEvent
     public static void clientSetup(FMLClientSetupEvent event) {
         event.enqueueWork(() -> {
+            MenuScreens.register(ModMenus.ABSTRUSE_CHEST_GUI.get(), AbstruseChestScreen::new);
+            MenuScreens.register(ModMenus.MILLENNIA_FRAGRANCE.get(), MillenniaFragranceScreen::new);
             MenuScreens.register(ModMenus.FORGING_FURNACE_GUI.get(), ForgingFurnaceScreen::new);
             MenuScreens.register(ModMenus.PRINT_TABLE_GUI.get(), PrintTableScreen::new);
         });

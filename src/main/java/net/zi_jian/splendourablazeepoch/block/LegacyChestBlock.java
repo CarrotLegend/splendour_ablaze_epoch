@@ -17,6 +17,8 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
+import net.minecraftforge.network.NetworkHooks;
+import net.zi_jian.splendourablazeepoch.block.entity.ClaypotBlockEntity;
 import net.zi_jian.splendourablazeepoch.block.entity.LegacyChestBlockEntity;
 
 public final class LegacyChestBlock extends BaseEntityBlock {
@@ -44,6 +46,9 @@ public final class LegacyChestBlock extends BaseEntityBlock {
             BlockPos pos,
             BlockState state
     ) {
+        if ("claypot".equals(registryName)) {
+            return new ClaypotBlockEntity(pos, state);
+        }
         return LegacyChestBlockEntity.create(
                 registryName,
                 pos,
@@ -65,7 +70,7 @@ public final class LegacyChestBlock extends BaseEntityBlock {
                 && level.getBlockEntity(pos)
                 instanceof LegacyChestBlockEntity chest) {
 
-            serverPlayer.openMenu(chest);
+            NetworkHooks.openScreen(serverPlayer, chest, pos);
         }
 
         return InteractionResult.sidedSuccess(
@@ -81,15 +86,20 @@ public final class LegacyChestBlock extends BaseEntityBlock {
             BlockState newState,
             boolean moving
     ) {
-        if (!state.is(newState.getBlock())) {
+        if (!level.isClientSide && !state.is(newState.getBlock())) {
             if (level.getBlockEntity(pos)
                     instanceof LegacyChestBlockEntity chest) {
+
+                if (chest instanceof ClaypotBlockEntity pot) {
+                    pot.dropLegacyOverflow(level);
+                }
 
                 Containers.dropContents(
                         level,
                         pos,
                         chest
                 );
+                chest.clearContent();
 
                 level.updateNeighbourForOutputSignal(
                         pos,

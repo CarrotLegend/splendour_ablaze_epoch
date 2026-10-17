@@ -12,7 +12,6 @@ import net.minecraft.world.WorldlyContainer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.inventory.ChestMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.entity.RandomizableContainerBlockEntity;
@@ -23,34 +22,33 @@ import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.wrapper.InvWrapper;
 import net.zi_jian.splendourablazeepoch.SplendourAblazeEpochMod;
+import net.zi_jian.splendourablazeepoch.menu.AbstruseChestMenu;
 import net.zi_jian.splendourablazeepoch.registry.ModBlockEntities;
 
-public final class LegacyChestBlockEntity
+public class LegacyChestBlockEntity
         extends RandomizableContainerBlockEntity
         implements WorldlyContainer {
 
-    public static final int SLOT_COUNT = 27;
+    public static final int SLOT_COUNT = 36;
 
-    private static final int[] SLOTS = createSlots();
+    private final int slotCount;
+    private final int[] slots;
 
     private final String registryName;
 
-    private NonNullList<ItemStack> items =
-            NonNullList.withSize(
-                    SLOT_COUNT,
-                    ItemStack.EMPTY
-            );
+    private NonNullList<ItemStack> items;
 
     private LazyOptional<IItemHandler> itemHandler =
             LazyOptional.of(
                     () -> new InvWrapper(this)
             );
 
-    private LegacyChestBlockEntity(
+    protected LegacyChestBlockEntity(
             String registryName,
             BlockEntityType<?> type,
             BlockPos pos,
-            BlockState state
+            BlockState state,
+            int slotCount
     ) {
         super(
                 type,
@@ -59,6 +57,9 @@ public final class LegacyChestBlockEntity
         );
 
         this.registryName = registryName;
+        this.slotCount = slotCount;
+        this.slots = createSlots(slotCount);
+        this.items = NonNullList.withSize(slotCount, ItemStack.EMPTY);
     }
 
     public static LegacyChestBlockEntity create(
@@ -70,15 +71,16 @@ public final class LegacyChestBlockEntity
                 registryName,
                 ModBlockEntities.get(registryName),
                 pos,
-                state
+                state,
+                SLOT_COUNT
         );
     }
 
-    private static int[] createSlots() {
+    private static int[] createSlots(int slotCount) {
         int[] slots =
-                new int[SLOT_COUNT];
+                new int[slotCount];
 
-        for (int i = 0; i < SLOT_COUNT; i++) {
+        for (int i = 0; i < slotCount; i++) {
             slots[i] = i;
         }
 
@@ -87,7 +89,7 @@ public final class LegacyChestBlockEntity
 
     @Override
     public int getContainerSize() {
-        return SLOT_COUNT;
+        return slotCount;
     }
 
     @Override
@@ -105,7 +107,7 @@ public final class LegacyChestBlockEntity
             int containerId,
             Inventory inventory
     ) {
-        return ChestMenu.threeRows(
+        return new AbstruseChestMenu(
                 containerId,
                 inventory,
                 this
@@ -237,7 +239,7 @@ public final class LegacyChestBlockEntity
     public int[] getSlotsForFace(
             Direction direction
     ) {
-        return SLOTS;
+        return slots;
     }
 
     @Override
@@ -266,7 +268,7 @@ public final class LegacyChestBlockEntity
 
         items =
                 NonNullList.withSize(
-                        SLOT_COUNT,
+                        slotCount,
                         ItemStack.EMPTY
                 );
 

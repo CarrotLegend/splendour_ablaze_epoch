@@ -15,6 +15,8 @@ import net.minecraft.world.entity.projectile.Arrow;
 import net.minecraft.world.level.Level;
 
 public final class DarkWormEntity extends TopworldMonsterEntity implements RangedAttackMob {
+    private static final int LEGACY_LIFETIME = 200;
+
     public DarkWormEntity(EntityType<? extends DarkWormEntity> type, Level level) {
         super(type, level);
         setMaxUpStep(0.6F);
@@ -27,6 +29,14 @@ public final class DarkWormEntity extends TopworldMonsterEntity implements Range
         targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, false, false));
         targetSelector.addGoal(3, new HurtByTargetGoal(this));
         goalSelector.addGoal(4, new RandomLookAroundGoal(this));
+    }
+
+    @Override
+    public void aiStep() {
+        super.aiStep();
+        if (!level().isClientSide && tickCount >= LEGACY_LIFETIME && isAlive()) {
+            setHealth(0.0F);
+        }
     }
 
     @Override

@@ -24,6 +24,7 @@ public final class ModSounds {
     public static final RegistryObject<SoundEvent> PAGE_1 = register("page1");
     public static final RegistryObject<SoundEvent> PAGE_2 = register("page2");
     public static final RegistryObject<SoundEvent> PAGE_3 = register("page3");
+    public static final RegistryObject<SoundEvent> SMALL_BELL = register("small_bell");
 
     private static RegistryObject<SoundEvent> register(String id) {
         return SOUND_EVENTS.register(

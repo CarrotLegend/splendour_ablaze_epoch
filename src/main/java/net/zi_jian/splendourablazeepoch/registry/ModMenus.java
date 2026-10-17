@@ -6,7 +6,9 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import net.zi_jian.splendourablazeepoch.SplendourAblazeEpochMod;
+import net.zi_jian.splendourablazeepoch.menu.AbstruseChestMenu;
 import net.zi_jian.splendourablazeepoch.menu.ForgingFurnaceMenu;
+import net.zi_jian.splendourablazeepoch.menu.MillenniaFragranceMenu;
 import net.zi_jian.splendourablazeepoch.menu.PrintTableMenu;
 
 public final class ModMenus {
@@ -17,6 +19,14 @@ public final class ModMenus {
                     ForgeRegistries.MENU_TYPES,
                     SplendourAblazeEpochMod.MOD_ID
             );
+
+    public static final RegistryObject<MenuType<AbstruseChestMenu>> ABSTRUSE_CHEST_GUI =
+            MENU_TYPES.register("abstrusechestgui",
+                    () -> IForgeMenuType.create(AbstruseChestMenu::new));
+
+    public static final RegistryObject<MenuType<MillenniaFragranceMenu>> MILLENNIA_FRAGRANCE =
+            MENU_TYPES.register("millennia_fragrance",
+                    () -> IForgeMenuType.create(MillenniaFragranceMenu::new));
 
     public static final RegistryObject<
             MenuType<ForgingFurnaceMenu>>

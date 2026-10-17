@@ -27,9 +27,9 @@ final class LegacyEntityAnimations {
             case "girlghost" -> entity.isDeadOrDying() ? "3" : state.isMoving() ? "2" : "1";
             case "goldenhairhou" -> combat(entity) ? "2" : state.isMoving() ? "1" : "0";
             case "rustedchef" -> state.isMoving() ? "1" : "0";
-            case "cauldronbeast" -> combat(entity) ? "3" : state.isMoving() ? "2" : "1";
+            case "cauldronbeast" -> cauldron(entity, state);
             case "terracottawarriorsguard", "terracottawarriors" -> "idel";
-            case "terracottageneral" -> combat(entity) ? "2" : state.isMoving() ? "1" : "3";
+            case "terracottageneral" -> combat(entity) ? "2" : state.isMoving() ? "1" : "5";
             case "alivepictograph" -> entity.isDeadOrDying() ? "2" : "1";
             case "castinscribedautomaton" -> combat(entity) ? "2" : state.isMoving() ? "1" : "0";
             case "flyarrowhead", "skyadministrator", "pagegnat" -> "1";
@@ -47,6 +47,16 @@ final class LegacyEntityAnimations {
             return "1";
         }
         return moving ? "2" : "0";
+    }
+
+    private static String cauldron(LivingEntity entity, AnimationState<?> state) {
+        if (entity.isSprinting()) {
+            return "2";
+        }
+        if (state.isMoving()) {
+            return entity instanceof net.minecraft.world.entity.Mob mob && mob.isAggressive() ? "3" : "2";
+        }
+        return "1";
     }
 
     private static String relic(LivingEntity entity, AnimationState<?> state) {

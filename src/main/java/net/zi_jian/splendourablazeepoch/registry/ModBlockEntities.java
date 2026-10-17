@@ -10,6 +10,7 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import net.zi_jian.splendourablazeepoch.SplendourAblazeEpochMod;
+import net.zi_jian.splendourablazeepoch.block.entity.ClaypotBlockEntity;
 import net.zi_jian.splendourablazeepoch.block.entity.ForgingFurnacBlockEntity;
 import net.zi_jian.splendourablazeepoch.block.entity.GnomeBlockEntity;
 import net.zi_jian.splendourablazeepoch.block.entity.LegacyChestBlockEntity;
@@ -76,13 +77,10 @@ public final class ModBlockEntities {
                     ModBlocks.IMMORTAL_MOTH_CHEST
             );
 
-    public static final RegistryObject<
-            BlockEntityType<LegacyChestBlockEntity>>
-            CLAY_POT =
-            registerStorage(
-                    "claypot",
-                    ModBlocks.CLAY_POT
-            );
+    public static final RegistryObject<BlockEntityType<ClaypotBlockEntity>> CLAY_POT =
+            registerTopworldType("claypot",
+                    () -> BlockEntityType.Builder.of(ClaypotBlockEntity::new,
+                            ModBlocks.CLAY_POT.get()).build(null));
 
     public static final RegistryObject<
             BlockEntityType<LegacyChestBlockEntity>>

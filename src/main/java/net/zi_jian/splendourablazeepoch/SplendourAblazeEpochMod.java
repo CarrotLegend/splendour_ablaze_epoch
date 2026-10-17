@@ -1,6 +1,8 @@
 package net.zi_jian.splendourablazeepoch;
 
 import com.mojang.logging.LogUtils;
+import net.zi_jian.splendourablazeepoch.registry.LegacyCompostables;
+import net.zi_jian.splendourablazeepoch.registry.LegacyExtraEntities;
 import net.zi_jian.splendourablazeepoch.registry.ModBlockEntities;
 import net.zi_jian.splendourablazeepoch.registry.ModBlocks;
 import net.zi_jian.splendourablazeepoch.registry.ModCreativeTabs;
@@ -14,6 +16,7 @@ import net.zi_jian.splendourablazeepoch.registry.ModMenus;
 import net.zi_jian.splendourablazeepoch.registry.ModParticles;
 import net.zi_jian.splendourablazeepoch.registry.ModRecipes;
 import net.zi_jian.splendourablazeepoch.registry.ModSounds;
+import net.zi_jian.splendourablazeepoch.registry.SericultureRegistry;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
@@ -28,10 +31,12 @@ public final class SplendourAblazeEpochMod {
     public SplendourAblazeEpochMod(FMLJavaModLoadingContext context) {
         IEventBus modEventBus = context.getModEventBus();
 
-
         ModBlocks.BLOCKS.register(modEventBus);
+        SericultureRegistry.BLOCKS.register(modEventBus);
         ModItems.ITEMS.register(modEventBus);
+        SericultureRegistry.ITEMS.register(modEventBus);
         ModEntities.ENTITY_TYPES.register(modEventBus);
+        LegacyExtraEntities.ENTITY_TYPES.register(modEventBus);
         ModBlockEntities.BLOCK_ENTITY_TYPES.register(modEventBus);
         ModMenus.MENU_TYPES.register(modEventBus);
         ModEffects.MOB_EFFECTS.register(modEventBus);
@@ -46,7 +51,10 @@ public final class SplendourAblazeEpochMod {
     }
 
     private void commonSetup(FMLCommonSetupEvent event) {
-        event.enqueueWork(ModEntitySpawnPlacements::register);
+        event.enqueueWork(() -> {
+            ModEntitySpawnPlacements.register();
+            LegacyCompostables.register();
+        });
         LOGGER.info("Common setup for {}", MOD_ID);
     }
 }
