@@ -642,9 +642,16 @@ public final class TopworldWoodRegistry {
                             BlockBehaviour.Properties.copy(
                                     Blocks.OAK_SAPLING
                             ),
-                            () -> ModBlocks.get(
-                                    "inkgrassblock"
-                            )
+                            () -> ModBlocks.get("inkgrassblock"),
+                            switch (id) {
+                                case "wutongsapling" -> "wutong_small";
+                                case "ginkgosapling" -> "ginkgo1";
+                                case "cerasusjaponicasapling" -> "cerasus_japonica";
+                                case "osmanthussapling" -> "osmanthus";
+                                case "mulberrysapling" -> "mulberry1";
+                                case "specularpinesapling" -> "specularpine_3";
+                                default -> null;
+                            }
                     )
             );
 

@@ -64,7 +64,7 @@ public final class MottledBambooStalkBlock extends Block {
 
         return below.is(ModBlocks.INK_DIRT.get())
                 || below.is(ModBlocks.INK_GRASS_BLOCK.get())
-                || below.is(ModBlocks.MOTTLED_BAMBOO_BUD.get())
+                || below.is(ModBlocks.get("mottled_bamboo_log"))
                 || below.is(ModBlocks.MOTTLED_BAMBOO_STALK.get());
     }
 

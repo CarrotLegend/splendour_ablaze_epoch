@@ -1,12 +1,30 @@
 {
   "variants": {
-    "blockstate=0": {
+    "blockstate=0,direction=0": {
       "model": "splendour_ablaze_epoch:block/auroraleadenpillar"
     },
-    "blockstate=1": {
+    "blockstate=0,direction=1": {
+      "model": "splendour_ablaze_epoch:block/auroraleadenpillar"
+    },
+    "blockstate=0,direction=2": {
+      "model": "splendour_ablaze_epoch:block/auroraleadenpillar"
+    },
+    "blockstate=1,direction=0": {
       "model": "splendour_ablaze_epoch:block/auroraleadenpillar_1_blockstate_0"
     },
-    "blockstate=2": {
+    "blockstate=1,direction=1": {
+      "model": "splendour_ablaze_epoch:block/auroraleadenpillar_1_blockstate_0"
+    },
+    "blockstate=1,direction=2": {
+      "model": "splendour_ablaze_epoch:block/auroraleadenpillar_1_blockstate_0"
+    },
+    "blockstate=2,direction=0": {
+      "model": "splendour_ablaze_epoch:block/auroraleadenpillar_1_blockstate_1"
+    },
+    "blockstate=2,direction=1": {
+      "model": "splendour_ablaze_epoch:block/auroraleadenpillar_1_blockstate_1"
+    },
+    "blockstate=2,direction=2": {
       "model": "splendour_ablaze_epoch:block/auroraleadenpillar_1_blockstate_1"
     }
   }

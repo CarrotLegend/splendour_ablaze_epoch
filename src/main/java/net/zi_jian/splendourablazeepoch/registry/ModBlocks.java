@@ -23,6 +23,12 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import net.zi_jian.splendourablazeepoch.SplendourAblazeEpochMod;
 import net.zi_jian.splendourablazeepoch.block.ForgingFurnacBlock;
+import net.zi_jian.splendourablazeepoch.block.AntigravitDeviceBlock;
+import net.zi_jian.splendourablazeepoch.block.AuroraLeadenPillarBlock;
+import net.zi_jian.splendourablazeepoch.block.WetWhitewashedBricksBlock;
+import net.zi_jian.splendourablazeepoch.block.RadiantLimestoneFadeBlock;
+import net.zi_jian.splendourablazeepoch.block.LeekCropBlock;
+import net.zi_jian.splendourablazeepoch.block.MilletCropBlock;
 import net.zi_jian.splendourablazeepoch.block.GnomeBlock;
 import net.zi_jian.splendourablazeepoch.block.LegacyChestBlock;
 import net.zi_jian.splendourablazeepoch.block.LegacyPillarVariantBlock;
@@ -146,7 +152,8 @@ public final class ModBlocks {
             registerLike("chiseledribbonrockbricks", Blocks.CHISELED_STONE_BRICKS);
 
     public static final RegistryObject<Block> RADIANT_LIMESTONE =
-            registerLike("radiantlimestone", Blocks.CALCITE);
+            registerTopworldBlock("radiantlimestone",
+                    () -> new RadiantLimestoneFadeBlock(BlockBehaviour.Properties.copy(Blocks.CALCITE).lightLevel(state -> 15)));
 
     public static final RegistryObject<Block> FADED_RADIANT_LIMESTONE =
             registerLike("fadedradiantlimestone", Blocks.CALCITE);
@@ -311,7 +318,7 @@ public final class ModBlocks {
     public static final RegistryObject<Block> AURORA_LEADEN_PILLAR =
             registerTopworldBlock(
                     "auroraleadenpillar",
-                    () -> new LegacyVariantTwoBlock(
+                    () -> new AuroraLeadenPillarBlock(
                             BlockBehaviour.Properties.copy(Blocks.STONE)
                     )
             );
@@ -392,27 +399,32 @@ public final class ModBlocks {
             registerLike("radiantlimestonecinnabarore", Blocks.IRON_ORE);
 
     public static final RegistryObject<Block> RADIANT_LIMESTONE_COPPER_ORE =
-            registerLike("radiantlimestonecopperore", Blocks.COPPER_ORE);
+            registerTopworldBlock("radiantlimestonecopperore",
+                    () -> new RadiantLimestoneFadeBlock(BlockBehaviour.Properties.copy(Blocks.COPPER_ORE)));
 
     public static final RegistryObject<Block> RADIANT_LIMESTONE_GOLD_ORE =
-            registerLike("radiantlimestonegoldore", Blocks.GOLD_ORE);
+            registerTopworldBlock("radiantlimestonegoldore",
+                    () -> new RadiantLimestoneFadeBlock(BlockBehaviour.Properties.copy(Blocks.GOLD_ORE)));
 
     public static final RegistryObject<Block> RADIANT_LIMESTONE_GRAPHITE_ORE =
             registerLike("radiantlimestonegraphiteore", Blocks.COAL_ORE);
 
     public static final RegistryObject<Block> RADIANT_LIMESTONE_IRON_ORE =
-            registerLike("radiantlimestoneironore", Blocks.IRON_ORE);
+            registerTopworldBlock("radiantlimestoneironore",
+                    () -> new RadiantLimestoneFadeBlock(BlockBehaviour.Properties.copy(Blocks.IRON_ORE)));
 
     public static final RegistryObject<Block> RADIANT_LIMESTONE_LEAD_ORE =
-            registerLike("radiantlimestoneleadore", Blocks.IRON_ORE);
+            registerTopworldBlock("radiantlimestoneleadore",
+                    () -> new RadiantLimestoneFadeBlock(BlockBehaviour.Properties.copy(Blocks.IRON_ORE)));
 
     public static final RegistryObject<Block> RADIANT_LIMESTONE_TIN_ORE =
-            registerLike("radiantlimestonetinore", Blocks.IRON_ORE);
+            registerTopworldBlock("radiantlimestonetinore",
+                    () -> new RadiantLimestoneFadeBlock(BlockBehaviour.Properties.copy(Blocks.IRON_ORE)));
 
     public static final RegistryObject<Block> SUSPICIOUS_RADIANT_LIMESTONE_COPPER_ORE =
-            registerLike(
+            registerTopworldBlock(
                     "suspiciousradiantlimestonecopperore",
-                    Blocks.COPPER_ORE
+                    () -> new RadiantLimestoneFadeBlock(BlockBehaviour.Properties.copy(Blocks.COPPER_ORE))
             );
 
     public static final RegistryObject<Block> SUSPICIOUS_RADIANT_LIMESTONE_TIN_ORE =
@@ -503,7 +515,7 @@ public final class ModBlocks {
     public static final RegistryObject<Block> WET_WHITEWASHED_BRICKS_BLOCK =
             registerTopworldBlock(
                     "wetwhitewashedbricksblock",
-                    () -> new LegacyVariantOneBlock(
+                    () -> new WetWhitewashedBricksBlock(
                             BlockBehaviour.Properties.copy(Blocks.STONE_BRICKS)
                     )
             );
@@ -559,7 +571,7 @@ public final class ModBlocks {
     public static final RegistryObject<Block> LEAK_PLANT =
             registerTopworldBlock(
                     "leekplant",
-                    () -> new LegacyVariantTwoBlock(
+                    () -> new LeekCropBlock(
                             BlockBehaviour.Properties.copy(Blocks.WHEAT)
                     )
             );
@@ -567,7 +579,7 @@ public final class ModBlocks {
     public static final RegistryObject<Block> MILLET_PLANT =
             registerTopworldBlock(
                     "milletplant",
-                    () -> new LegacyVariantBlock(
+                    () -> new MilletCropBlock(
                             BlockBehaviour.Properties.copy(Blocks.WHEAT)
                     )
             );
@@ -603,7 +615,8 @@ public final class ModBlocks {
             registerLike("alivepictographspwner", Blocks.STONE_BRICKS);
 
     public static final RegistryObject<Block> ANTIGRAVIT_DEVICE =
-            registerLike("antigravitdevice", Blocks.IRON_BLOCK);
+            registerTopworldBlock("antigravitdevice",
+                    () -> new AntigravitDeviceBlock(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK)));
 
     public static final RegistryObject<Block> CANDLESTICK =
             registerTopworldBlock(

@@ -1,18 +1,78 @@
 {
   "variants": {
-    "blockstate=0": {
+    "age=0,blockstate=0": {
       "model": "splendour_ablaze_epoch:block/milletplant"
     },
-    "blockstate=1": {
+    "age=0,blockstate=1": {
       "model": "splendour_ablaze_epoch:block/milletage_blockstate_0"
     },
-    "blockstate=2": {
+    "age=0,blockstate=2": {
       "model": "splendour_ablaze_epoch:block/milletage_blockstate_1"
     },
-    "blockstate=3": {
+    "age=0,blockstate=3": {
       "model": "splendour_ablaze_epoch:block/milletage_blockstate_2"
     },
-    "blockstate=4": {
+    "age=0,blockstate=4": {
+      "model": "splendour_ablaze_epoch:block/milletage_blockstate_3"
+    },
+    "age=1,blockstate=0": {
+      "model": "splendour_ablaze_epoch:block/milletplant"
+    },
+    "age=1,blockstate=1": {
+      "model": "splendour_ablaze_epoch:block/milletage_blockstate_0"
+    },
+    "age=1,blockstate=2": {
+      "model": "splendour_ablaze_epoch:block/milletage_blockstate_1"
+    },
+    "age=1,blockstate=3": {
+      "model": "splendour_ablaze_epoch:block/milletage_blockstate_2"
+    },
+    "age=1,blockstate=4": {
+      "model": "splendour_ablaze_epoch:block/milletage_blockstate_3"
+    },
+    "age=2,blockstate=0": {
+      "model": "splendour_ablaze_epoch:block/milletplant"
+    },
+    "age=2,blockstate=1": {
+      "model": "splendour_ablaze_epoch:block/milletage_blockstate_0"
+    },
+    "age=2,blockstate=2": {
+      "model": "splendour_ablaze_epoch:block/milletage_blockstate_1"
+    },
+    "age=2,blockstate=3": {
+      "model": "splendour_ablaze_epoch:block/milletage_blockstate_2"
+    },
+    "age=2,blockstate=4": {
+      "model": "splendour_ablaze_epoch:block/milletage_blockstate_3"
+    },
+    "age=3,blockstate=0": {
+      "model": "splendour_ablaze_epoch:block/milletplant"
+    },
+    "age=3,blockstate=1": {
+      "model": "splendour_ablaze_epoch:block/milletage_blockstate_0"
+    },
+    "age=3,blockstate=2": {
+      "model": "splendour_ablaze_epoch:block/milletage_blockstate_1"
+    },
+    "age=3,blockstate=3": {
+      "model": "splendour_ablaze_epoch:block/milletage_blockstate_2"
+    },
+    "age=3,blockstate=4": {
+      "model": "splendour_ablaze_epoch:block/milletage_blockstate_3"
+    },
+    "age=4,blockstate=0": {
+      "model": "splendour_ablaze_epoch:block/milletplant"
+    },
+    "age=4,blockstate=1": {
+      "model": "splendour_ablaze_epoch:block/milletage_blockstate_0"
+    },
+    "age=4,blockstate=2": {
+      "model": "splendour_ablaze_epoch:block/milletage_blockstate_1"
+    },
+    "age=4,blockstate=3": {
+      "model": "splendour_ablaze_epoch:block/milletage_blockstate_2"
+    },
+    "age=4,blockstate=4": {
       "model": "splendour_ablaze_epoch:block/milletage_blockstate_3"
     }
   }
