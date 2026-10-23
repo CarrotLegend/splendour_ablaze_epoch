@@ -1,9 +1,9 @@
+
 package net.zi_jian.splendourablazeepoch;
 
 import com.mojang.logging.LogUtils;
 import net.zi_jian.splendourablazeepoch.recipe.brewing.LuckycraftBrewingRecipe;
 import net.zi_jian.splendourablazeepoch.registry.LegacyCompostables;
-import net.zi_jian.splendourablazeepoch.registry.LegacyExtraEntities;
 import net.zi_jian.splendourablazeepoch.registry.ModBlockEntities;
 import net.zi_jian.splendourablazeepoch.registry.ModBlocks;
 import net.zi_jian.splendourablazeepoch.registry.ModCreativeTabs;
@@ -38,7 +38,6 @@ public final class SplendourAblazeEpochMod {
         ModItems.ITEMS.register(modEventBus);
         SericultureRegistry.ITEMS.register(modEventBus);
         ModEntities.ENTITY_TYPES.register(modEventBus);
-        LegacyExtraEntities.ENTITY_TYPES.register(modEventBus);
         ModBlockEntities.BLOCK_ENTITY_TYPES.register(modEventBus);
         ModMenus.MENU_TYPES.register(modEventBus);
         ModEffects.MOB_EFFECTS.register(modEventBus);

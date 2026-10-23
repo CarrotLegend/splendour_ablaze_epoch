@@ -5,7 +5,7 @@ import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.zi_jian.splendourablazeepoch.SplendourAblazeEpochMod;
-import net.zi_jian.splendourablazeepoch.registry.LegacyExtraEntities;
+import net.zi_jian.splendourablazeepoch.registry.ModEntities;
 
 @Mod.EventBusSubscriber(
         modid = SplendourAblazeEpochMod.MOD_ID,
@@ -16,7 +16,7 @@ public final class Phase10ClientEvents {
     @SubscribeEvent
     public static void registerRenderers(EntityRenderersEvent.RegisterRenderers event) {
         event.registerEntityRenderer(
-                LegacyExtraEntities.PAT_JIN_MAO_HOU.get(),
+                ModEntities.PAT_JIN_MAO_HOU.get(),
                 PatJinMaoHouRenderer::new
         );
     }

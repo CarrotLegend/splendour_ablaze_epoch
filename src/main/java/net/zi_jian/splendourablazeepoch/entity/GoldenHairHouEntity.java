@@ -1,3 +1,4 @@
+
 package net.zi_jian.splendourablazeepoch.entity;
 
 import net.minecraft.advancements.Advancement;
@@ -22,7 +23,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.zi_jian.splendourablazeepoch.SplendourAblazeEpochMod;
-import net.zi_jian.splendourablazeepoch.registry.LegacyExtraEntities;
+import net.zi_jian.splendourablazeepoch.registry.ModEntities;
 import net.zi_jian.splendourablazeepoch.registry.ModItems;
 
 public final class GoldenHairHouEntity extends TopworldPathfinderEntity {
@@ -49,7 +50,7 @@ public final class GoldenHairHouEntity extends TopworldPathfinderEntity {
                 return InteractionResult.SUCCESS;
             }
 
-            PatJinMaoHouEntity tamed = LegacyExtraEntities.PAT_JIN_MAO_HOU.get().create(level());
+            PatJinMaoHouEntity tamed = ModEntities.PAT_JIN_MAO_HOU.get().create(level());
             if (tamed == null) {
                 return InteractionResult.FAIL;
             }

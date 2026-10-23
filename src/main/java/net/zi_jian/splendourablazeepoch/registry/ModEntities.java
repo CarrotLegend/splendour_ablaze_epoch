@@ -1,3 +1,4 @@
+
 package net.zi_jian.splendourablazeepoch.registry;
 
 import net.minecraft.world.entity.Entity;
@@ -26,6 +27,7 @@ import net.zi_jian.splendourablazeepoch.entity.MessengerEntity;
 import net.zi_jian.splendourablazeepoch.entity.MuskDeerEntity;
 import net.zi_jian.splendourablazeepoch.entity.PageGnatEntity;
 import net.zi_jian.splendourablazeepoch.entity.PageWraithEntity;
+import net.zi_jian.splendourablazeepoch.entity.PatJinMaoHouEntity;
 import net.zi_jian.splendourablazeepoch.entity.PeacockEntity;
 import net.zi_jian.splendourablazeepoch.entity.PheasantEntity;
 import net.zi_jian.splendourablazeepoch.entity.RaccoonDogEntity;
@@ -110,6 +112,9 @@ public final class ModEntities {
     );
     public static final RegistryObject<EntityType<GoldenHairHouEntity>> GOLDEN_HAIR_HOU = register(
             "goldenhairhou", GoldenHairHouEntity::new, MobCategory.MONSTER, 2.0F, 2.5F
+    );
+    public static final RegistryObject<EntityType<PatJinMaoHouEntity>> PAT_JIN_MAO_HOU = register(
+            "patjinmaohou", PatJinMaoHouEntity::new, MobCategory.MONSTER, 2.0F, 2.5F
     );
     public static final RegistryObject<EntityType<RustedChefEntity>> RUSTED_CHEF = register(
             "rustedchef", RustedChefEntity::new, MobCategory.MONSTER, 0.6F, 1.8F
@@ -207,6 +212,7 @@ public final class ModEntities {
             event.put(AWAKENED_ANCESTOR.get(), AwakenedAncestorEntity.createAttributes().build());
             event.put(GIRL_GHOST.get(), GirlGhostEntity.createAttributes().build());
             event.put(GOLDEN_HAIR_HOU.get(), GoldenHairHouEntity.createAttributes().build());
+            event.put(PAT_JIN_MAO_HOU.get(), PatJinMaoHouEntity.createAttributes().build());
             event.put(RUSTED_CHEF.get(), RustedChefEntity.createAttributes().build());
             event.put(CAULDRON_BEAST.get(), CauldronBeastEntity.createAttributes().build());
             event.put(TERRACOTTA_WARRIORS_GUARD.get(), TerracottaWarriorsGuardEntity.createAttributes().build());
