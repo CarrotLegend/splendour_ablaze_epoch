@@ -2,9 +2,11 @@ package net.zi_jian.splendourablazeepoch.event;
 
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.Block;
 import net.minecraftforge.event.furnace.FurnaceFuelBurnTimeEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.registries.RegistryObject;
 import net.zi_jian.splendourablazeepoch.SplendourAblazeEpochMod;
 import net.zi_jian.splendourablazeepoch.registry.ModBlocks;
 import net.zi_jian.splendourablazeepoch.registry.ModItems;
@@ -14,6 +16,9 @@ public final class LegacyFuelEvents {
     @SubscribeEvent
     public static void onFuelBurnTime(FurnaceFuelBurnTimeEvent event) {
         ItemStack stack = event.getItemStack();
+        if (stack.isEmpty()) {
+            return;
+        }
         Item item = stack.getItem();
 
         if (isBlockItem(item, "wutong_log") || isBlockItem(item, "wutong_wood")) {
@@ -41,13 +46,19 @@ public final class LegacyFuelEvents {
                 || isBlockItem(item, "ginkgosapling")
                 || isBlockItem(item, "cerasusjaponicasapling")) {
             event.setBurnTime(100);
-        } else if (item == ModItems.byId("mottledbamboo").get()) {
+        } else if (isRegisteredItem(item, "mottledbamboo")) {
             event.setBurnTime(50);
         }
     }
 
     private static boolean isBlockItem(Item item, String id) {
-        return item == ModBlocks.get(id).asItem();
+        RegistryObject<Block> block = ModBlocks.TOPWORLD_BLOCKS.get(id);
+        return block != null && block.isPresent() && item == block.get().asItem();
+    }
+
+    private static boolean isRegisteredItem(Item item, String id) {
+        RegistryObject<Item> registered = ModItems.byIdOrNull(id);
+        return registered != null && registered.isPresent() && item == registered.get();
     }
 
     private LegacyFuelEvents() {

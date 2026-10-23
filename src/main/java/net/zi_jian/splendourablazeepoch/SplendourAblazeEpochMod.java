@@ -1,6 +1,7 @@
 package net.zi_jian.splendourablazeepoch;
 
 import com.mojang.logging.LogUtils;
+import net.zi_jian.splendourablazeepoch.recipe.brewing.LuckycraftBrewingRecipe;
 import net.zi_jian.splendourablazeepoch.registry.LegacyCompostables;
 import net.zi_jian.splendourablazeepoch.registry.LegacyExtraEntities;
 import net.zi_jian.splendourablazeepoch.registry.ModBlockEntities;
@@ -18,6 +19,7 @@ import net.zi_jian.splendourablazeepoch.registry.ModRecipes;
 import net.zi_jian.splendourablazeepoch.registry.ModSounds;
 import net.zi_jian.splendourablazeepoch.registry.SericultureRegistry;
 import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.common.brewing.BrewingRecipeRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
@@ -54,6 +56,7 @@ public final class SplendourAblazeEpochMod {
         event.enqueueWork(() -> {
             ModEntitySpawnPlacements.register();
             LegacyCompostables.register();
+            BrewingRecipeRegistry.addRecipe(new LuckycraftBrewingRecipe());
         });
         LOGGER.info("Common setup for {}", MOD_ID);
     }

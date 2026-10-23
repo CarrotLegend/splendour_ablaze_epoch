@@ -67,7 +67,7 @@ public final class GoldenHairHouEntity extends TopworldPathfinderEntity {
             level().playSound(
                     null,
                     blockPosition(),
-                    SoundEvents.NOTE_BLOCK_BELL,
+                    SoundEvents.NOTE_BLOCK_BELL.value(),
                     SoundSource.NEUTRAL,
                     1.0F,
                     1.0F

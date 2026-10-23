@@ -1,16 +1,23 @@
 package net.zi_jian.splendourablazeepoch.compat.jei;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
+import mezz.jei.api.constants.RecipeTypes;
+import mezz.jei.api.recipe.vanilla.IJeiBrewingRecipe;
 import mezz.jei.api.registration.IRecipeCatalystRegistration;
 import mezz.jei.api.registration.IRecipeCategoryRegistration;
 import mezz.jei.api.registration.IRecipeRegistration;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.alchemy.PotionUtils;
+import net.minecraft.world.item.alchemy.Potions;
 import net.zi_jian.splendourablazeepoch.SplendourAblazeEpochMod;
 import net.zi_jian.splendourablazeepoch.recipe.ForgingFurnaceRecipe;
 import net.zi_jian.splendourablazeepoch.recipe.PrintTableRecipe;
@@ -55,6 +62,16 @@ public final class SplendourAblazeEpochJeiPlugin
     public void registerRecipes(
             IRecipeRegistration registration
     ) {
+        List<IJeiBrewingRecipe> brewingRecipes = new ArrayList<>(3);
+        for (Item bottle : List.of(Items.POTION, Items.SPLASH_POTION, Items.LINGERING_POTION)) {
+            brewingRecipes.add(registration.getVanillaRecipeFactory().createBrewingRecipe(
+                    List.of(new ItemStack(ModItems.byId("rawkoifish").get())),
+                    PotionUtils.setPotion(new ItemStack(bottle), Potions.AWKWARD),
+                    PotionUtils.setPotion(new ItemStack(bottle), Potions.LUCK)
+            ));
+        }
+        registration.addRecipes(RecipeTypes.BREWING, brewingRecipes);
+
         if (Minecraft.getInstance().level == null) {
             return;
         }
