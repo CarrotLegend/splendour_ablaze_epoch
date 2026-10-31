@@ -81,6 +81,7 @@ public final class ClientModEvents {
         event.registerEntityRenderer(ModEntities.AWAKENED_ANCESTOR.get(), context -> new TopworldMobRenderer<AwakenedAncestorEntity>(context));
         event.registerEntityRenderer(ModEntities.GIRL_GHOST.get(), context -> new TopworldMobRenderer<GirlGhostEntity>(context));
         event.registerEntityRenderer(ModEntities.GOLDEN_HAIR_HOU.get(), context -> new TopworldMobRenderer<GoldenHairHouEntity>(context));
+        event.registerEntityRenderer(ModEntities.PAT_JIN_MAO_HOU.get(), PatJinMaoHouRenderer::new);
         event.registerEntityRenderer(ModEntities.RUSTED_CHEF.get(), context -> new TopworldMobRenderer<RustedChefEntity>(context));
         event.registerEntityRenderer(ModEntities.CAULDRON_BEAST.get(), context -> new TopworldMobRenderer<CauldronBeastEntity>(context));
         event.registerEntityRenderer(ModEntities.TERRACOTTA_WARRIORS_GUARD.get(), context -> new TopworldMobRenderer<TerracottaWarriorsGuardEntity>(context));
