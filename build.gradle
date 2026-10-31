@@ -469,7 +469,7 @@ tasks.register('verifyRegistryMigration') {
                 'lime'
         )
 
-        assert items.contains('LEGACY_TOOLS') && items.contains('LEGACY_ARMOR')
+        assert items.contains('ALL_ITEMS') && items.contains('LegacyRegistryData.TOOL_FAMILIES') && items.contains('LegacyRegistryData.ARMOR_FAMILIES')
 
         def deliberatelyDeferredBlocks =
                 [
