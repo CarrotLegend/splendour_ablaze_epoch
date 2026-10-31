@@ -35,12 +35,6 @@ public final class ModItems {
     public static final DeferredRegister<Item> ITEMS =
             DeferredRegister.create(ForgeRegistries.ITEMS, SplendourAblazeEpochMod.MOD_ID);
 
-    public static final Map<String, RegistryObject<Item>> TOPWORLD_BLOCK_ITEMS = new LinkedHashMap<>();
-    public static final Map<String, RegistryObject<Item>> LEGACY_SIMPLE_ITEMS = new LinkedHashMap<>();
-    public static final Map<String, RegistryObject<Item>> LEGACY_EXTRA_ITEMS = new LinkedHashMap<>();
-    public static final Map<String, RegistryObject<Item>> LEGACY_TOOLS = new LinkedHashMap<>();
-    public static final Map<String, RegistryObject<Item>> LEGACY_ARMOR = new LinkedHashMap<>();
-    public static final Map<String, RegistryObject<Item>> SPAWN_EGGS = new LinkedHashMap<>();
     private static final Map<String, RegistryObject<Item>> ALL_ITEMS = new LinkedHashMap<>();
 
     private static final Set<String> EXTRA_ITEM_IDS = Set.of(
@@ -253,16 +247,12 @@ public final class ModItems {
 
             if (id.equals("forgingfurnac")) {
                 entry = ITEMS.register(id, () -> new BlockItem(ModBlocks.FORGING_FURNAC.get(), new Item.Properties()));
-                TOPWORLD_BLOCK_ITEMS.put(id, entry);
             } else if (ModBlocks.TOPWORLD_BLOCKS.containsKey(id)) {
                 entry = ITEMS.register(id, () -> new BlockItem(ModBlocks.get(id), new Item.Properties()));
-                TOPWORLD_BLOCK_ITEMS.put(id, entry);
             } else if (MAIN_SPAWN_EGG_IDS.contains(id)) {
                 entry = ITEMS.register(id, () -> createMainSpawnEgg(id));
-                SPAWN_EGGS.put(id, entry);
             } else if (isKnownNonBlockItem(id)) {
                 entry = ITEMS.register(id, () -> createKnownNonBlockItem(id));
-                classifyNonBlockItem(id, entry);
             }
 
             if (entry != null) {
@@ -356,18 +346,6 @@ public final class ModItems {
             return true;
         }
         return false;
-    }
-
-    private static void classifyNonBlockItem(String id, RegistryObject<Item> entry) {
-        if (EXTRA_ITEM_IDS.contains(id)) {
-            LEGACY_EXTRA_ITEMS.put(id, entry);
-        } else if (isToolId(id) || id.equals("tetragonalbludgeon")) {
-            LEGACY_TOOLS.put(id, entry);
-        } else if (isArmorId(id)) {
-            LEGACY_ARMOR.put(id, entry);
-        } else {
-            LEGACY_SIMPLE_ITEMS.put(id, entry);
-        }
     }
 
     private static Item createKnownNonBlockItem(String id) {
